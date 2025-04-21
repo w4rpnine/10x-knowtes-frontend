@@ -1,13 +1,18 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { useTranslation } from "react-i18next"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { FileText, FolderPlus, FileDown, Brain, Sparkles, Zap } from "lucide-react"
+import SignUpDialog from "@/components/sign-up-dialog"
+import LanguageSwitcher from "@/components/language-switcher"
 
 export default function LandingPage() {
   const router = useRouter()
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false)
+  const { t } = useTranslation()
 
   useEffect(() => {
     // Check if user is already logged in
@@ -30,47 +35,46 @@ export default function LandingPage() {
           <div className="flex items-center gap-2">
             <Brain className="h-8 w-8 text-neon-purple" />
             <h1 className="text-2xl font-bold bg-gradient-to-r from-neon-purple to-neon-cyan bg-clip-text text-transparent">
-              10x-knowtes
+              {t("app.name")}
             </h1>
           </div>
           <div className="flex items-center gap-4">
+            <LanguageSwitcher />
             <Link href="/login">
               <Button variant="outline" className="border-neon-blue text-neon-blue hover:bg-neon-blue/10">
-                Zaloguj się
+                {t("auth.login")}
               </Button>
             </Link>
-            <Link href="/login">
-              <Button className="bg-gradient-to-r from-neon-purple to-neon-blue hover:opacity-90">
-                Zarejestruj się
-              </Button>
-            </Link>
+            <Button
+              className="bg-gradient-to-r from-neon-purple to-neon-blue hover:opacity-90"
+              onClick={() => setIsSignUpOpen(true)}
+            >
+              {t("auth.signup")}
+            </Button>
           </div>
         </header>
 
         {/* Hero content */}
         <div className="relative z-10 container mx-auto px-4 py-20 md:py-32 flex flex-col items-center text-center">
           <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 bg-gradient-to-r from-neon-purple via-neon-blue to-neon-cyan bg-clip-text text-transparent animate-gradient-shift bg-[length:200%_auto]">
-            Twoje notatki, 10x potężniejsze
+            {t("landing.hero.title")}
           </h2>
-          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mb-10">
-            Twórz, organizuj i generuj podsumowania notatek za pomocą sztucznej inteligencji
-          </p>
+          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mb-10">{t("landing.hero.subtitle")}</p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Link href="/login">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-neon-purple to-neon-blue hover:opacity-90 text-lg px-8"
-              >
-                Rozpocznij za darmo
-                <Zap className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-neon-purple to-neon-blue hover:opacity-90 text-lg px-8"
+              onClick={() => setIsSignUpOpen(true)}
+            >
+              {t("landing.hero.startFree")}
+              <Zap className="ml-2 h-5 w-5" />
+            </Button>
             <Button
               size="lg"
               variant="outline"
               className="border-neon-cyan text-neon-cyan hover:bg-neon-cyan/10 text-lg px-8"
             >
-              Zobacz demo
+              {t("landing.hero.seeDemo")}
             </Button>
           </div>
         </div>
@@ -82,8 +86,9 @@ export default function LandingPage() {
       {/* Features Section */}
       <section className="py-20 container mx-auto px-4">
         <h3 className="text-3xl font-bold text-center mb-16 text-white">
-          <span className="bg-gradient-to-r from-neon-yellow to-neon-green bg-clip-text text-transparent">Funkcje</span>{" "}
-          które pokochasz
+          <span className="bg-gradient-to-r from-neon-yellow to-neon-green bg-clip-text text-transparent">
+            {t("landing.features.title")}
+          </span>
         </h3>
 
         <div className="grid md:grid-cols-3 gap-8">
@@ -94,10 +99,10 @@ export default function LandingPage() {
               <div className="h-12 w-12 rounded-full bg-neon-yellow/10 flex items-center justify-center mb-4">
                 <FolderPlus className="h-6 w-6 text-neon-yellow" />
               </div>
-              <h4 className="text-xl font-semibold mb-3 text-neon-yellow glow-text">Organizuj tematy</h4>
-              <p className="text-gray-300">
-                Grupuj swoje notatki w tematyczne foldery, aby łatwo je odnaleźć i zarządzać nimi.
-              </p>
+              <h4 className="text-xl font-semibold mb-3 text-neon-yellow glow-text">
+                {t("landing.features.organize.title")}
+              </h4>
+              <p className="text-gray-300">{t("landing.features.organize.desc")}</p>
             </div>
           </div>
 
@@ -108,10 +113,10 @@ export default function LandingPage() {
               <div className="h-12 w-12 rounded-full bg-neon-blue/10 flex items-center justify-center mb-4">
                 <FileText className="h-6 w-6 text-neon-blue" />
               </div>
-              <h4 className="text-xl font-semibold mb-3 text-neon-blue glow-text">Twórz notatki</h4>
-              <p className="text-gray-300">
-                Zapisuj swoje myśli w formacie markdown z pełnym wsparciem dla formatowania tekstu.
-              </p>
+              <h4 className="text-xl font-semibold mb-3 text-neon-blue glow-text">
+                {t("landing.features.create.title")}
+              </h4>
+              <p className="text-gray-300">{t("landing.features.create.desc")}</p>
             </div>
           </div>
 
@@ -122,10 +127,10 @@ export default function LandingPage() {
               <div className="h-12 w-12 rounded-full bg-neon-purple/10 flex items-center justify-center mb-4">
                 <FileDown className="h-6 w-6 text-neon-purple" />
               </div>
-              <h4 className="text-xl font-semibold mb-3 text-neon-purple glow-text">Generuj podsumowania</h4>
-              <p className="text-gray-300">
-                Wykorzystaj AI do automatycznego generowania podsumowań całych tematów z odnośnikami do źródeł.
-              </p>
+              <h4 className="text-xl font-semibold mb-3 text-neon-purple glow-text">
+                {t("landing.features.generate.title")}
+              </h4>
+              <p className="text-gray-300">{t("landing.features.generate.desc")}</p>
             </div>
           </div>
         </div>
@@ -135,10 +140,7 @@ export default function LandingPage() {
       <section className="py-20 bg-black/60 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-neon-cyan/5 to-transparent"></div>
         <div className="container mx-auto px-4 relative z-10">
-          <h3 className="text-3xl font-bold text-center mb-16 text-white">
-            Jak to{" "}
-            <span className="bg-gradient-to-r from-neon-cyan to-neon-green bg-clip-text text-transparent">działa</span>
-          </h3>
+          <h3 className="text-3xl font-bold text-center mb-16 text-white">{t("landing.howItWorks.title")}</h3>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {/* Step 1 */}
@@ -147,8 +149,8 @@ export default function LandingPage() {
                 <span className="text-2xl font-bold text-neon-blue">1</span>
                 <div className="absolute inset-0 border border-neon-blue/30 rounded-full animate-pulse"></div>
               </div>
-              <h4 className="text-xl font-semibold mb-2 text-white">Twórz tematy</h4>
-              <p className="text-gray-400">Zorganizuj swoją wiedzę w tematyczne kategorie</p>
+              <h4 className="text-xl font-semibold mb-2 text-white">{t("landing.howItWorks.step1.title")}</h4>
+              <p className="text-gray-400">{t("landing.howItWorks.step1.desc")}</p>
             </div>
 
             {/* Step 2 */}
@@ -157,8 +159,8 @@ export default function LandingPage() {
                 <span className="text-2xl font-bold text-neon-purple">2</span>
                 <div className="absolute inset-0 border border-neon-purple/30 rounded-full animate-pulse"></div>
               </div>
-              <h4 className="text-xl font-semibold mb-2 text-white">Dodawaj notatki</h4>
-              <p className="text-gray-400">Zapisuj swoje myśli, pomysły i wiedzę w notatkach</p>
+              <h4 className="text-xl font-semibold mb-2 text-white">{t("landing.howItWorks.step2.title")}</h4>
+              <p className="text-gray-400">{t("landing.howItWorks.step2.desc")}</p>
             </div>
 
             {/* Step 3 */}
@@ -167,8 +169,8 @@ export default function LandingPage() {
                 <span className="text-2xl font-bold text-neon-green">3</span>
                 <div className="absolute inset-0 border border-neon-green/30 rounded-full animate-pulse"></div>
               </div>
-              <h4 className="text-xl font-semibold mb-2 text-white">Generuj podsumowania</h4>
-              <p className="text-gray-400">Uzyskaj zwięzłe podsumowania całych tematów dzięki AI</p>
+              <h4 className="text-xl font-semibold mb-2 text-white">{t("landing.howItWorks.step3.title")}</h4>
+              <p className="text-gray-400">{t("landing.howItWorks.step3.desc")}</p>
             </div>
           </div>
         </div>
@@ -184,19 +186,16 @@ export default function LandingPage() {
 
           <div className="relative z-10 text-center">
             <h3 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-neon-purple to-neon-cyan bg-clip-text text-transparent">
-              Gotowy, by zwiększyć swoją produktywność?
+              {t("landing.cta.title")}
             </h3>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Dołącz do społeczności użytkowników, którzy już korzystają z mocy AI do organizowania swoich notatek.
-            </p>
-            <Link href="/login">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-neon-purple to-neon-blue hover:opacity-90 text-lg px-8"
-              >
-                Rozpocznij za darmo
-              </Button>
-            </Link>
+            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">{t("landing.cta.desc")}</p>
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-neon-purple to-neon-blue hover:opacity-90 text-lg px-8"
+              onClick={() => setIsSignUpOpen(true)}
+            >
+              {t("landing.hero.startFree")}
+            </Button>
           </div>
         </div>
       </section>
@@ -208,15 +207,18 @@ export default function LandingPage() {
             <div className="flex items-center gap-2 mb-4 md:mb-0">
               <Brain className="h-5 w-5 text-neon-purple" />
               <span className="text-lg font-semibold bg-gradient-to-r from-neon-purple to-neon-cyan bg-clip-text text-transparent">
-                10x-knowtes
+                {t("app.name")}
               </span>
             </div>
             <div className="text-gray-500 text-sm">
-              &copy; {new Date().getFullYear()} 10x-knowtes. Wszystkie prawa zastrzeżone.
+              &copy; {new Date().getFullYear()} {t("app.name")}. {t("landing.footer.rights")}
             </div>
           </div>
         </div>
       </footer>
+
+      {/* Sign Up Dialog */}
+      <SignUpDialog open={isSignUpOpen} onOpenChange={setIsSignUpOpen} />
     </div>
   )
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import { Check, X, Copy } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { useTranslation } from "react-i18next"
 
 interface SummaryViewProps {
   topicId: string
@@ -35,15 +36,52 @@ const mockSummary = {
 export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
   const router = useRouter()
   const { toast } = useToast()
-  const [summary] = useState(mockSummary)
+  const [summary, setSummary] = useState(mockSummary)
+  const { t } = useTranslation()
+
+  useEffect(() => {
+    // BACKEND INTEGRATION: Load summary data
+    // This should fetch the summary details and the topic title
+    // Example API call:
+    // async function fetchSummary() {
+    //   try {
+    //     const response = await fetch(`/api/topics/${topicId}/summaries/${summaryId}`);
+    //     const data = await response.json();
+    //     setSummary(data);
+    //   } catch (error) {
+    //     console.error('Failed to fetch summary:', error);
+    //     toast({
+    //       title: "Błąd",
+    //       description: "Nie udało się załadować podsumowania",
+    //       variant: "destructive",
+    //     });
+    //   }
+    // }
+    //
+    // fetchSummary();
+  }, [summaryId, topicId, toast])
 
   const handleAccept = async () => {
     try {
+      // BACKEND INTEGRATION: Accept summary
+      // This should send a PATCH request to update the summary status to 'accepted'
+      // Example API call:
+      // const response = await fetch(`/api/topics/${topicId}/summaries/${summaryId}`, {
+      //   method: 'PATCH',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({ status: 'accepted' }),
+      // });
+      //
+      // if (!response.ok) throw new Error('Failed to accept summary');
+
       // In a real app, save acceptance status here
       await new Promise((resolve) => setTimeout(resolve, 500))
+
       toast({
-        title: "Podsumowanie zaakceptowane",
-        description: "Podsumowanie zostało zapisane w twoich notatkach.",
+        title: t("summary.summaryAccepted"),
+        description: t("summary.summaryAcceptedDesc"),
       })
       router.push(`/topics/${topicId}`)
     } catch (error) {
@@ -57,11 +95,25 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
 
   const handleReject = async () => {
     try {
+      // BACKEND INTEGRATION: Reject summary
+      // This should send a PATCH request to update the summary status to 'rejected'
+      // Example API call:
+      // const response = await fetch(`/api/topics/${topicId}/summaries/${summaryId}`, {
+      //   method: 'PATCH',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({ status: 'rejected' }),
+      // });
+      //
+      // if (!response.ok) throw new Error('Failed to reject summary');
+
       // In a real app, save rejection status here
       await new Promise((resolve) => setTimeout(resolve, 500))
+
       toast({
-        title: "Podsumowanie odrzucone",
-        description: "Podsumowanie zostało odrzucone.",
+        title: t("summary.summaryRejected"),
+        description: t("summary.summaryRejectedDesc"),
       })
       router.push(`/topics/${topicId}`)
     } catch (error) {
@@ -76,8 +128,8 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
   const handleCopy = () => {
     navigator.clipboard.writeText(summary.content)
     toast({
-      title: "Skopiowano",
-      description: "Treść podsumowania została skopiowana do schowka.",
+      title: t("summary.copied"),
+      description: t("summary.copiedDesc"),
     })
   }
 
@@ -104,7 +156,7 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
             className="border-neon-cyan/30 text-neon-cyan hover:bg-neon-cyan/10"
           >
             <Copy className="h-4 w-4" />
-            <span className="sr-only">Kopiuj</span>
+            <span className="sr-only">{t("summary.copy")}</span>
           </Button>
           <Button
             variant="outline"
@@ -112,11 +164,11 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
             className="border-destructive/50 text-destructive hover:bg-destructive/10"
           >
             <X className="mr-2 h-4 w-4" />
-            Odrzuć
+            {t("summary.reject")}
           </Button>
           <Button onClick={handleAccept} className="bg-gradient-to-r from-neon-green to-neon-cyan hover:opacity-90">
             <Check className="mr-2 h-4 w-4" />
-            Zapisz
+            {t("summary.save")}
           </Button>
         </div>
       </div>

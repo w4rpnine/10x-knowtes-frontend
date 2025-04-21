@@ -20,6 +20,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast"
+import { useTranslation } from "react-i18next"
 
 // Mock user data
 const mockUser = {
@@ -34,6 +35,7 @@ export default function AccountView() {
   const [currentPassword, setCurrentPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const { t } = useTranslation()
 
   const handleLogout = () => {
     // Clear auth token
@@ -47,7 +49,7 @@ export default function AccountView() {
     if (newPassword !== confirmPassword) {
       toast({
         title: "Błąd",
-        description: "Nowe hasło i potwierdzenie hasła nie są identyczne.",
+        description: t("account.passwordError"),
         variant: "destructive",
       })
       return
@@ -57,8 +59,8 @@ export default function AccountView() {
       // In a real app, change password here
       await new Promise((resolve) => setTimeout(resolve, 500))
       toast({
-        title: "Hasło zmienione",
-        description: "Twoje hasło zostało pomyślnie zmienione.",
+        title: t("account.passwordChanged"),
+        description: t("account.passwordChangedDesc"),
       })
       setCurrentPassword("")
       setNewPassword("")
@@ -90,24 +92,24 @@ export default function AccountView() {
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Konto użytkownika</h1>
-        <p className="text-muted-foreground">Zarządzaj swoim kontem i ustawieniami.</p>
+        <h1 className="text-2xl font-bold tracking-tight">{t("account.title")}</h1>
+        <p className="text-muted-foreground">{t("account.subtitle")}</p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Informacje o koncie</CardTitle>
-          <CardDescription>Podstawowe informacje o Twoim koncie.</CardDescription>
+          <CardTitle>{t("account.accountInfo")}</CardTitle>
+          <CardDescription>{t("account.accountInfoDesc")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-1">
-            <Label>UUID użytkownika</Label>
+            <Label>{t("account.userId")}</Label>
             <div className="flex">
               <Input value={user.id} readOnly className="font-mono bg-muted" />
             </div>
           </div>
           <div className="space-y-1">
-            <Label>Email</Label>
+            <Label>{t("account.email")}</Label>
             <div className="flex">
               <Input value={user.email} readOnly className="bg-muted" />
             </div>
@@ -115,20 +117,20 @@ export default function AccountView() {
         </CardContent>
         <CardFooter>
           <Button variant="outline" onClick={handleLogout}>
-            Wyloguj się
+            {t("auth.logout")}
           </Button>
         </CardFooter>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Zmień hasło</CardTitle>
-          <CardDescription>Zaktualizuj swoje hasło, aby zabezpieczyć konto.</CardDescription>
+          <CardTitle>{t("account.changePassword")}</CardTitle>
+          <CardDescription>{t("account.changePasswordDesc")}</CardDescription>
         </CardHeader>
         <form onSubmit={handleChangePassword}>
           <CardContent className="space-y-4">
             <div className="space-y-1">
-              <Label htmlFor="current-password">Obecne hasło</Label>
+              <Label htmlFor="current-password">{t("account.currentPassword")}</Label>
               <Input
                 id="current-password"
                 type="password"
@@ -138,7 +140,7 @@ export default function AccountView() {
               />
             </div>
             <div className="space-y-1">
-              <Label htmlFor="new-password">Nowe hasło</Label>
+              <Label htmlFor="new-password">{t("account.newPassword")}</Label>
               <Input
                 id="new-password"
                 type="password"
@@ -148,7 +150,7 @@ export default function AccountView() {
               />
             </div>
             <div className="space-y-1">
-              <Label htmlFor="confirm-password">Potwierdź nowe hasło</Label>
+              <Label htmlFor="confirm-password">{t("account.confirmNewPassword")}</Label>
               <Input
                 id="confirm-password"
                 type="password"
@@ -159,40 +161,36 @@ export default function AccountView() {
             </div>
           </CardContent>
           <CardFooter>
-            <Button type="submit">Zmień hasło</Button>
+            <Button type="submit">{t("account.changePassword")}</Button>
           </CardFooter>
         </form>
       </Card>
 
       <Card className="border-destructive/50">
         <CardHeader>
-          <CardTitle className="text-destructive">Usuń konto</CardTitle>
-          <CardDescription>Trwale usuń swoje konto i wszystkie dane.</CardDescription>
+          <CardTitle className="text-destructive">{t("account.deleteAccount")}</CardTitle>
+          <CardDescription>{t("account.deleteAccountDesc")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">
-            Po usunięciu konta, wszystkie Twoje dane zostaną trwale usunięte. Tej operacji nie można cofnąć.
-          </p>
+          <p className="text-sm text-muted-foreground">{t("account.deleteAccountWarning")}</p>
         </CardContent>
         <CardFooter>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="destructive">Usuń konto</Button>
+              <Button variant="destructive">{t("account.deleteAccount")}</Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Czy na pewno chcesz usunąć swoje konto?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Ta operacja trwale usunie Twoje konto i wszystkie dane. Tej operacji nie można cofnąć.
-                </AlertDialogDescription>
+                <AlertDialogTitle>{t("account.deleteAccountConfirm")}</AlertDialogTitle>
+                <AlertDialogDescription>{t("account.deleteAccountConfirmDesc")}</AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Anuluj</AlertDialogCancel>
+                <AlertDialogCancel>{t("navigation.cancel")}</AlertDialogCancel>
                 <AlertDialogAction
                   onClick={handleDeleteAccount}
                   className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                 >
-                  Usuń konto
+                  {t("account.deleteAccount")}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>

@@ -1,0 +1,168 @@
+{
+  "app": {
+    "name": "10x-knowtes",
+    "loading": "Loading..."
+  },
+  "auth": {
+    "login": "Log in",
+    "signup": "Sign up",
+    "logout": "Log out",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "name": "Full name",
+    "emailPlaceholder": "your@email.com",
+    "loginButton": "Log in",
+    "loggingIn": "Logging in...",
+    "signupButton": "Sign up",
+    "creatingAccount": "Creating account...",
+    "noAccount": "Don't have an account?",
+    "accountCreated": "Account created",
+    "accountCreatedDesc": "Your account has been successfully created.",
+    "loginError": "Invalid email or password. Please try again.",
+    "signupError": "An unknown error occurred during registration.",
+    "nameRequired": "Full name is required.",
+    "emailRequired": "Email is required.",
+    "passwordRequired": "Password is required.",
+    "passwordLength": "Password must be at least 8 characters long.",
+    "passwordsNotMatch": "Passwords do not match.",
+    "createAccount": "Create account",
+    "createAccountDesc": "Fill out the form to create a new account in the 10x-knowtes application."
+  },
+  "landing": {
+    "hero": {
+      "title": "Your notes, 10x more powerful",
+      "subtitle": "Create, organize, and generate note summaries using artificial intelligence",
+      "startFree": "Start for free",
+      "seeDemo": "See demo"
+    },
+    "features": {
+      "title": "Features you'll love",
+      "organize": {
+        "title": "Organize topics",
+        "desc": "Group your notes into thematic folders to easily find and manage them."
+      },
+      "create": {
+        "title": "Create notes",
+        "desc": "Save your thoughts in markdown format with full text formatting support."
+      },
+      "generate": {
+        "title": "Generate summaries",
+        "desc": "Use AI to automatically generate summaries of entire topics with references to sources."
+      }
+    },
+    "howItWorks": {
+      "title": "How it works",
+      "step1": {
+        "title": "Create topics",
+        "desc": "Organize your knowledge into thematic categories"
+      },
+      "step2": {
+        "title": "Add notes",
+        "desc": "Save your thoughts, ideas, and knowledge in notes"
+      },
+      "step3": {
+        "title": "Generate summaries",
+        "desc": "Get concise summaries of entire topics thanks to AI"
+      }
+    },
+    "cta": {
+      "title": "Ready to increase your productivity?",
+      "desc": "Join the community of users who are already using the power of AI to organize their notes."
+    },
+    "footer": {
+      "rights": "All rights reserved."
+    }
+  },
+  "dashboard": {
+    "welcome": {
+      "title": "Welcome to 10x-knowtes",
+      "subtitle": "Create, organize, and generate note summaries using artificial intelligence.",
+      "createTopics": "Create topics",
+      "createTopicsDesc": "Organize your notes into thematic folders to easily find them.",
+      "addNotes": "Add notes",
+      "addNotesDesc": "Create notes in markdown format with full text formatting support.",
+      "generateSummaries": "Generate summaries",
+      "generateSummariesDesc": "Use AI to automatically generate summaries of entire topics.",
+      "getStarted": "Get started",
+      "getStartedDesc": "Select a topic from the left panel or create a new one to start working with notes.",
+      "rightClickTip": "Right-click on a topic to see available options, such as adding notes or generating summaries."
+    }
+  },
+  "navigation": {
+    "newTopic": "New topic",
+    "createTopic": "Create new topic",
+    "createTopicDesc": "Enter a name for the new topic. You can add notes to it later.",
+    "topicName": "Name",
+    "topicNamePlaceholder": "Enter topic name",
+    "cancel": "Cancel",
+    "creating": "Creating...",
+    "create": "Create"
+  },
+  "topic": {
+    "account": "Account",
+    "newNote": "New note",
+    "generateSummary": "Generate summary",
+    "rename": "Rename",
+    "delete": "Delete topic",
+    "deleteTopic": "Delete topic",
+    "deleteTopicConfirm": "Are you sure you want to delete the topic \"{title}\" with all its notes?",
+    "topicDeleted": "Topic deleted",
+    "topicDeletedDesc": "The topic has been successfully deleted.",
+    "nameChanged": "Name changed",
+    "nameChangedDesc": "The topic name has been changed to \"{title}\".",
+    "noNotesYet": "This topic doesn't contain any notes or summaries yet. Click \"New note\" to add your first note."
+  },
+  "note": {
+    "save": "Save",
+    "discardChanges": "Discard changes",
+    "deleteNote": "Delete note",
+    "deleteNoteConfirm": "Are you sure you want to delete the note \"{title}\"?",
+    "noteDeleted": "Note deleted",
+    "noteDeletedDesc": "The note has been successfully deleted.",
+    "saved": "Saved",
+    "savedDesc": "The note has been successfully saved.",
+    "changesDiscarded": "Changes discarded",
+    "changesDiscardedDesc": "All changes have been discarded.",
+    "unsavedChanges": "You have unsaved changes. Are you sure you want to leave this page?",
+    "noteTitle": "Note title",
+    "noteContent": "Note content (Markdown format)",
+    "newNote": "New note",
+    "titleRequired": "Note title cannot be empty.",
+    "noteCreated": "Note created",
+    "noteCreatedDesc": "The note has been successfully created.",
+    "createError": "Failed to create note."
+  },
+  "summary": {
+    "save": "Save",
+    "reject": "Reject",
+    "copy": "Copy",
+    "summaryAccepted": "Summary accepted",
+    "summaryAcceptedDesc": "The summary has been saved to your notes.",
+    "summaryRejected": "Summary rejected",
+    "summaryRejectedDesc": "The summary has been rejected.",
+    "copied": "Copied",
+    "copiedDesc": "The summary content has been copied to clipboard."
+  },
+  "account": {
+    "title": "User account",
+    "subtitle": "Manage your account and settings.",
+    "accountInfo": "Account information",
+    "accountInfoDesc": "Basic information about your account.",
+    "userId": "User UUID",
+    "email": "Email",
+    "changePassword": "Change password",
+    "changePasswordDesc": "Update your password to secure your account.",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmNewPassword": "Confirm new password",
+    "passwordChanged": "Password changed",
+    "passwordChangedDesc": "Your password has been successfully changed.",
+    "passwordError": "New password and confirmation password do not match.",
+    "deleteAccount": "Delete account",
+    "deleteAccountDesc": "Permanently delete your account and all data.",
+    "deleteAccountWarning": "After deleting your account, all your data will be permanently deleted. This operation cannot be undone.",
+    "deleteAccountConfirm": "Are you sure you want to delete your account?",
+    "deleteAccountConfirmDesc": "This operation will permanently delete your account and all data. This operation cannot be undone."
+  }
+}

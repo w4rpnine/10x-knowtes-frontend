@@ -1,6 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -13,6 +14,7 @@ import { User, Settings, LogOut } from "lucide-react"
 
 export default function UserAccountButton() {
   const router = useRouter()
+  const { t } = useTranslation()
 
   const handleNavigateToAccount = () => {
     router.push("/account")
@@ -28,18 +30,18 @@ export default function UserAccountButton() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
           <User className="h-5 w-5" />
-          <span className="sr-only">Konto użytkownika</span>
+          <span className="sr-only">{t("topic.account")}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={handleNavigateToAccount}>
           <Settings className="mr-2 h-4 w-4" />
-          <span>Konto</span>
+          <span>{t("topic.account")}</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4" />
-          <span>Wyloguj się</span>
+          <span>{t("auth.logout")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -4,19 +4,24 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { AlertCircle } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import SignUpDialog from "@/components/sign-up-dialog"
+import LanguageSwitcher from "@/components/language-switcher"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false)
   const router = useRouter()
+  const { t } = useTranslation()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -24,6 +29,25 @@ export default function LoginPage() {
     setIsLoading(true)
 
     try {
+      // BACKEND INTEGRATION: Login user
+      // This should send a POST request to authenticate the user
+      // Example API call:
+      // const response = await fetch('/api/auth/login', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({ email, password }),
+      // });
+      //
+      // if (!response.ok) {
+      //   const data = await response.json();
+      //   throw new Error(data.message || 'Nieprawidłowy email lub hasło.');
+      // }
+      //
+      // const data = await response.json();
+      // localStorage.setItem("auth-token", data.token);
+
       // Mock login - replace with actual authentication
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
@@ -33,7 +57,11 @@ export default function LoginPage() {
       // Redirect to dashboard page instead of root
       router.push("/dashboard")
     } catch (err) {
-      setError("Nieprawidłowy email lub hasło. Spróbuj ponownie.")
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError(t("auth.loginError"))
+      }
     } finally {
       setIsLoading(false)
     }
@@ -46,13 +74,18 @@ export default function LoginPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-neon-purple/10 via-neon-blue/5 to-neon-cyan/10 animate-gradient-shift"></div>
       </div>
 
+      {/* Language switcher in the top-right corner */}
+      <div className="absolute top-4 right-4 z-20">
+        <LanguageSwitcher />
+      </div>
+
       {/* Card with higher z-index */}
       <Card className="w-full max-w-md fancy-card bg-black/60 backdrop-blur-sm border-neon-blue/20 relative z-10">
         <CardHeader>
           <CardTitle className="text-2xl text-center bg-gradient-to-r from-neon-purple to-neon-cyan bg-clip-text text-transparent">
-            10x-knowtes
+            {t("app.name")}
           </CardTitle>
-          <CardDescription className="text-center">Zaloguj się do swojego konta</CardDescription>
+          <CardDescription className="text-center">{t("auth.login")}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -63,11 +96,11 @@ export default function LoginPage() {
               </Alert>
             )}
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t("auth.email")}</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="twoj@email.com"
+                placeholder={t("auth.emailPlaceholder")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -76,7 +109,7 @@ export default function LoginPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Hasło</Label>
+              <Label htmlFor="password">{t("auth.password")}</Label>
               <Input
                 id="password"
                 type="password"
@@ -92,23 +125,22 @@ export default function LoginPage() {
               className="w-full bg-gradient-to-r from-neon-purple to-neon-blue hover:opacity-90"
               disabled={isLoading}
             >
-              {isLoading ? "Logowanie..." : "Zaloguj się"}
+              {isLoading ? t("auth.loggingIn") : t("auth.loginButton")}
             </Button>
           </form>
         </CardContent>
         <CardFooter className="flex justify-center">
           <p className="text-sm text-muted-foreground">
-            Nie masz konta?{" "}
-            <Button
-              variant="link"
-              className="p-0 text-neon-cyan"
-              onClick={() => alert("Funkcja rejestracji nie jest jeszcze dostępna")}
-            >
-              Zarejestruj się
+            {t("auth.noAccount")}{" "}
+            <Button variant="link" className="p-0 text-neon-cyan" onClick={() => setIsSignUpOpen(true)}>
+              {t("auth.signup")}
             </Button>
           </p>
         </CardFooter>
       </Card>
+
+      {/* Sign Up Dialog */}
+      <SignUpDialog open={isSignUpOpen} onOpenChange={setIsSignUpOpen} />
     </div>
   )
 }

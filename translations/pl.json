@@ -1,0 +1,168 @@
+{
+  "app": {
+    "name": "10x-knowtes",
+    "loading": "Ładowanie..."
+  },
+  "auth": {
+    "login": "Zaloguj się",
+    "signup": "Zarejestruj się",
+    "logout": "Wyloguj się",
+    "email": "Email",
+    "password": "Hasło",
+    "confirmPassword": "Potwierdź hasło",
+    "name": "Imię i nazwisko",
+    "emailPlaceholder": "twoj@email.com",
+    "loginButton": "Zaloguj się",
+    "loggingIn": "Logowanie...",
+    "signupButton": "Zarejestruj się",
+    "creatingAccount": "Tworzenie konta...",
+    "noAccount": "Nie masz konta?",
+    "accountCreated": "Konto utworzone",
+    "accountCreatedDesc": "Twoje konto zostało pomyślnie utworzone.",
+    "loginError": "Nieprawidłowy email lub hasło. Spróbuj ponownie.",
+    "signupError": "Wystąpił nieznany błąd podczas rejestracji.",
+    "nameRequired": "Imię i nazwisko jest wymagane.",
+    "emailRequired": "Email jest wymagany.",
+    "passwordRequired": "Hasło jest wymagane.",
+    "passwordLength": "Hasło musi mieć co najmniej 8 znaków.",
+    "passwordsNotMatch": "Hasła nie są identyczne.",
+    "createAccount": "Utwórz konto",
+    "createAccountDesc": "Wypełnij formularz, aby utworzyć nowe konto w aplikacji 10x-knowtes."
+  },
+  "landing": {
+    "hero": {
+      "title": "Twoje notatki, 10x potężniejsze",
+      "subtitle": "Twórz, organizuj i generuj podsumowania notatek za pomocą sztucznej inteligencji",
+      "startFree": "Rozpocznij za darmo",
+      "seeDemo": "Zobacz demo"
+    },
+    "features": {
+      "title": "Funkcje które pokochasz",
+      "organize": {
+        "title": "Organizuj tematy",
+        "desc": "Grupuj swoje notatki w tematyczne foldery, aby łatwo je odnaleźć i zarządzać nimi."
+      },
+      "create": {
+        "title": "Twórz notatki",
+        "desc": "Zapisuj swoje myśli w formacie markdown z pełnym wsparciem dla formatowania tekstu."
+      },
+      "generate": {
+        "title": "Generuj podsumowania",
+        "desc": "Wykorzystaj AI do automatycznego generowania podsumowań całych tematów z odnośnikami do źródeł."
+      }
+    },
+    "howItWorks": {
+      "title": "Jak to działa",
+      "step1": {
+        "title": "Twórz tematy",
+        "desc": "Zorganizuj swoją wiedzę w tematyczne kategorie"
+      },
+      "step2": {
+        "title": "Dodawaj notatki",
+        "desc": "Zapisuj swoje myśli, pomysły i wiedzę w notatkach"
+      },
+      "step3": {
+        "title": "Generuj podsumowania",
+        "desc": "Uzyskaj zwięzłe podsumowania całych tematów dzięki AI"
+      }
+    },
+    "cta": {
+      "title": "Gotowy, by zwiększyć swoją produktywność?",
+      "desc": "Dołącz do społeczności użytkowników, którzy już korzystają z mocy AI do organizowania swoich notatek."
+    },
+    "footer": {
+      "rights": "Wszystkie prawa zastrzeżone."
+    }
+  },
+  "dashboard": {
+    "welcome": {
+      "title": "Witaj w 10x-knowtes",
+      "subtitle": "Twórz, organizuj i generuj podsumowania notatek za pomocą sztucznej inteligencji.",
+      "createTopics": "Twórz tematy",
+      "createTopicsDesc": "Organizuj swoje notatki w tematyczne foldery, aby łatwo je odnaleźć.",
+      "addNotes": "Dodawaj notatki",
+      "addNotesDesc": "Twórz notatki w formacie markdown z pełnym wsparciem dla formatowania tekstu.",
+      "generateSummaries": "Generuj podsumowania",
+      "generateSummariesDesc": "Wykorzystaj AI do automatycznego generowania podsumowań całych tematów.",
+      "getStarted": "Rozpocznij pracę",
+      "getStartedDesc": "Wybierz temat z lewego panelu lub utwórz nowy, aby rozpocząć pracę z notatkami.",
+      "rightClickTip": "Kliknij prawym przyciskiem myszy na temacie, aby zobaczyć dostępne opcje, takie jak dodawanie notatek czy generowanie podsumowań."
+    }
+  },
+  "navigation": {
+    "newTopic": "Nowy temat",
+    "createTopic": "Utwórz nowy temat",
+    "createTopicDesc": "Wprowadź nazwę dla nowego tematu. Możesz później dodać do niego notatki.",
+    "topicName": "Nazwa",
+    "topicNamePlaceholder": "Wprowadź nazwę tematu",
+    "cancel": "Anuluj",
+    "creating": "Tworzenie...",
+    "create": "Utwórz temat"
+  },
+  "topic": {
+    "account": "Konto",
+    "newNote": "Nowa notatka",
+    "generateSummary": "Generuj podsumowanie",
+    "rename": "Zmień nazwę",
+    "delete": "Usuń temat",
+    "deleteTopic": "Usuń temat",
+    "deleteTopicConfirm": "Czy na pewno chcesz usunąć temat \"{title}\" wraz ze wszystkimi notatkami?",
+    "topicDeleted": "Temat usunięty",
+    "topicDeletedDesc": "Temat został pomyślnie usunięty.",
+    "nameChanged": "Nazwa zmieniona",
+    "nameChangedDesc": "Nazwa tematu została zmieniona na \"{title}\".",
+    "noNotesYet": "Ten temat nie zawiera jeszcze żadnych notatek ani podsumowań. Kliknij \"Nowa notatka\", aby dodać pierwszą notatkę."
+  },
+  "note": {
+    "save": "Zapisz",
+    "discardChanges": "Odrzuć zmiany",
+    "deleteNote": "Usuń notatkę",
+    "deleteNoteConfirm": "Czy na pewno chcesz usunąć notatkę \"{title}\"?",
+    "noteDeleted": "Notatka usunięta",
+    "noteDeletedDesc": "Notatka została pomyślnie usunięta.",
+    "saved": "Zapisano",
+    "savedDesc": "Notatka została zapisana pomyślnie",
+    "changesDiscarded": "Zmiany odrzucone",
+    "changesDiscardedDesc": "Wszystkie zmiany zostały odrzucone.",
+    "unsavedChanges": "Masz niezapisane zmiany. Czy na pewno chcesz opuścić tę stronę?",
+    "noteTitle": "Tytuł notatki",
+    "noteContent": "Treść notatki (format Markdown)",
+    "newNote": "Nowa notatka",
+    "titleRequired": "Tytuł notatki nie może być pusty.",
+    "noteCreated": "Notatka utworzona",
+    "noteCreatedDesc": "Notatka została pomyślnie utworzona.",
+    "createError": "Nie udało się utworzyć notatki."
+  },
+  "summary": {
+    "save": "Zapisz",
+    "reject": "Odrzuć",
+    "copy": "Kopiuj",
+    "summaryAccepted": "Podsumowanie zaakceptowane",
+    "summaryAcceptedDesc": "Podsumowanie zostało zapisane w twoich notatkach.",
+    "summaryRejected": "Podsumowanie odrzucone",
+    "summaryRejectedDesc": "Podsumowanie zostało odrzucone.",
+    "copied": "Skopiowano",
+    "copiedDesc": "Treść podsumowania została skopiowana do schowka."
+  },
+  "account": {
+    "title": "Konto użytkownika",
+    "subtitle": "Zarządzaj swoim kontem i ustawieniami.",
+    "accountInfo": "Informacje o koncie",
+    "accountInfoDesc": "Podstawowe informacje o Twoim koncie.",
+    "userId": "UUID użytkownika",
+    "email": "Email",
+    "changePassword": "Zmień hasło",
+    "changePasswordDesc": "Zaktualizuj swoje hasło, aby zabezpieczyć konto.",
+    "currentPassword": "Obecne hasło",
+    "newPassword": "Nowe hasło",
+    "confirmNewPassword": "Potwierdź nowe hasło",
+    "passwordChanged": "Hasło zmienione",
+    "passwordChangedDesc": "Twoje hasło zostało pomyślnie zmienione.",
+    "passwordError": "Nowe hasło i potwierdzenie hasła nie są identyczne.",
+    "deleteAccount": "Usuń konto",
+    "deleteAccountDesc": "Trwale usuń swoje konto i wszystkie dane.",
+    "deleteAccountWarning": "Po usunięciu konta, wszystkie Twoje dane zostaną trwale usunięte. Tej operacji nie można cofnąć.",
+    "deleteAccountConfirm": "Czy na pewno chcesz usunąć swoje konto?",
+    "deleteAccountConfirmDesc": "Ta operacja trwale usunie Twoje konto i wszystkie dane. Tej operacji nie można cofnąć."
+  }
+}

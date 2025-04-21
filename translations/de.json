@@ -1,0 +1,168 @@
+{
+  "app": {
+    "name": "10x-knowtes",
+    "loading": "Wird geladen..."
+  },
+  "auth": {
+    "login": "Anmelden",
+    "signup": "Registrieren",
+    "logout": "Abmelden",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "name": "Vollständiger Name",
+    "emailPlaceholder": "deine@email.com",
+    "loginButton": "Anmelden",
+    "loggingIn": "Anmeldung läuft...",
+    "signupButton": "Registrieren",
+    "creatingAccount": "Konto wird erstellt...",
+    "noAccount": "Noch kein Konto?",
+    "accountCreated": "Konto erstellt",
+    "accountCreatedDesc": "Dein Konto wurde erfolgreich erstellt.",
+    "loginError": "Ungültige E-Mail oder Passwort. Bitte versuche es erneut.",
+    "signupError": "Bei der Registrierung ist ein unbekannter Fehler aufgetreten.",
+    "nameRequired": "Vollständiger Name ist erforderlich.",
+    "emailRequired": "E-Mail ist erforderlich.",
+    "passwordRequired": "Passwort ist erforderlich.",
+    "passwordLength": "Das Passwort muss mindestens 8 Zeichen lang sein.",
+    "passwordsNotMatch": "Die Passwörter stimmen nicht überein.",
+    "createAccount": "Konto erstellen",
+    "createAccountDesc": "Fülle das Formular aus, um ein neues Konto in der 10x-knowtes-Anwendung zu erstellen."
+  },
+  "landing": {
+    "hero": {
+      "title": "Deine Notizen, 10x leistungsstärker",
+      "subtitle": "Erstelle, organisiere und generiere Notizzusammenfassungen mit künstlicher Intelligenz",
+      "startFree": "Kostenlos starten",
+      "seeDemo": "Demo ansehen"
+    },
+    "features": {
+      "title": "Funktionen, die du lieben wirst",
+      "organize": {
+        "title": "Themen organisieren",
+        "desc": "Gruppiere deine Notizen in thematische Ordner, um sie leicht zu finden und zu verwalten."
+      },
+      "create": {
+        "title": "Notizen erstellen",
+        "desc": "Speichere deine Gedanken im Markdown-Format mit voller Unterstützung für Textformatierung."
+      },
+      "generate": {
+        "title": "Zusammenfassungen generieren",
+        "desc": "Nutze KI, um automatisch Zusammenfassungen ganzer Themen mit Verweisen auf Quellen zu erstellen."
+      }
+    },
+    "howItWorks": {
+      "title": "So funktioniert es",
+      "step1": {
+        "title": "Themen erstellen",
+        "desc": "Organisiere dein Wissen in thematische Kategorien"
+      },
+      "step2": {
+        "title": "Notizen hinzufügen",
+        "desc": "Speichere deine Gedanken, Ideen und dein Wissen in Notizen"
+      },
+      "step3": {
+        "title": "Zusammenfassungen generieren",
+        "desc": "Erhalte prägnante Zusammenfassungen ganzer Themen dank KI"
+      }
+    },
+    "cta": {
+      "title": "Bereit, deine Produktivität zu steigern?",
+      "desc": "Schließe dich der Community von Benutzern an, die bereits die Kraft der KI nutzen, um ihre Notizen zu organisieren."
+    },
+    "footer": {
+      "rights": "Alle Rechte vorbehalten."
+    }
+  },
+  "dashboard": {
+    "welcome": {
+      "title": "Willkommen bei 10x-knowtes",
+      "subtitle": "Erstelle, organisiere und generiere Notizzusammenfassungen mit künstlicher Intelligenz.",
+      "createTopics": "Themen erstellen",
+      "createTopicsDesc": "Organisiere deine Notizen in thematische Ordner, um sie leicht zu finden.",
+      "addNotes": "Notizen hinzufügen",
+      "addNotesDesc": "Erstelle Notizen im Markdown-Format mit voller Unterstützung für Textformatierung.",
+      "generateSummaries": "Zusammenfassungen generieren",
+      "generateSummariesDesc": "Nutze KI, um automatisch Zusammenfassungen ganzer Themen zu erstellen.",
+      "getStarted": "Erste Schritte",
+      "getStartedDesc": "Wähle ein Thema aus dem linken Panel oder erstelle ein neues, um mit Notizen zu arbeiten.",
+      "rightClickTip": "Klicke mit der rechten Maustaste auf ein Thema, um verfügbare Optionen wie das Hinzufügen von Notizen oder das Generieren von Zusammenfassungen zu sehen."
+    }
+  },
+  "navigation": {
+    "newTopic": "Neues Thema",
+    "createTopic": "Neues Thema erstellen",
+    "createTopicDesc": "Gib einen Namen für das neue Thema ein. Du kannst später Notizen hinzufügen.",
+    "topicName": "Name",
+    "topicNamePlaceholder": "Themenname eingeben",
+    "cancel": "Abbrechen",
+    "creating": "Wird erstellt...",
+    "create": "Thema erstellen"
+  },
+  "topic": {
+    "account": "Konto",
+    "newNote": "Neue Notiz",
+    "generateSummary": "Zusammenfassung generieren",
+    "rename": "Umbenennen",
+    "delete": "Thema löschen",
+    "deleteTopic": "Thema löschen",
+    "deleteTopicConfirm": "Bist du sicher, dass du das Thema \"{title}\" mit allen Notizen löschen möchtest?",
+    "topicDeleted": "Thema gelöscht",
+    "topicDeletedDesc": "Das Thema wurde erfolgreich gelöscht.",
+    "nameChanged": "Name geändert",
+    "nameChangedDesc": "Der Themenname wurde in \"{title}\" geändert.",
+    "noNotesYet": "Dieses Thema enthält noch keine Notizen oder Zusammenfassungen. Klicke auf \"Neue Notiz\", um deine erste Notiz hinzuzufügen."
+  },
+  "note": {
+    "save": "Speichern",
+    "discardChanges": "Änderungen verwerfen",
+    "deleteNote": "Notiz löschen",
+    "deleteNoteConfirm": "Bist du sicher, dass du die Notiz \"{title}\" löschen möchtest?",
+    "noteDeleted": "Notiz gelöscht",
+    "noteDeletedDesc": "Die Notiz wurde erfolgreich gelöscht.",
+    "saved": "Gespeichert",
+    "savedDesc": "Die Notiz wurde erfolgreich gespeichert.",
+    "changesDiscarded": "Änderungen verworfen",
+    "changesDiscardedDesc": "Alle Änderungen wurden verworfen.",
+    "unsavedChanges": "Du hast ungespeicherte Änderungen. Bist du sicher, dass du diese Seite verlassen möchtest?",
+    "noteTitle": "Notiztitel",
+    "noteContent": "Notizinhalt (Markdown-Format)",
+    "newNote": "Neue Notiz",
+    "titleRequired": "Der Notiz-Titel darf nicht leer sein.",
+    "noteCreated": "Notiz erstellt",
+    "noteCreatedDesc": "Die Notiz wurde erfolgreich erstellt.",
+    "createError": "Notiz konnte nicht erstellt werden."
+  },
+  "summary": {
+    "save": "Speichern",
+    "reject": "Ablehnen",
+    "copy": "Kopieren",
+    "summaryAccepted": "Zusammenfassung akzeptiert",
+    "summaryAcceptedDesc": "Die Zusammenfassung wurde in deinen Notizen gespeichert.",
+    "summaryRejected": "Zusammenfassung abgelehnt",
+    "summaryRejectedDesc": "Die Zusammenfassung wurde abgelehnt.",
+    "copied": "Kopiert",
+    "copiedDesc": "Der Inhalt der Zusammenfassung wurde in die Zwischenablage kopiert."
+  },
+  "account": {
+    "title": "Benutzerkonto",
+    "subtitle": "Verwalte dein Konto und deine Einstellungen.",
+    "accountInfo": "Kontoinformationen",
+    "accountInfoDesc": "Grundlegende Informationen zu deinem Konto.",
+    "userId": "Benutzer-UUID",
+    "email": "E-Mail",
+    "changePassword": "Passwort ändern",
+    "changePasswordDesc": "Aktualisiere dein Passwort, um dein Konto zu sichern.",
+    "currentPassword": "Aktuelles Passwort",
+    "newPassword": "Neues Passwort",
+    "confirmNewPassword": "Neues Passwort bestätigen",
+    "passwordChanged": "Passwort geändert",
+    "passwordChangedDesc": "Dein Passwort wurde erfolgreich geändert.",
+    "passwordError": "Neues Passwort und Bestätigungspasswort stimmen nicht überein.",
+    "deleteAccount": "Konto löschen",
+    "deleteAccountDesc": "Lösche dein Konto und alle Daten dauerhaft.",
+    "deleteAccountWarning": "Nach dem Löschen deines Kontos werden alle deine Daten dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+    "deleteAccountConfirm": "Bist du sicher, dass du dein Konto löschen möchtest?",
+    "deleteAccountConfirmDesc": "Diese Aktion wird dein Konto und alle Daten dauerhaft löschen. Diese Aktion kann nicht rückgängig gemacht werden."
+  }
+}
