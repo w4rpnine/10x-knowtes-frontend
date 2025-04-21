@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { FileText, FolderPlus, FileDown, Brain, Sparkles, Zap } from "lucide-react"
 import SignUpDialog from "@/components/sign-up-dialog"
 import LanguageSwitcher from "@/components/language-switcher"
+import { isAuthenticated } from "@/lib/auth-utils"
 
 export default function LandingPage() {
   const router = useRouter()
@@ -15,11 +16,20 @@ export default function LandingPage() {
   const { t } = useTranslation()
 
   useEffect(() => {
-    // Check if user is already logged in
-    const token = localStorage.getItem("auth-token")
-    if (token) {
-      // If logged in, redirect to dashboard
-      router.push("/dashboard")
+    // Check if we're in the browser environment
+    if (typeof window !== "undefined") {
+      // Add a small delay to ensure the component is fully mounted
+      const timer = setTimeout(() => {
+        if (isAuthenticated()) {
+          // If logged in, redirect to dashboard
+          console.log("User is authenticated, redirecting to dashboard")
+          router.push("/dashboard")
+        } else {
+          console.log("User is not authenticated, staying on landing page")
+        }
+      }, 100)
+
+      return () => clearTimeout(timer)
     }
   }, [router])
 

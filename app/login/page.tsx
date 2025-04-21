@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
@@ -13,6 +13,7 @@ import { AlertCircle } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import SignUpDialog from "@/components/sign-up-dialog"
 import LanguageSwitcher from "@/components/language-switcher"
+import { isAuthenticated, setAuthToken } from "@/lib/auth-utils"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -22,6 +23,17 @@ export default function LoginPage() {
   const [isSignUpOpen, setIsSignUpOpen] = useState(false)
   const router = useRouter()
   const { t } = useTranslation()
+
+  // Add this useEffect if the login page also checks authentication
+  useEffect(() => {
+    // Check if we're in the browser environment
+    if (typeof window !== "undefined") {
+      if (isAuthenticated()) {
+        console.log("User is already authenticated, redirecting to dashboard")
+        router.push("/dashboard")
+      }
+    }
+  }, [router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -52,7 +64,10 @@ export default function LoginPage() {
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
       // Store JWT token in localStorage or secure cookie
-      localStorage.setItem("auth-token", "mock-jwt-token")
+      // Replace:
+      // localStorage.setItem("auth-token", "mock-jwt-token")
+      // With:
+      setAuthToken("mock-jwt-token")
 
       // Redirect to dashboard page instead of root
       router.push("/dashboard")

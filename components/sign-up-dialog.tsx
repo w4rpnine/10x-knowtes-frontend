@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/label"
 import { AlertCircle } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useToast } from "@/hooks/use-toast"
+import { setAuthToken } from "@/lib/auth-utils"
 
 interface SignUpDialogProps {
   open: boolean
@@ -96,7 +97,8 @@ export default function SignUpDialog({ open, onOpenChange }: SignUpDialogProps) 
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
       // Store JWT token in localStorage or secure cookie
-      localStorage.setItem("auth-token", "mock-jwt-token")
+      // localStorage.setItem("auth-token", "mock-jwt-token")
+      setAuthToken("mock-jwt-token")
 
       toast({
         title: t("auth.accountCreated"),

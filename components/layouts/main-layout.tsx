@@ -9,21 +9,27 @@ import { ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable"
 import NavigationTree from "@/components/navigation-tree"
 import UserAccountButton from "@/components/user-account-button"
 import LanguageSwitcher from "@/components/language-switcher"
+import { isAuthenticated } from "@/lib/auth-utils"
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
   const { t } = useTranslation()
 
   useEffect(() => {
-    // Check if user is authenticated
-    const token = localStorage.getItem("auth-token")
-    if (!token) {
-      router.push("/login")
-    } else {
-      setIsAuthenticated(true)
-      setIsLoading(false)
+    // Check if we're in the browser environment
+    if (typeof window !== "undefined") {
+      console.log("MainLayout auth check starting")
+
+      if (!isAuthenticated()) {
+        console.log("User is not authenticated, redirecting to login")
+        router.push("/login")
+      } else {
+        console.log("User is authenticated, showing dashboard")
+        setIsUserAuthenticated(true)
+        setIsLoading(false)
+      }
     }
   }, [router])
 
@@ -35,7 +41,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     )
   }
 
-  if (!isAuthenticated) {
+  if (!isUserAuthenticated) {
     return null // Will redirect in the useEffect
   }
 

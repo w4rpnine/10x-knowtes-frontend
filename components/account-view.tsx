@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast"
 import { useTranslation } from "react-i18next"
+import { clearAuthToken } from "@/lib/auth-utils"
 
 // Mock user data
 const mockUser = {
@@ -39,7 +40,7 @@ export default function AccountView() {
 
   const handleLogout = () => {
     // Clear auth token
-    localStorage.removeItem("auth-token")
+    clearAuthToken()
     router.push("/login")
   }
 
@@ -78,7 +79,7 @@ export default function AccountView() {
     try {
       // In a real app, delete account here
       await new Promise((resolve) => setTimeout(resolve, 500))
-      localStorage.removeItem("auth-token")
+      clearAuthToken()
       router.push("/login")
     } catch (error) {
       toast({

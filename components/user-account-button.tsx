@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { User, Settings, LogOut } from "lucide-react"
+import { clearAuthToken } from "@/lib/auth-utils"
 
 export default function UserAccountButton() {
   const router = useRouter()
@@ -21,7 +22,7 @@ export default function UserAccountButton() {
   }
 
   const handleLogout = () => {
-    localStorage.removeItem("auth-token")
+    clearAuthToken()
     router.push("/")
   }
 
