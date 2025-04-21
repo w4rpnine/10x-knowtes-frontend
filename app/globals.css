@@ -110,6 +110,74 @@
     color: hsl(var(--neon-purple));
     filter: drop-shadow(0 0 3px hsl(var(--neon-purple) / 0.5));
   }
+
+  /* Pixel background styles */
+  .pixel-bg {
+    background-color: #050510;
+    background-image: linear-gradient(to right, rgba(30, 20, 50, 0.2) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(30, 20, 50, 0.2) 1px, transparent 1px);
+    background-size: 8px 8px;
+    position: relative;
+  }
+
+  .pixel-bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(rgba(80, 30, 120, 0.1) 2px, transparent 2px),
+      radial-gradient(rgba(30, 80, 120, 0.1) 2px, transparent 2px);
+    background-size: 32px 32px;
+    background-position: 0 0, 16px 16px;
+    pointer-events: none;
+  }
+
+  .pixel-bg::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0) 20%,
+      rgba(0, 0, 0, 0) 80%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Scanline effect */
+  .scanlines {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scanlines::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: repeating-linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.05) 0.5%, transparent 1%);
+    animation: scanline 10s linear infinite;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  @keyframes scanline {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(100%);
+    }
+  }
 }
 
 @keyframes gradient-shift {

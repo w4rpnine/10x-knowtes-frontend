@@ -34,7 +34,7 @@ export default function LandingPage() {
   }, [router])
 
   return (
-    <div className="min-h-screen bg-black flex flex-col">
+    <div className="min-h-screen pixel-bg scanlines flex flex-col">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         {/* Background gradient */}

@@ -83,7 +83,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background relative">
+    <div className="flex items-center justify-center min-h-screen pixel-bg scanlines relative">
       {/* Background gradient - now with pointer-events-none */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-neon-purple/10 via-neon-blue/5 to-neon-cyan/10 animate-gradient-shift"></div>
