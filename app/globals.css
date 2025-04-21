@@ -111,13 +111,14 @@
     filter: drop-shadow(0 0 3px hsl(var(--neon-purple) / 0.5));
   }
 
-  /* Pixel background styles */
+  /* Enhanced pixel background styles */
   .pixel-bg {
     background-color: #050510;
     background-image: linear-gradient(to right, rgba(30, 20, 50, 0.2) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(30, 20, 50, 0.2) 1px, transparent 1px);
     background-size: 8px 8px;
     position: relative;
+    overflow: hidden;
   }
 
   .pixel-bg::before {
@@ -132,6 +133,7 @@
     background-size: 32px 32px;
     background-position: 0 0, 16px 16px;
     pointer-events: none;
+    z-index: 1;
   }
 
   .pixel-bg::after {
@@ -149,9 +151,10 @@
       rgba(0, 0, 0, 0.3) 100%
     );
     pointer-events: none;
+    z-index: 1;
   }
 
-  /* Scanline effect */
+  /* Enhanced scanline effect */
   .scanlines {
     position: relative;
     overflow: hidden;
@@ -168,15 +171,7 @@
     animation: scanline 10s linear infinite;
     opacity: 0.3;
     pointer-events: none;
-  }
-
-  @keyframes scanline {
-    0% {
-      transform: translateY(0);
-    }
-    100% {
-      transform: translateY(100%);
-    }
+    z-index: 2;
   }
 }
 
