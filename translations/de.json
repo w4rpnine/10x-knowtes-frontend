@@ -97,7 +97,17 @@
     "topicNamePlaceholder": "Themenname eingeben",
     "cancel": "Abbrechen",
     "creating": "Wird erstellt...",
-    "create": "Thema erstellen"
+    "create": "Thema erstellen",
+    "error": "Fehler",
+    "topicNameRequired": "Themenname darf nicht leer sein.",
+    "createTopicError": "Thema konnte nicht erstellt werden. Bitte versuche es erneut.",
+    "topicCreated": "Thema erstellt",
+    "topicCreatedDesc": "Thema \"{title}\" wurde erfolgreich erstellt.",
+    "fetchError": "Fehler beim Laden der Themen",
+    "fetchErrorDesc": "Themen konnten nicht geladen werden. Bitte aktualisiere die Seite.",
+    "noTopics": "Keine Themen gefunden",
+    "createFirstTopic": "Erstelle dein erstes Thema, um zu beginnen",
+    "noNotes": "Noch keine Notizen in diesem Thema"
   },
   "topic": {
     "account": "Konto",

@@ -24,70 +24,193 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-// Mock data structure
-const mockTopics = [
-  {
-    id: "topic-1",
-    title: "Matematyka",
-    notes: [
-      { id: "note-1", title: "Algebra liniowa" },
-      { id: "note-2", title: "Rachunek różniczkowy" },
-    ],
-    summaries: [{ id: "summary-1", title: "Podsumowanie matematyki" }],
-  },
-  {
-    id: "topic-2",
-    title: "Fizyka",
-    notes: [
-      { id: "note-3", title: "Mechanika kwantowa" },
-      { id: "note-4", title: "Termodynamika" },
-    ],
-    summaries: [],
-  },
-]
+// Define types based on the API response
+interface Note {
+  id: string
+  title: string
+  content: string
+  user_id: string
+  topic_id: string
+  created_at: string
+  updated_at: string
+  is_summary: boolean
+}
+
+interface Topic {
+  id: string
+  user_id: string
+  title: string
+  created_at: string
+  updated_at: string
+  notes: Note[]
+}
+
+interface TopicsResponse {
+  data: Topic[]
+  count: number
+  total: number
+}
+
+// Type for our processed topics with separated notes and summaries
+interface ProcessedTopic {
+  id: string
+  title: string
+  notes: {
+    id: string
+    title: string
+    created_at: string
+  }[]
+  summaries: {
+    id: string
+    title: string
+    created_at: string
+  }[]
+}
 
 export default function NavigationTree() {
   const pathname = usePathname()
   const router = useRouter()
   const { toast } = useToast()
   const { t } = useTranslation()
-  const [expandedTopics, setExpandedTopics] = useState<Record<string, boolean>>({
-    "topic-1": true,
-    "topic-2": true,
-  })
+  const [expandedTopics, setExpandedTopics] = useState<Record<string, boolean>>({})
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [newTopicName, setNewTopicName] = useState("")
   const [isCreating, setIsCreating] = useState(false)
-  const [topics, setTopics] = useState(mockTopics)
+  const [topics, setTopics] = useState<ProcessedTopic[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // BACKEND INTEGRATION: Load topics, notes, and summaries for the navigation tree
-    // This should fetch all topics with their notes and summaries for the current user
-    // Example API call:
-    // async function fetchTopics() {
-    //   try {
-    //     const response = await fetch('/api/topics');
-    //     const data = await response.json();
-    //     setTopics(data);
-    //
-    //     // Initialize expanded state for all topics
-    //     const expandedState: Record<string, boolean> = {};
-    //     data.forEach((topic: any) => {
-    //       expandedState[topic.id] = true; // Default to expanded
-    //     });
-    //     setExpandedTopics(expandedState);
-    //   } catch (error) {
-    //     console.error('Failed to fetch topics:', error);
-    //     toast({
-    //       title: "Błąd",
-    //       description: "Nie udało się załadować tematów",
-    //       variant: "destructive",
-    //     });
-    //   }
-    // }
-    //
-    // fetchTopics();
-  }, [toast])
+    // Fetch topics from the API
+    async function fetchTopics() {
+      setIsLoading(true)
+      try {
+        // Comment out the actual API call
+        // const response = await fetch("/api/topics");
+        // if (!response.ok) {
+        //   throw new Error("Failed to fetch topics");
+        // }
+        // const data: TopicsResponse = await response.json();
+
+        // Mock data that matches the API response structure
+        const mockData: TopicsResponse = {
+          data: [
+            {
+              id: "topic-1",
+              user_id: "user-123",
+              title: "Matematyka",
+              created_at: "2023-05-10T10:00:00Z",
+              updated_at: "2023-05-10T10:00:00Z",
+              notes: [
+                {
+                  id: "note-1",
+                  title: "Algebra liniowa",
+                  content: "Content of algebra liniowa",
+                  user_id: "user-123",
+                  topic_id: "topic-1",
+                  created_at: "2023-05-10T10:00:00Z",
+                  updated_at: "2023-05-10T10:00:00Z",
+                  is_summary: false,
+                },
+                {
+                  id: "note-2",
+                  title: "Rachunek różniczkowy",
+                  content: "Content of rachunek różniczkowy",
+                  user_id: "user-123",
+                  topic_id: "topic-1",
+                  created_at: "2023-05-12T14:30:00Z",
+                  updated_at: "2023-05-12T14:30:00Z",
+                  is_summary: false,
+                },
+                {
+                  id: "summary-1",
+                  title: "Podsumowanie matematyki",
+                  content: "Summary content of matematyka",
+                  user_id: "user-123",
+                  topic_id: "topic-1",
+                  created_at: "2023-05-15T09:15:00Z",
+                  updated_at: "2023-05-15T09:15:00Z",
+                  is_summary: true,
+                },
+              ],
+            },
+            {
+              id: "topic-2",
+              user_id: "user-123",
+              title: "Fizyka",
+              created_at: "2023-05-11T11:00:00Z",
+              updated_at: "2023-05-11T11:00:00Z",
+              notes: [
+                {
+                  id: "note-3",
+                  title: "Mechanika kwantowa",
+                  content: "Content of mechanika kwantowa",
+                  user_id: "user-123",
+                  topic_id: "topic-2",
+                  created_at: "2023-05-13T10:00:00Z",
+                  updated_at: "2023-05-13T10:00:00Z",
+                  is_summary: false,
+                },
+                {
+                  id: "note-4",
+                  title: "Termodynamika",
+                  content: "Content of termodynamika",
+                  user_id: "user-123",
+                  topic_id: "topic-2",
+                  created_at: "2023-05-14T14:30:00Z",
+                  updated_at: "2023-05-14T14:30:00Z",
+                  is_summary: false,
+                },
+              ],
+            },
+          ],
+          count: 2,
+          total: 2,
+        }
+
+        // Process the mock data the same way as the real data
+        const processedTopics: ProcessedTopic[] = mockData.data.map((topic) => {
+          // Separate notes and summaries
+          const regularNotes = topic.notes.filter((note) => !note.is_summary)
+          const summaryNotes = topic.notes.filter((note) => note.is_summary)
+
+          return {
+            id: topic.id,
+            title: topic.title,
+            notes: regularNotes.map((note) => ({
+              id: note.id,
+              title: note.title,
+              created_at: note.created_at,
+            })),
+            summaries: summaryNotes.map((note) => ({
+              id: note.id,
+              title: note.title,
+              created_at: note.created_at,
+            })),
+          }
+        })
+
+        setTopics(processedTopics)
+
+        // Initialize expanded state for all topics
+        const expandedState: Record<string, boolean> = {}
+        processedTopics.forEach((topic) => {
+          expandedState[topic.id] = true // Default to expanded
+        })
+        setExpandedTopics(expandedState)
+      } catch (error) {
+        console.error("Failed to fetch topics:", error)
+        toast({
+          title: t("navigation.fetchError"),
+          description: t("navigation.fetchErrorDesc"),
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchTopics()
+  }, [toast, t])
 
   const toggleTopic = (topicId: string, e: React.MouseEvent) => {
     e.stopPropagation() // Prevent navigation when clicking the toggle button
@@ -106,8 +229,8 @@ export default function NavigationTree() {
 
     if (!newTopicName.trim()) {
       toast({
-        title: "Błąd",
-        description: "Nazwa tematu nie może być pusta",
+        title: t("navigation.error"),
+        description: t("navigation.topicNameRequired"),
         variant: "destructive",
       })
       return
@@ -116,45 +239,66 @@ export default function NavigationTree() {
     setIsCreating(true)
 
     try {
-      // BACKEND INTEGRATION: Create a new topic
-      // This should send a POST request to create a new topic with the given name
-      // Example API call:
-      // const response = await fetch('/api/topics', {
-      //   method: 'POST',
+      // Comment out the actual API call
+      // const response = await fetch("/api/topics", {
+      //   method: "POST",
       //   headers: {
-      //     'Content-Type': 'application/json',
+      //     "Content-Type": "application/json",
       //   },
       //   body: JSON.stringify({ title: newTopicName }),
       // });
       //
-      // if (!response.ok) throw new Error('Failed to create topic');
+      // if (!response.ok) {
+      //   throw new Error("Failed to create topic");
+      // }
+      //
       // const newTopic = await response.json();
 
-      await new Promise((resolve) => setTimeout(resolve, 800)) // Simulate API call
+      // Mock the creation of a new topic
+      await new Promise((resolve) => setTimeout(resolve, 800)) // Simulate API delay
 
-      // Generate a mock ID for the new topic
-      const newTopicId = `topic-${Date.now()}`
+      const newTopic = {
+        id: `topic-${Date.now()}`,
+        user_id: "user-123",
+        title: newTopicName,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        notes: [],
+      }
 
       toast({
-        title: "Temat utworzony",
-        description: `Temat "${newTopicName}" został pomyślnie utworzony`,
+        title: t("navigation.topicCreated"),
+        description: t("navigation.topicCreatedDesc", { title: newTopicName }),
       })
 
-      // BACKEND INTEGRATION: Reload the navigation tree after creating a topic
-      // This should fetch the updated list of topics
-      // Example:
-      // fetchTopics();
+      // Update the topics list with the new topic
+      setTopics((prevTopics) => [
+        ...prevTopics,
+        {
+          id: newTopic.id,
+          title: newTopic.title,
+          notes: [],
+          summaries: [],
+        },
+      ])
+
+      // Ensure the new topic is expanded
+      setExpandedTopics((prev) => ({
+        ...prev,
+        [newTopic.id]: true,
+      }))
 
       // Reset form and close dialog
       setNewTopicName("")
       setIsDialogOpen(false)
 
       // Navigate to the new topic
-      router.push(`/topics/${newTopicId}`)
+      router.push(`/topics/${newTopic.id}`)
     } catch (error) {
+      console.error("Failed to create topic:", error)
       toast({
-        title: "Błąd",
-        description: "Nie udało się utworzyć tematu",
+        title: t("navigation.error"),
+        description: t("navigation.createTopicError"),
         variant: "destructive",
       })
     } finally {
@@ -217,63 +361,78 @@ export default function NavigationTree() {
       </div>
       <ScrollArea className="flex-1">
         <div className="p-2">
-          {topics.map((topic) => (
-            <div key={topic.id} className="mb-4">
-              <div
-                className={cn(
-                  "flex items-center p-2 rounded-md hover:bg-black/30 cursor-pointer",
-                  pathname === `/topics/${topic.id}` && "bg-black/40",
-                )}
-                onClick={() => navigateToTopic(topic.id)}
-              >
-                <button
-                  onClick={(e) => toggleTopic(topic.id, e)}
-                  className="mr-1 p-1 rounded-full hover:bg-black/20 focus:outline-none"
-                  aria-label={expandedTopics[topic.id] ? "Collapse topic" : "Expand topic"}
-                >
-                  {expandedTopics[topic.id] ? (
-                    <ChevronDown className="h-3 w-3 text-muted-foreground" />
-                  ) : (
-                    <ChevronRight className="h-3 w-3 text-muted-foreground" />
-                  )}
-                </button>
-                <Folder className="mr-2 h-4 w-4 topic-icon" />
-                <span className="font-medium">{topic.title}</span>
-              </div>
-
-              {expandedTopics[topic.id] && (
-                <div className="ml-7 pl-4 border-l border-muted/30 mt-1 space-y-1">
-                  {topic.notes.map((note) => (
-                    <Link key={note.id} href={`/topics/${topic.id}/notes/${note.id}`}>
-                      <div
-                        className={cn(
-                          "flex items-center p-2 rounded-md hover:bg-black/30",
-                          pathname === `/topics/${topic.id}/notes/${note.id}` && "bg-black/40",
-                        )}
-                      >
-                        <FileText className="mr-2 h-4 w-4 note-icon" />
-                        <span>{note.title}</span>
-                      </div>
-                    </Link>
-                  ))}
-
-                  {topic.summaries.map((summary) => (
-                    <Link key={summary.id} href={`/topics/${topic.id}/summary/${summary.id}`}>
-                      <div
-                        className={cn(
-                          "flex items-center p-2 rounded-md hover:bg-black/30",
-                          pathname === `/topics/${topic.id}/summary/${summary.id}` && "bg-black/40",
-                        )}
-                      >
-                        <FileDown className="mr-2 h-4 w-4 summary-icon" />
-                        <span className="text-neon-purple glow-text">{summary.title}</span>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              )}
+          {isLoading ? (
+            <div className="flex justify-center items-center py-8">
+              <div className="text-neon-purple animate-pulse">{t("app.loading")}</div>
             </div>
-          ))}
+          ) : topics.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              <p>{t("navigation.noTopics")}</p>
+              <p className="text-sm mt-2">{t("navigation.createFirstTopic")}</p>
+            </div>
+          ) : (
+            topics.map((topic) => (
+              <div key={topic.id} className="mb-4">
+                <div
+                  className={cn(
+                    "flex items-center p-2 rounded-md hover:bg-black/30 cursor-pointer",
+                    pathname === `/topics/${topic.id}` && "bg-black/40",
+                  )}
+                  onClick={() => navigateToTopic(topic.id)}
+                >
+                  <button
+                    onClick={(e) => toggleTopic(topic.id, e)}
+                    className="mr-1 p-1 rounded-full hover:bg-black/20 focus:outline-none"
+                    aria-label={expandedTopics[topic.id] ? "Collapse topic" : "Expand topic"}
+                  >
+                    {expandedTopics[topic.id] ? (
+                      <ChevronDown className="h-3 w-3 text-muted-foreground" />
+                    ) : (
+                      <ChevronRight className="h-3 w-3 text-muted-foreground" />
+                    )}
+                  </button>
+                  <Folder className="mr-2 h-4 w-4 topic-icon" />
+                  <span className="font-medium">{topic.title}</span>
+                </div>
+
+                {expandedTopics[topic.id] && (
+                  <div className="ml-7 pl-4 border-l border-muted/30 mt-1 space-y-1">
+                    {topic.notes.map((note) => (
+                      <Link key={note.id} href={`/topics/${topic.id}/notes/${note.id}`}>
+                        <div
+                          className={cn(
+                            "flex items-center p-2 rounded-md hover:bg-black/30",
+                            pathname === `/topics/${topic.id}/notes/${note.id}` && "bg-black/40",
+                          )}
+                        >
+                          <FileText className="mr-2 h-4 w-4 note-icon" />
+                          <span>{note.title}</span>
+                        </div>
+                      </Link>
+                    ))}
+
+                    {topic.summaries.map((summary) => (
+                      <Link key={summary.id} href={`/topics/${topic.id}/summary/${summary.id}`}>
+                        <div
+                          className={cn(
+                            "flex items-center p-2 rounded-md hover:bg-black/30",
+                            pathname === `/topics/${topic.id}/summary/${summary.id}` && "bg-black/40",
+                          )}
+                        >
+                          <FileDown className="mr-2 h-4 w-4 summary-icon" />
+                          <span className="text-neon-purple glow-text">{summary.title}</span>
+                        </div>
+                      </Link>
+                    ))}
+
+                    {topic.notes.length === 0 && topic.summaries.length === 0 && (
+                      <div className="p-2 text-sm text-muted-foreground">{t("navigation.noNotes")}</div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))
+          )}
         </div>
       </ScrollArea>
     </div>

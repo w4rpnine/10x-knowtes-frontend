@@ -97,7 +97,17 @@
     "topicNamePlaceholder": "Wprowadź nazwę tematu",
     "cancel": "Anuluj",
     "creating": "Tworzenie...",
-    "create": "Utwórz temat"
+    "create": "Utwórz temat",
+    "error": "Błąd",
+    "topicNameRequired": "Nazwa tematu nie może być pusta.",
+    "createTopicError": "Nie udało się utworzyć tematu. Spróbuj ponownie.",
+    "topicCreated": "Temat utworzony",
+    "topicCreatedDesc": "Temat \"{title}\" został pomyślnie utworzony.",
+    "fetchError": "Błąd ładowania tematów",
+    "fetchErrorDesc": "Nie udało się załadować tematów. Odśwież stronę.",
+    "noTopics": "Nie znaleziono tematów",
+    "createFirstTopic": "Utwórz swój pierwszy temat, aby rozpocząć",
+    "noNotes": "Brak notatek w tym temacie"
   },
   "topic": {
     "account": "Konto",

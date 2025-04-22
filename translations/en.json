@@ -97,7 +97,17 @@
     "topicNamePlaceholder": "Enter topic name",
     "cancel": "Cancel",
     "creating": "Creating...",
-    "create": "Create"
+    "create": "Create",
+    "error": "Error",
+    "topicNameRequired": "Topic name cannot be empty.",
+    "createTopicError": "Failed to create topic. Please try again.",
+    "topicCreated": "Topic created",
+    "topicCreatedDesc": "Topic \"{title}\" has been successfully created.",
+    "fetchError": "Error loading topics",
+    "fetchErrorDesc": "Failed to load topics. Please refresh the page.",
+    "noTopics": "No topics found",
+    "createFirstTopic": "Create your first topic to get started",
+    "noNotes": "No notes in this topic yet"
   },
   "topic": {
     "account": "Account",
