@@ -84,91 +84,14 @@ export default function NavigationTree() {
     async function fetchTopics() {
       setIsLoading(true)
       try {
-        // Comment out the actual API call
-        // const response = await fetch("/api/topics");
-        // if (!response.ok) {
-        //   throw new Error("Failed to fetch topics");
-        // }
-        // const data: TopicsResponse = await response.json();
-
-        // Mock data that matches the API response structure
-        const mockData: TopicsResponse = {
-          data: [
-            {
-              id: "topic-1",
-              user_id: "user-123",
-              title: "Matematyka",
-              created_at: "2023-05-10T10:00:00Z",
-              updated_at: "2023-05-10T10:00:00Z",
-              notes: [
-                {
-                  id: "note-1",
-                  title: "Algebra liniowa",
-                  content: "Content of algebra liniowa",
-                  user_id: "user-123",
-                  topic_id: "topic-1",
-                  created_at: "2023-05-10T10:00:00Z",
-                  updated_at: "2023-05-10T10:00:00Z",
-                  is_summary: false,
-                },
-                {
-                  id: "note-2",
-                  title: "Rachunek różniczkowy",
-                  content: "Content of rachunek różniczkowy",
-                  user_id: "user-123",
-                  topic_id: "topic-1",
-                  created_at: "2023-05-12T14:30:00Z",
-                  updated_at: "2023-05-12T14:30:00Z",
-                  is_summary: false,
-                },
-                {
-                  id: "summary-1",
-                  title: "Podsumowanie matematyki",
-                  content: "Summary content of matematyka",
-                  user_id: "user-123",
-                  topic_id: "topic-1",
-                  created_at: "2023-05-15T09:15:00Z",
-                  updated_at: "2023-05-15T09:15:00Z",
-                  is_summary: true,
-                },
-              ],
-            },
-            {
-              id: "topic-2",
-              user_id: "user-123",
-              title: "Fizyka",
-              created_at: "2023-05-11T11:00:00Z",
-              updated_at: "2023-05-11T11:00:00Z",
-              notes: [
-                {
-                  id: "note-3",
-                  title: "Mechanika kwantowa",
-                  content: "Content of mechanika kwantowa",
-                  user_id: "user-123",
-                  topic_id: "topic-2",
-                  created_at: "2023-05-13T10:00:00Z",
-                  updated_at: "2023-05-13T10:00:00Z",
-                  is_summary: false,
-                },
-                {
-                  id: "note-4",
-                  title: "Termodynamika",
-                  content: "Content of termodynamika",
-                  user_id: "user-123",
-                  topic_id: "topic-2",
-                  created_at: "2023-05-14T14:30:00Z",
-                  updated_at: "2023-05-14T14:30:00Z",
-                  is_summary: false,
-                },
-              ],
-            },
-          ],
-          count: 2,
-          total: 2,
+        const response = await fetch("http://localhost:3001/api/topics");
+        if (!response.ok) {
+           throw new Error("Failed to fetch topics");
         }
+        const data: TopicsResponse = await response.json();
 
         // Process the mock data the same way as the real data
-        const processedTopics: ProcessedTopic[] = mockData.data.map((topic) => {
+        const processedTopics: ProcessedTopic[] = data.data.map((topic) => {
           // Separate notes and summaries
           const regularNotes = topic.notes.filter((note) => !note.is_summary)
           const summaryNotes = topic.notes.filter((note) => note.is_summary)
