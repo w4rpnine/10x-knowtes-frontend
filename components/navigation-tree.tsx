@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Folder, FileText, Plus, FileDown, ChevronRight, ChevronDown } from "lucide-react"
+import { Folder, FileText, Plus, FileDown, ChevronRight, ChevronDown, RefreshCw } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"
 import {
@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 // Define types based on the API response
 interface Note {
@@ -78,62 +79,167 @@ export default function NavigationTree() {
   const [isCreating, setIsCreating] = useState(false)
   const [topics, setTopics] = useState<ProcessedTopic[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isRefreshing, setIsRefreshing] = useState(false)
 
-  useEffect(() => {
-    // Fetch topics from the API
-    async function fetchTopics() {
-      setIsLoading(true)
-      try {
-        const response = await fetch("http://localhost:3001/api/topics");
-        if (!response.ok) {
-           throw new Error("Failed to fetch topics");
+  // Function to fetch topics
+  const fetchTopics = async () => {
+    try {
+      // Comment out the actual API call
+      // const response = await fetch("/api/topics");
+      // if (!response.ok) {
+      //   throw new Error("Failed to fetch topics");
+      // }
+      // const data: TopicsResponse = await response.json();
+
+      // Mock data that matches the API response structure
+      const mockData: TopicsResponse = {
+        data: [
+          {
+            id: "topic-1",
+            user_id: "user-123",
+            title: "Matematyka",
+            created_at: "2023-05-10T10:00:00Z",
+            updated_at: "2023-05-10T10:00:00Z",
+            notes: [
+              {
+                id: "note-1",
+                title: "Algebra liniowa",
+                content: "Content of algebra liniowa",
+                user_id: "user-123",
+                topic_id: "topic-1",
+                created_at: "2023-05-10T10:00:00Z",
+                updated_at: "2023-05-10T10:00:00Z",
+                is_summary: false,
+              },
+              {
+                id: "note-2",
+                title: "Rachunek różniczkowy",
+                content: "Content of rachunek różniczkowy",
+                user_id: "user-123",
+                topic_id: "topic-1",
+                created_at: "2023-05-12T14:30:00Z",
+                updated_at: "2023-05-12T14:30:00Z",
+                is_summary: false,
+              },
+              {
+                id: "summary-1",
+                title: "Podsumowanie matematyki",
+                content: "Summary content of matematyka",
+                user_id: "user-123",
+                topic_id: "topic-1",
+                created_at: "2023-05-15T09:15:00Z",
+                updated_at: "2023-05-15T09:15:00Z",
+                is_summary: true,
+              },
+            ],
+          },
+          {
+            id: "topic-2",
+            user_id: "user-123",
+            title: "Fizyka",
+            created_at: "2023-05-11T11:00:00Z",
+            updated_at: "2023-05-11T11:00:00Z",
+            notes: [
+              {
+                id: "note-3",
+                title: "Mechanika kwantowa",
+                content: "Content of mechanika kwantowa",
+                user_id: "user-123",
+                topic_id: "topic-2",
+                created_at: "2023-05-13T10:00:00Z",
+                updated_at: "2023-05-13T10:00:00Z",
+                is_summary: false,
+              },
+              {
+                id: "note-4",
+                title: "Termodynamika",
+                content: "Content of termodynamika",
+                user_id: "user-123",
+                topic_id: "topic-2",
+                created_at: "2023-05-14T14:30:00Z",
+                updated_at: "2023-05-14T14:30:00Z",
+                is_summary: false,
+              },
+            ],
+          },
+        ],
+        count: 2,
+        total: 2,
+      }
+
+      // Add a small delay to simulate network latency
+      await new Promise((resolve) => setTimeout(resolve, 500))
+
+      // Process the mock data the same way as the real data
+      const processedTopics: ProcessedTopic[] = mockData.data.map((topic) => {
+        // Separate notes and summaries
+        const regularNotes = topic.notes.filter((note) => !note.is_summary)
+        const summaryNotes = topic.notes.filter((note) => note.is_summary)
+
+        return {
+          id: topic.id,
+          title: topic.title,
+          notes: regularNotes.map((note) => ({
+            id: note.id,
+            title: note.title,
+            created_at: note.created_at,
+          })),
+          summaries: summaryNotes.map((note) => ({
+            id: note.id,
+            title: note.title,
+            created_at: note.created_at,
+          })),
         }
-        const data: TopicsResponse = await response.json();
+      })
 
-        // Process the mock data the same way as the real data
-        const processedTopics: ProcessedTopic[] = data.data.map((topic) => {
-          // Separate notes and summaries
-          const regularNotes = topic.notes.filter((note) => !note.is_summary)
-          const summaryNotes = topic.notes.filter((note) => note.is_summary)
+      setTopics(processedTopics)
 
-          return {
-            id: topic.id,
-            title: topic.title,
-            notes: regularNotes.map((note) => ({
-              id: note.id,
-              title: note.title,
-              created_at: note.created_at,
-            })),
-            summaries: summaryNotes.map((note) => ({
-              id: note.id,
-              title: note.title,
-              created_at: note.created_at,
-            })),
-          }
-        })
-
-        setTopics(processedTopics)
-
-        // Initialize expanded state for all topics
+      // Initialize expanded state for all topics
+      // Only do this on the initial load, not on refresh to preserve expanded state
+      if (Object.keys(expandedTopics).length === 0) {
         const expandedState: Record<string, boolean> = {}
         processedTopics.forEach((topic) => {
           expandedState[topic.id] = true // Default to expanded
         })
         setExpandedTopics(expandedState)
-      } catch (error) {
-        console.error("Failed to fetch topics:", error)
-        toast({
-          title: t("navigation.fetchError"),
-          description: t("navigation.fetchErrorDesc"),
-          variant: "destructive",
-        })
-      } finally {
-        setIsLoading(false)
       }
+
+      return true
+    } catch (error) {
+      console.error("Failed to fetch topics:", error)
+      toast({
+        title: t("navigation.fetchError"),
+        description: t("navigation.fetchErrorDesc"),
+        variant: "destructive",
+      })
+      return false
+    }
+  }
+
+  // Initial data loading
+  useEffect(() => {
+    async function initialLoad() {
+      setIsLoading(true)
+      await fetchTopics()
+      setIsLoading(false)
     }
 
-    fetchTopics()
+    initialLoad()
   }, [toast, t])
+
+  // Handle manual refresh
+  const handleRefresh = async () => {
+    setIsRefreshing(true)
+    const success = await fetchTopics()
+    setIsRefreshing(false)
+
+    if (success) {
+      toast({
+        title: t("navigation.refreshSuccess"),
+        description: t("navigation.refreshSuccessDesc"),
+      })
+    }
+  }
 
   const toggleTopic = (topicId: string, e: React.MouseEvent) => {
     e.stopPropagation() // Prevent navigation when clicking the toggle button
@@ -232,55 +338,81 @@ export default function NavigationTree() {
   return (
     <div className="flex flex-col h-full">
       <div className="p-4 border-b bg-black/30">
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="w-full bg-gradient-to-r from-neon-purple to-neon-blue hover:opacity-90">
-              <Plus className="mr-2 h-4 w-4" />
-              {t("navigation.newTopic")}
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px] bg-black/80 border-neon-purple/30 backdrop-blur-sm">
-            <form onSubmit={handleCreateTopic}>
-              <DialogHeader>
-                <DialogTitle className="text-neon-purple glow-text">{t("navigation.createTopic")}</DialogTitle>
-                <DialogDescription>{t("navigation.createTopicDesc")}</DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="topic-name" className="text-right">
-                    {t("navigation.topicName")}
-                  </Label>
-                  <Input
-                    id="topic-name"
-                    value={newTopicName}
-                    onChange={(e) => setNewTopicName(e.target.value)}
-                    className="col-span-3 border-neon-purple/30 bg-black/30 focus-visible:ring-neon-purple/50"
-                    placeholder={t("navigation.topicNamePlaceholder")}
-                    autoFocus
-                  />
+        <div className="flex space-x-2 mb-2">
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="flex-1 bg-gradient-to-r from-neon-purple to-neon-blue hover:opacity-90">
+                <Plus className="mr-2 h-4 w-4" />
+                {t("navigation.newTopic")}
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px] bg-black/80 border-neon-purple/30 backdrop-blur-sm">
+              <form onSubmit={handleCreateTopic}>
+                <DialogHeader>
+                  <DialogTitle className="text-neon-purple glow-text">{t("navigation.createTopic")}</DialogTitle>
+                  <DialogDescription>{t("navigation.createTopicDesc")}</DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="topic-name" className="text-right">
+                      {t("navigation.topicName")}
+                    </Label>
+                    <Input
+                      id="topic-name"
+                      value={newTopicName}
+                      onChange={(e) => setNewTopicName(e.target.value)}
+                      className="col-span-3 border-neon-purple/30 bg-black/30 focus-visible:ring-neon-purple/50"
+                      placeholder={t("navigation.topicNamePlaceholder")}
+                      autoFocus
+                    />
+                  </div>
                 </div>
-              </div>
-              <DialogFooter>
+                <DialogFooter>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsDialogOpen(false)}
+                    className="border-muted-foreground text-muted-foreground hover:bg-muted/10"
+                    disabled={isCreating}
+                  >
+                    {t("navigation.cancel")}
+                  </Button>
+                  <Button
+                    type="submit"
+                    className="bg-gradient-to-r from-neon-purple to-neon-blue hover:opacity-90"
+                    disabled={isCreating}
+                  >
+                    {isCreating ? t("navigation.creating") : t("navigation.create")}
+                  </Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
+
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
                 <Button
-                  type="button"
                   variant="outline"
-                  onClick={() => setIsDialogOpen(false)}
-                  className="border-muted-foreground text-muted-foreground hover:bg-muted/10"
-                  disabled={isCreating}
+                  size="icon"
+                  onClick={handleRefresh}
+                  disabled={isRefreshing || isLoading}
+                  className="border-neon-cyan/30 hover:border-neon-cyan/50 hover:bg-neon-cyan/10"
                 >
-                  {t("navigation.cancel")}
+                  <RefreshCw className={cn("h-4 w-4 text-neon-cyan", (isRefreshing || isLoading) && "animate-spin")} />
+                  <span className="sr-only">{t("navigation.refresh")}</span>
                 </Button>
-                <Button
-                  type="submit"
-                  className="bg-gradient-to-r from-neon-purple to-neon-blue hover:opacity-90"
-                  disabled={isCreating}
-                >
-                  {isCreating ? t("navigation.creating") : t("navigation.create")}
-                </Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{t("navigation.refreshTooltip")}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+
+        <div className="text-xs text-muted-foreground px-1">
+          {isRefreshing ? t("navigation.refreshing") : t("navigation.topics")}
+        </div>
       </div>
       <ScrollArea className="flex-1">
         <div className="p-2">

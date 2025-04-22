@@ -107,7 +107,13 @@
     "fetchErrorDesc": "Nie udało się załadować tematów. Odśwież stronę.",
     "noTopics": "Nie znaleziono tematów",
     "createFirstTopic": "Utwórz swój pierwszy temat, aby rozpocząć",
-    "noNotes": "Brak notatek w tym temacie"
+    "noNotes": "Brak notatek w tym temacie",
+    "refresh": "Odśwież tematy",
+    "refreshTooltip": "Odśwież listę tematów, aby zobaczyć najnowsze zmiany",
+    "refreshing": "Odświeżanie tematów...",
+    "topics": "Tematy",
+    "refreshSuccess": "Tematy odświeżone",
+    "refreshSuccessDesc": "Lista tematów została pomyślnie odświeżona."
   },
   "topic": {
     "account": "Konto",

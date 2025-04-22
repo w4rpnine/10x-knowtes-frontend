@@ -107,7 +107,13 @@
     "fetchErrorDesc": "Failed to load topics. Please refresh the page.",
     "noTopics": "No topics found",
     "createFirstTopic": "Create your first topic to get started",
-    "noNotes": "No notes in this topic yet"
+    "noNotes": "No notes in this topic yet",
+    "refresh": "Refresh topics",
+    "refreshTooltip": "Refresh the topics list to see latest changes",
+    "refreshing": "Refreshing topics...",
+    "topics": "Topics",
+    "refreshSuccess": "Topics refreshed",
+    "refreshSuccessDesc": "The topics list has been successfully refreshed."
   },
   "topic": {
     "account": "Account",

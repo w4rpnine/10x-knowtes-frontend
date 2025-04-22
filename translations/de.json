@@ -107,7 +107,13 @@
     "fetchErrorDesc": "Themen konnten nicht geladen werden. Bitte aktualisiere die Seite.",
     "noTopics": "Keine Themen gefunden",
     "createFirstTopic": "Erstelle dein erstes Thema, um zu beginnen",
-    "noNotes": "Noch keine Notizen in diesem Thema"
+    "noNotes": "Noch keine Notizen in diesem Thema",
+    "refresh": "Themen aktualisieren",
+    "refreshTooltip": "Aktualisiere die Themenliste, um die neuesten Änderungen zu sehen",
+    "refreshing": "Themen werden aktualisiert...",
+    "topics": "Themen",
+    "refreshSuccess": "Themen aktualisiert",
+    "refreshSuccessDesc": "Die Themenliste wurde erfolgreich aktualisiert."
   },
   "topic": {
     "account": "Konto",
