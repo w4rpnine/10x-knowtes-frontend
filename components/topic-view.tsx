@@ -383,7 +383,7 @@ export default function TopicView({ topicId }: TopicViewProps) {
         <SummaryPreviewModal
           open={summaryPreviewOpen}
           onOpenChange={setSummaryPreviewOpen}
-          summaryUuid={summaryData.summary_stat_id}
+          summary_stat_id={summaryData.summary_stat_id}
           initialTitle={summaryData.title}
           initialContent={summaryData.content}
           topicId={topicId}
