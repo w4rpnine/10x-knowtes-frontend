@@ -127,7 +127,17 @@
     "topicDeletedDesc": "Temat został pomyślnie usunięty.",
     "nameChanged": "Nazwa zmieniona",
     "nameChangedDesc": "Nazwa tematu została zmieniona na \"{title}\".",
-    "noNotesYet": "Ten temat nie zawiera jeszcze żadnych notatek ani podsumowań. Kliknij \"Nowa notatka\", aby dodać pierwszą notatkę."
+    "noNotesYet": "Ten temat nie zawiera jeszcze żadnych notatek ani podsumowań. Kliknij \"Nowa notatka\", aby dodać pierwszą notatkę.",
+    "fetchError": "Błąd ładowania tematu",
+    "fetchErrorDesc": "Nie udało się załadować szczegółów tematu. Spróbuj ponownie.",
+    "notFound": "Nie znaleziono tematu",
+    "updateError": "Błąd aktualizacji tematu",
+    "updateErrorDesc": "Nie udało się zaktualizować tematu. Spróbuj ponownie.",
+    "deleteError": "Błąd usuwania tematu",
+    "deleteErrorDesc": "Nie udało się usunąć tematu. Spróbuj ponownie.",
+    "generateError": "Błąd generowania podsumowania",
+    "generateErrorDesc": "Nie udało się wygenerować podsumowania. Spróbuj ponownie.",
+    "generatingSummary": "Generowanie podsumowania..."
   },
   "note": {
     "save": "Zapisz",
@@ -147,7 +157,15 @@
     "titleRequired": "Tytuł notatki nie może być pusty.",
     "noteCreated": "Notatka utworzona",
     "noteCreatedDesc": "Notatka została pomyślnie utworzona.",
-    "createError": "Nie udało się utworzyć notatki."
+    "createError": "Nie udało się utworzyć notatki.",
+    "fetchError": "Błąd ładowania notatki",
+    "fetchErrorDesc": "Nie udało się załadować szczegółów notatki. Spróbuj ponownie.",
+    "notFound": "Nie znaleziono notatki",
+    "saveError": "Błąd zapisywania notatki",
+    "saveErrorDesc": "Nie udało się zapisać notatki. Spróbuj ponownie.",
+    "deleteError": "Błąd usuwania notatki",
+    "deleteErrorDesc": "Nie udało się usunąć notatki. Spróbuj ponownie.",
+    "error": "Błąd"
   },
   "summary": {
     "save": "Zapisz",

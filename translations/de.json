@@ -127,7 +127,17 @@
     "topicDeletedDesc": "Das Thema wurde erfolgreich gelöscht.",
     "nameChanged": "Name geändert",
     "nameChangedDesc": "Der Themenname wurde in \"{title}\" geändert.",
-    "noNotesYet": "Dieses Thema enthält noch keine Notizen oder Zusammenfassungen. Klicke auf \"Neue Notiz\", um deine erste Notiz hinzuzufügen."
+    "noNotesYet": "Dieses Thema enthält noch keine Notizen oder Zusammenfassungen. Klicke auf \"Neue Notiz\", um deine erste Notiz hinzuzufügen.",
+    "fetchError": "Fehler beim Laden des Themas",
+    "fetchErrorDesc": "Themadetails konnten nicht geladen werden. Bitte versuche es erneut.",
+    "notFound": "Thema nicht gefunden",
+    "updateError": "Fehler beim Aktualisieren des Themas",
+    "updateErrorDesc": "Thema konnte nicht aktualisiert werden. Bitte versuche es erneut.",
+    "deleteError": "Fehler beim Löschen des Themas",
+    "deleteErrorDesc": "Thema konnte nicht gelöscht werden. Bitte versuche es erneut.",
+    "generateError": "Fehler beim Generieren der Zusammenfassung",
+    "generateErrorDesc": "Zusammenfassung konnte nicht generiert werden. Bitte versuche es erneut.",
+    "generatingSummary": "Zusammenfassung wird generiert..."
   },
   "note": {
     "save": "Speichern",
@@ -147,7 +157,15 @@
     "titleRequired": "Der Notiz-Titel darf nicht leer sein.",
     "noteCreated": "Notiz erstellt",
     "noteCreatedDesc": "Die Notiz wurde erfolgreich erstellt.",
-    "createError": "Notiz konnte nicht erstellt werden."
+    "createError": "Notiz konnte nicht erstellt werden.",
+    "fetchError": "Fehler beim Laden der Notiz",
+    "fetchErrorDesc": "Notizdetails konnten nicht geladen werden. Bitte versuche es erneut.",
+    "notFound": "Notiz nicht gefunden",
+    "saveError": "Fehler beim Speichern der Notiz",
+    "saveErrorDesc": "Notiz konnte nicht gespeichert werden. Bitte versuche es erneut.",
+    "deleteError": "Fehler beim Löschen der Notiz",
+    "deleteErrorDesc": "Notiz konnte nicht gelöscht werden. Bitte versuche es erneut.",
+    "error": "Fehler"
   },
   "summary": {
     "save": "Speichern",

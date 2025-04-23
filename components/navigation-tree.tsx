@@ -68,6 +68,16 @@ interface ProcessedTopic {
   }[]
 }
 
+// Type for the create topic response
+interface CreateTopicResponse {
+  id: string
+  title: string
+  user_id: string
+  created_at: string
+  updated_at: string
+  notes: Note[]
+}
+
 export default function NavigationTree() {
   const pathname = usePathname()
   const router = useRouter()
@@ -85,7 +95,7 @@ export default function NavigationTree() {
   const fetchTopics = async () => {
     try {
       // Comment out the actual API call
-      // const response = await fetch("/api/topics");
+      // const response = await fetch("http://localhost:3001/api/topics");
       // if (!response.ok) {
       //   throw new Error("Failed to fetch topics");
       // }
@@ -268,8 +278,10 @@ export default function NavigationTree() {
     setIsCreating(true)
 
     try {
-      // Comment out the actual API call
-      // const response = await fetch("/api/topics", {
+      // BACKEND INTEGRATION: Create a new topic
+      // This should send a POST request to create a new topic with the given title
+      // Example API call:
+      // const response = await fetch("http://localhost:3001/api/topics", {
       //   method: "POST",
       //   headers: {
       //     "Content-Type": "application/json",
@@ -278,15 +290,16 @@ export default function NavigationTree() {
       // });
       //
       // if (!response.ok) {
-      //   throw new Error("Failed to create topic");
+      //   const errorData = await response.json().catch(() => ({}));
+      //   throw new Error(errorData.message || "Failed to create topic");
       // }
       //
-      // const newTopic = await response.json();
+      // const newTopic: CreateTopicResponse = await response.json();
 
-      // Mock the creation of a new topic
+      // Mock the creation of a new topic with the expected response format
       await new Promise((resolve) => setTimeout(resolve, 800)) // Simulate API delay
 
-      const newTopic = {
+      const newTopic: CreateTopicResponse = {
         id: `topic-${Date.now()}`,
         user_id: "user-123",
         title: newTopicName,
@@ -301,15 +314,14 @@ export default function NavigationTree() {
       })
 
       // Update the topics list with the new topic
-      setTopics((prevTopics) => [
-        ...prevTopics,
-        {
-          id: newTopic.id,
-          title: newTopic.title,
-          notes: [],
-          summaries: [],
-        },
-      ])
+      const newProcessedTopic: ProcessedTopic = {
+        id: newTopic.id,
+        title: newTopic.title,
+        notes: [],
+        summaries: [],
+      }
+
+      setTopics((prevTopics) => [...prevTopics, newProcessedTopic])
 
       // Ensure the new topic is expanded
       setExpandedTopics((prev) => ({

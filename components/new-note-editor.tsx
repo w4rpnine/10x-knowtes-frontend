@@ -22,10 +22,19 @@ interface NewNoteEditorProps {
   topicId: string
 }
 
-// Mock data for the topic
-const mockTopics = {
-  "topic-1": { title: "Matematyka" },
-  "topic-2": { title: "Fizyka" },
+interface TopicInfo {
+  id: string
+  title: string
+}
+
+interface NoteResponse {
+  id: string
+  topic_id: string
+  title: string
+  content: string
+  is_summary: boolean
+  created_at: string
+  updated_at: string
 }
 
 export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
@@ -34,37 +43,49 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
-  const [topicTitle, setTopicTitle] = useState("")
+  const [topicInfo, setTopicInfo] = useState<TopicInfo | null>(null)
   const [isCreating, setIsCreating] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const { t } = useTranslation()
 
   useEffect(() => {
-    // BACKEND INTEGRATION: Load topic data for the breadcrumb
-    // This should fetch just the topic title for display in the breadcrumb
-    // Example API call:
-    // async function fetchTopicTitle() {
-    //   try {
-    //     const response = await fetch(`/api/topics/${topicId}/title`);
-    //     const data = await response.json();
-    //     setTopicTitle(data.title);
-    //   } catch (error) {
-    //     console.error('Failed to fetch topic title:', error);
-    //     toast({
-    //       title: "Błąd",
-    //       description: "Nie udało się załadować nazwy tematu",
-    //       variant: "destructive",
-    //     });
-    //   }
-    // }
-    //
-    // fetchTopicTitle();
+    async function fetchTopicInfo() {
+      try {
+        // BACKEND INTEGRATION: Load topic data for the breadcrumb
+        // This should fetch just the topic title for display in the breadcrumb
+        // Example API call:
+        // const response = await fetch(`http://localhost:3001/api/topics/${topicId}/info`);
+        // if (!response.ok) {
+        //   throw new Error('Failed to fetch topic info');
+        // }
+        // const data = await response.json();
+        // setTopicInfo(data);
+        // setIsLoading(false);
 
-    // In a real app, fetch topic data here
-    const mockTopic = mockTopics[topicId as keyof typeof mockTopics]
-    if (mockTopic) {
-      setTopicTitle(mockTopic.title)
+        // Mock topic info
+        const mockTopicInfo: TopicInfo = {
+          id: topicId,
+          title: topicId === "topic-1" ? "Matematyka" : "Fizyka",
+        }
+
+        // Simulate API delay
+        await new Promise((resolve) => setTimeout(resolve, 300))
+
+        setTopicInfo(mockTopicInfo)
+        setIsLoading(false)
+      } catch (error) {
+        console.error("Failed to fetch topic info:", error)
+        toast({
+          title: t("topic.fetchError"),
+          description: t("topic.fetchErrorDesc"),
+          variant: "destructive",
+        })
+        setIsLoading(false)
+      }
     }
-  }, [topicId, toast])
+
+    fetchTopicInfo()
+  }, [topicId, toast, t])
 
   useEffect(() => {
     // Warn before leaving with unsaved changes
@@ -93,7 +114,7 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
   const handleSave = async () => {
     if (!title.trim()) {
       toast({
-        title: "Błąd",
+        title: t("note.error"),
         description: t("note.titleRequired"),
         variant: "destructive",
       })
@@ -106,7 +127,7 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
       // BACKEND INTEGRATION: Create a new note
       // This should send a POST request to create a new note with the given title and content
       // Example API call:
-      // const response = await fetch(`/api/topics/${topicId}/notes`, {
+      // const response = await fetch(`http://localhost:3001/api/topics/${topicId}/notes`, {
       //   method: 'POST',
       //   headers: {
       //     'Content-Type': 'application/json',
@@ -117,18 +138,26 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
       //   }),
       // });
       //
-      // if (!response.ok) throw new Error('Failed to create note');
-      // const newNote = await response.json();
+      // if (!response.ok) {
+      //   const errorData = await response.json().catch(() => ({}));
+      //   throw new Error(errorData.message || 'Failed to create note');
+      // }
+      //
+      // const newNote: NoteResponse = await response.json();
 
-      // In a real app, save note data here
+      // Mock response that matches the expected API response format
+      const mockResponse: NoteResponse = {
+        id: `note-${Date.now()}`,
+        topic_id: topicId,
+        title: title,
+        content: content,
+        is_summary: false,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      }
+
+      // Simulate API delay
       await new Promise((resolve) => setTimeout(resolve, 800))
-
-      // Generate a mock ID for the new note
-      const newNoteId = `note-${Date.now()}`
-
-      // BACKEND INTEGRATION: Reload the navigation tree after creating a note
-      // This should trigger a refresh of the navigation tree component
-      // Example: eventEmitter.emit('refreshNavigationTree');
 
       toast({
         title: t("note.noteCreated"),
@@ -136,10 +165,11 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
       })
 
       // Navigate to the new note
-      router.push(`/topics/${topicId}/notes/${newNoteId}`)
+      router.push(`/topics/${topicId}/notes/${mockResponse.id}`)
     } catch (error) {
+      console.error("Failed to create note:", error)
       toast({
-        title: "Błąd",
+        title: t("note.error"),
         description: t("note.createError"),
         variant: "destructive",
       })
@@ -157,6 +187,22 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
     }
   }
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-8">
+        <div className="text-neon-purple animate-pulse">{t("app.loading")}</div>
+      </div>
+    )
+  }
+
+  if (!topicInfo) {
+    return (
+      <div className="text-center py-8 text-muted-foreground">
+        <p>{t("topic.notFound")}</p>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
@@ -169,7 +215,7 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
                   className="text-neon-yellow glow-text hover:underline cursor-pointer"
                   onClick={handleNavigateToTopic}
                 >
-                  <span>{topicTitle}</span>
+                  <span>{topicInfo.title}</span>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
@@ -188,9 +234,18 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
             {isCreating ? t("navigation.creating") : t("note.save")}
           </Button>
           <Button
-            disabled={true}
+            onClick={() => {
+              setTitle("")
+              setContent("")
+              setHasUnsavedChanges(false)
+              toast({
+                title: t("note.changesDiscarded"),
+                description: t("note.changesDiscardedDesc"),
+              })
+            }}
+            disabled={!hasUnsavedChanges || isCreating}
             variant="outline"
-            className="border-amber-500 text-amber-500/50 hover:bg-amber-500/10 cursor-not-allowed"
+            className="border-amber-500 text-amber-500 hover:bg-amber-500/10"
           >
             <RotateCcw className="mr-2 h-4 w-4" />
             {t("note.discardChanges")}

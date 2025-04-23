@@ -19,21 +19,24 @@ import { useToast } from "@/hooks/use-toast"
 import { useDeleteConfirmation } from "@/hooks/use-delete-confirmation"
 import { useTranslation } from "react-i18next"
 
+interface Note {
+  id: string
+  topic_id: string
+  title: string
+  content: string
+  is_summary: boolean
+  created_at: string
+  updated_at: string
+}
+
+interface TopicInfo {
+  id: string
+  title: string
+}
+
 interface NoteEditorProps {
   topicId: string
   noteId: string
-}
-
-// Mock data
-const mockNote = {
-  id: "note-1",
-  title: "Algebra liniowa",
-  content:
-    "# Algebra liniowa\n\nAlgebra liniowa to dział matematyki zajmujący się badaniem przestrzeni liniowych oraz przekształceń liniowych.\n\n## Macierze\n\nMacierz to prostokątna tablica liczb, symboli lub wyrażeń, uporządkowana w wiersze i kolumny.\n\n## Wektory\n\nWektor to obiekt matematyczny, który ma zarówno wielkość, jak i kierunek.",
-  topicId: "topic-1",
-  topicTitle: "Matematyka",
-  createdAt: "2023-05-10T10:00:00Z",
-  updatedAt: "2023-05-10T10:00:00Z",
 }
 
 export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
@@ -41,50 +44,90 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
   const { toast } = useToast()
   const { showDeleteConfirmation } = useDeleteConfirmation()
   const { t } = useTranslation()
-  const [note, setNote] = useState(mockNote)
+  const [note, setNote] = useState<Note | null>(null)
+  const [topicInfo, setTopicInfo] = useState<TopicInfo | null>(null)
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   // Store original values for discard functionality
   const originalTitle = useRef("")
   const originalContent = useRef("")
 
   useEffect(() => {
-    // BACKEND INTEGRATION: Load note data
-    // This should fetch the note details and the topic title
-    // Example API call:
-    // async function fetchNote() {
-    //   try {
-    //     const response = await fetch(`/api/topics/${topicId}/notes/${noteId}`);
-    //     const data = await response.json();
-    //     setNote(data);
-    //     setTitle(data.title);
-    //     setContent(data.content);
-    //
-    //     // Store original values for discard functionality
-    //     originalTitle.current = data.title;
-    //     originalContent.current = data.content;
-    //   } catch (error) {
-    //     console.error('Failed to fetch note:', error);
-    //     toast({
-    //       title: "Błąd",
-    //       description: "Nie udało się załadować notatki",
-    //       variant: "destructive",
-    //     });
-    //   }
-    // }
-    //
-    // fetchNote();
+    async function fetchNote() {
+      setIsLoading(true)
+      try {
+        // BACKEND INTEGRATION: Load note data
+        // This should fetch the note details
+        // Example API call:
+        // const response = await fetch(`http://localhost:3001/api/notes/${noteId}`);
+        // if (!response.ok) {
+        //   throw new Error("Failed to fetch note");
+        // }
+        // const data = await response.json();
+        // setNote(data);
+        // setTitle(data.title);
+        // setContent(data.content);
+        //
+        // // Store original values for discard functionality
+        // originalTitle.current = data.title;
+        // originalContent.current = data.content;
+        //
+        // // Fetch topic info to get the topic title
+        // const topicResponse = await fetch(`http://localhost:3001/api/topics/${data.topic_id}/info`);
+        // if (!topicResponse.ok) {
+        //   throw new Error("Failed to fetch topic info");
+        // }
+        // const topicData = await topicResponse.json();
+        // setTopicInfo(topicData);
+        // setIsLoading(false);
 
-    // In a real app, fetch note data here
-    setTitle(mockNote.title)
-    setContent(mockNote.content)
+        // Mock data that matches the API response format
+        const mockNote: Note = {
+          id: noteId,
+          topic_id: topicId,
+          title: "Algebra liniowa",
+          content:
+            "# Algebra liniowa\n\nAlgebra liniowa to dział matematyki zajmujący się badaniem przestrzeni liniowych oraz przekształceń liniowych.\n\n## Macierze\n\nMacierz to prostokątna tablica liczb, symboli lub wyrażeń, uporządkowana w wiersze i kolumny.\n\n## Wektory\n\nWektor to obiekt matematyczny, który ma zarówno wielkość, jak i kierunek.",
+          is_summary: false,
+          created_at: "2023-05-10T10:00:00Z",
+          updated_at: "2023-05-10T10:00:00Z",
+        }
 
-    // Store original values
-    originalTitle.current = mockNote.title
-    originalContent.current = mockNote.content
-  }, [noteId, topicId, toast])
+        // Mock topic info
+        const mockTopicInfo: TopicInfo = {
+          id: topicId,
+          title: topicId === "topic-1" ? "Matematyka" : "Fizyka",
+        }
+
+        // Simulate API delay
+        await new Promise((resolve) => setTimeout(resolve, 500))
+
+        setNote(mockNote)
+        setTitle(mockNote.title)
+        setContent(mockNote.content)
+        setTopicInfo(mockTopicInfo)
+
+        // Store original values
+        originalTitle.current = mockNote.title
+        originalContent.current = mockNote.content
+
+        setIsLoading(false)
+      } catch (error) {
+        console.error("Failed to fetch note:", error)
+        toast({
+          title: t("note.fetchError"),
+          description: t("note.fetchErrorDesc"),
+          variant: "destructive",
+        })
+        setIsLoading(false)
+      }
+    }
+
+    fetchNote()
+  }, [noteId, topicId, toast, t])
 
   useEffect(() => {
     // Warn before leaving with unsaved changes
@@ -111,11 +154,20 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
   }
 
   const handleSave = async () => {
+    if (!title.trim()) {
+      toast({
+        title: t("note.error"),
+        description: t("note.titleRequired"),
+        variant: "destructive",
+      })
+      return
+    }
+
     try {
       // BACKEND INTEGRATION: Save note changes
       // This should send a PATCH/PUT request to update the note title and content
       // Example API call:
-      // const response = await fetch(`/api/topics/${topicId}/notes/${noteId}`, {
+      // const response = await fetch(`http://localhost:3001/api/notes/${noteId}`, {
       //   method: 'PATCH',
       //   headers: {
       //     'Content-Type': 'application/json',
@@ -128,16 +180,20 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
       //
       // if (!response.ok) throw new Error('Failed to save note');
       // const updatedNote = await response.json();
+      // setNote(updatedNote);
 
       // In a real app, save note data here
       await new Promise((resolve) => setTimeout(resolve, 500))
 
-      // BACKEND INTEGRATION: Reload the navigation tree if title changed
-      // If the title changed, we need to refresh the navigation tree
-      // Example:
-      // if (originalTitle.current !== title) {
-      //   eventEmitter.emit('refreshNavigationTree');
-      // }
+      // Update the note in state
+      if (note) {
+        setNote({
+          ...note,
+          title,
+          content,
+          updated_at: new Date().toISOString(),
+        })
+      }
 
       setHasUnsavedChanges(false)
 
@@ -151,8 +207,8 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
       })
     } catch (error) {
       toast({
-        title: "Błąd",
-        description: "Nie udało się zapisać notatki",
+        title: t("note.saveError"),
+        description: t("note.saveErrorDesc"),
         variant: "destructive",
       })
     }
@@ -179,27 +235,23 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
         // This should send a DELETE request to remove the note
         // Example API call:
         // try {
-        //   const response = await fetch(`/api/topics/${topicId}/notes/${noteId}`, {
+        //   const response = await fetch(`http://localhost:3001/api/notes/${noteId}`, {
         //     method: 'DELETE',
         //   });
         //
         //   if (!response.ok) throw new Error('Failed to delete note');
         //
-        //   // BACKEND INTEGRATION: Reload the navigation tree after deleting note
-        //   // This should trigger a refresh of the navigation tree component
-        //   // Example: eventEmitter.emit('refreshNavigationTree');
-        //
         //   toast({
-        //     title: "Notatka usunięta",
-        //     description: "Notatka została pomyślnie usunięta",
+        //     title: t("note.noteDeleted"),
+        //     description: t("note.noteDeletedDesc"),
         //   });
         //
         //   router.push(`/topics/${topicId}`);
         // } catch (error) {
         //   console.error('Failed to delete note:', error);
         //   toast({
-        //     title: "Błąd",
-        //     description: "Nie udało się usunąć notatki",
+        //     title: t("note.deleteError"),
+        //     description: t("note.deleteErrorDesc"),
         //     variant: "destructive",
         //   });
         // }
@@ -224,6 +276,22 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
     }
   }
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-8">
+        <div className="text-neon-purple animate-pulse">{t("app.loading")}</div>
+      </div>
+    )
+  }
+
+  if (!note || !topicInfo) {
+    return (
+      <div className="text-center py-8 text-muted-foreground">
+        <p>{t("note.notFound")}</p>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
@@ -236,7 +304,7 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
                   className="text-neon-yellow glow-text hover:underline cursor-pointer"
                   onClick={handleNavigateToTopic}
                 >
-                  <span>{note.topicTitle}</span>
+                  <span>{topicInfo.title}</span>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />

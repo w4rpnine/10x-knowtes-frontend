@@ -127,7 +127,17 @@
     "topicDeletedDesc": "The topic has been successfully deleted.",
     "nameChanged": "Name changed",
     "nameChangedDesc": "The topic name has been changed to \"{title}\".",
-    "noNotesYet": "This topic doesn't contain any notes or summaries yet. Click \"New note\" to add your first note."
+    "noNotesYet": "This topic doesn't contain any notes or summaries yet. Click \"New note\" to add your first note.",
+    "fetchError": "Error loading topic",
+    "fetchErrorDesc": "Failed to load topic details. Please try again.",
+    "notFound": "Topic not found",
+    "updateError": "Error updating topic",
+    "updateErrorDesc": "Failed to update topic. Please try again.",
+    "deleteError": "Error deleting topic",
+    "deleteErrorDesc": "Failed to delete topic. Please try again.",
+    "generateError": "Error generating summary",
+    "generateErrorDesc": "Failed to generate summary. Please try again.",
+    "generatingSummary": "Generating summary..."
   },
   "note": {
     "save": "Save",
@@ -147,7 +157,15 @@
     "titleRequired": "Note title cannot be empty.",
     "noteCreated": "Note created",
     "noteCreatedDesc": "The note has been successfully created.",
-    "createError": "Failed to create note."
+    "createError": "Failed to create note.",
+    "fetchError": "Error loading note",
+    "fetchErrorDesc": "Failed to load note details. Please try again.",
+    "notFound": "Note not found",
+    "saveError": "Error saving note",
+    "saveErrorDesc": "Failed to save note. Please try again.",
+    "deleteError": "Error deleting note",
+    "deleteErrorDesc": "Failed to delete note. Please try again.",
+    "error": "Error"
   },
   "summary": {
     "save": "Save",
