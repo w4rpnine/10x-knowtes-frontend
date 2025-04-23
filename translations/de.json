@@ -189,7 +189,9 @@
     "summaryDeleted": "Zusammenfassung gelöscht",
     "summaryDeletedDesc": "Die Zusammenfassung wurde erfolgreich gelöscht.",
     "deleteError": "Fehler beim Löschen der Zusammenfassung",
-    "deleteErrorDesc": "Zusammenfassung konnte nicht gelöscht werden. Bitte versuchen Sie es erneut."
+    "deleteErrorDesc": "Zusammenfassung konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.",
+    "cannotDismiss": "Aktion erforderlich",
+    "useButtonsToClose": "Bitte verwenden Sie die Schaltflächen Akzeptieren oder Ablehnen, um mit der Zusammenfassung fortzufahren."
   },
   "account": {
     "title": "Benutzerkonto",

@@ -12,7 +12,7 @@ import {
   BreadcrumbSeparator,
   BreadcrumbLink,
 } from "@/components/ui/breadcrumb"
-import { Copy, Trash2 } from "lucide-react"
+import { Trash2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useTranslation } from "react-i18next"
 import { useDeleteConfirmation } from "@/hooks/use-delete-confirmation"

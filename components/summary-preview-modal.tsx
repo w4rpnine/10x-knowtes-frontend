@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -113,9 +115,48 @@ export default function SummaryPreviewModal({
     }
   }
 
+  // Function to handle outside clicks - prevent closing
+  const handleOutsideClick = (event: React.MouseEvent) => {
+    event.preventDefault()
+    // Show a toast to inform the user they need to use the buttons
+    toast({
+      title: t("summary.cannotDismiss"),
+      description: t("summary.useButtonsToClose"),
+      variant: "destructive",
+    })
+  }
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[800px] max-h-[90vh] bg-black/80 border-neon-purple/30 backdrop-blur-sm overflow-y-auto">
+    <Dialog
+      open={open}
+      onOpenChange={(newOpen) => {
+        // Only allow closing the dialog if it's being opened or if isProcessing is false
+        if (newOpen || !isProcessing) {
+          onOpenChange(newOpen)
+        }
+      }}
+    >
+      <DialogContent
+        className="sm:max-w-[800px] max-h-[90vh] bg-black/80 border-neon-purple/30 backdrop-blur-sm overflow-y-auto"
+        onPointerDownOutside={(e) => {
+          // Prevent closing when clicking outside
+          e.preventDefault()
+          // Show a toast to inform the user
+          toast({
+            title: t("summary.cannotDismiss"),
+            description: t("summary.useButtonsToClose"),
+          })
+        }}
+        onEscapeKeyDown={(e) => {
+          // Prevent closing when pressing Escape
+          e.preventDefault()
+          // Show a toast to inform the user
+          toast({
+            title: t("summary.cannotDismiss"),
+            description: t("summary.useButtonsToClose"),
+          })
+        }}
+      >
         <DialogHeader>
           <DialogTitle className="text-neon-purple glow-text">{t("summary.previewTitle")}</DialogTitle>
           <DialogDescription>{t("summary.previewDescription")}</DialogDescription>

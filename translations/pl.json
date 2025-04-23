@@ -189,7 +189,9 @@
     "summaryDeleted": "Podsumowanie usunięte",
     "summaryDeletedDesc": "Podsumowanie zostało pomyślnie usunięte.",
     "deleteError": "Błąd usuwania podsumowania",
-    "deleteErrorDesc": "Nie udało się usunąć podsumowania. Spróbuj ponownie."
+    "deleteErrorDesc": "Nie udało się usunąć podsumowania. Spróbuj ponownie.",
+    "cannotDismiss": "Wymagana akcja",
+    "useButtonsToClose": "Użyj przycisków Akceptuj lub Odrzuć, aby kontynuować."
   },
   "account": {
     "title": "Konto użytkownika",
