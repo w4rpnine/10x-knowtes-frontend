@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -90,10 +90,30 @@ export default function NavigationTree() {
   const [topics, setTopics] = useState<ProcessedTopic[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isRefreshing, setIsRefreshing] = useState(false)
+  const lastRefreshTimeRef = useRef<number>(0)
+  const currentPathRef = useRef<string | null>(null)
+
+  // Update currentPathRef when pathname changes
+  useEffect(() => {
+    if (pathname) {
+      currentPathRef.current = pathname
+      console.log("Current path updated:", pathname)
+    }
+  }, [pathname])
 
   // Replace the fetchTopics function with real API call
-  const fetchTopics = async () => {
+  const fetchTopics = async (force = false) => {
+    // Prevent excessive API calls by checking the last refresh time
+    const now = Date.now()
+    if (!force && now - lastRefreshTimeRef.current < 1000) {
+      console.log("Skipping fetch, too soon since last refresh")
+      return true
+    }
+
+    lastRefreshTimeRef.current = now
+
     try {
+      console.log("Fetching topics...")
       const response = await fetch("http://localhost:3001/api/topics")
       if (!response.ok) {
         throw new Error("Failed to fetch topics")
@@ -122,6 +142,7 @@ export default function NavigationTree() {
       })
 
       setTopics(processedTopics)
+      console.log("Topics fetched:", processedTopics)
 
       // Initialize expanded state for all topics
       // Only do this on the initial load, not on refresh to preserve expanded state
@@ -131,6 +152,18 @@ export default function NavigationTree() {
           expandedState[topic.id] = true // Default to expanded
         })
         setExpandedTopics(expandedState)
+      }
+
+      // Auto-expand topic based on current path
+      if (currentPathRef.current) {
+        const match = currentPathRef.current.match(/\/topics\/([^/]+)/)
+        if (match && match[1]) {
+          const topicId = match[1]
+          setExpandedTopics((prev) => ({
+            ...prev,
+            [topicId]: true,
+          }))
+        }
       }
 
       return true
@@ -149,18 +182,19 @@ export default function NavigationTree() {
   useEffect(() => {
     async function initialLoad() {
       setIsLoading(true)
-      await fetchTopics()
+      await fetchTopics(true)
       setIsLoading(false)
     }
 
     initialLoad()
-  }, [toast, t])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Only run on mount
 
   // Listen for refresh tree event
   useEffect(() => {
     const handleRefreshTree = () => {
       console.log("Refreshing tree panel due to event")
-      fetchTopics()
+      fetchTopics(true)
     }
 
     // Add event listener
@@ -170,28 +204,13 @@ export default function NavigationTree() {
     return () => {
       window.removeEventListener("refreshTreePanel", handleRefreshTree)
     }
-  }, [])
-
-  // Auto-expand topics based on current path
-  useEffect(() => {
-    if (pathname && topics.length > 0) {
-      // Extract topicId from the pathname
-      const match = pathname.match(/\/topics\/([^/]+)/)
-      if (match && match[1]) {
-        const topicId = match[1]
-        // Ensure the topic is expanded
-        setExpandedTopics((prev) => ({
-          ...prev,
-          [topicId]: true,
-        }))
-      }
-    }
-  }, [pathname, topics])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Only run on mount
 
   // Handle manual refresh
   const handleRefresh = async () => {
     setIsRefreshing(true)
-    const success = await fetchTopics()
+    const success = await fetchTopics(true)
     setIsRefreshing(false)
 
     if (success) {
@@ -226,7 +245,11 @@ export default function NavigationTree() {
 
   // Helper function to check if a summary is active based on the current pathname
   const isSummaryActive = (topicId: string, summaryId: string) => {
-    return pathname === `/topics/${topicId}/summary/${summaryId}`
+    const isActive = pathname === `/topics/${topicId}/summary/${summaryId}`
+    if (isActive) {
+      console.log(`Summary active: ${topicId}/summary/${summaryId}`)
+    }
+    return isActive
   }
 
   // Replace the handleCreateTopic function with real API call
@@ -435,24 +458,23 @@ export default function NavigationTree() {
                       </Link>
                     ))}
 
-                    {topic.summaries.map((summary) => (
-                      <Link key={summary.id} href={`/topics/${topic.id}/summary/${summary.id}`}>
-                        <div
-                          className={cn(
-                            "flex items-center p-2 rounded-md hover:bg-black/30 transition-colors",
-                            isSummaryActive(topic.id, summary.id) &&
-                              "bg-black/40 border-l-2 border-neon-purple shadow-[0_0_8px_rgba(128,0,255,0.15)] pl-[6px]",
-                          )}
-                        >
-                          <FileDown className="mr-2 h-4 w-4 summary-icon" />
-                          <span
-                            className={cn("text-neon-purple", isSummaryActive(topic.id, summary.id) && "glow-text")}
+                    {topic.summaries.map((summary) => {
+                      const active = isSummaryActive(topic.id, summary.id)
+                      return (
+                        <Link key={summary.id} href={`/topics/${topic.id}/summary/${summary.id}`}>
+                          <div
+                            className={cn(
+                              "flex items-center p-2 rounded-md hover:bg-black/30 transition-colors",
+                              active &&
+                                "bg-black/40 border-l-2 border-neon-purple shadow-[0_0_8px_rgba(128,0,255,0.15)] pl-[6px]",
+                            )}
                           >
-                            {summary.title}
-                          </span>
-                        </div>
-                      </Link>
-                    ))}
+                            <FileDown className="mr-2 h-4 w-4 summary-icon" />
+                            <span className={cn("text-neon-purple", active && "glow-text")}>{summary.title}</span>
+                          </div>
+                        </Link>
+                      )
+                    })}
 
                     {topic.notes.length === 0 && topic.summaries.length === 0 && (
                       <div className="p-2 text-sm text-muted-foreground">{t("navigation.noNotes")}</div>

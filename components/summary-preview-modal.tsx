@@ -1,8 +1,6 @@
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -42,9 +40,22 @@ export default function SummaryPreviewModal({
   const [content, setContent] = useState(initialContent)
   const [isProcessing, setIsProcessing] = useState(false)
 
+  // Debug logging
+  useEffect(() => {
+    if (open) {
+      console.log("Summary preview modal opened with:", {
+        summary_stat_id,
+        topicId,
+        initialTitle,
+      })
+    }
+  }, [open, summary_stat_id, topicId, initialTitle])
+
   const handleAccept = async () => {
     setIsProcessing(true)
     try {
+      console.log(`Accepting summary with ID: ${summary_stat_id} for topic: ${topicId}`)
+
       const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries/${summary_stat_id}/accept`, {
         method: "PUT",
         headers: {
@@ -58,6 +69,10 @@ export default function SummaryPreviewModal({
       }
 
       const data = await response.json()
+      console.log("Accept summary response:", data)
+
+      // Close the modal first
+      onOpenChange(false)
 
       // Dispatch event to refresh the tree panel
       const refreshTreeEvent = new Event("refreshTreePanel")
@@ -68,11 +83,13 @@ export default function SummaryPreviewModal({
         description: t("summary.summaryAcceptedDesc"),
       })
 
-      // Close the modal
-      onOpenChange(false)
-
-      // Navigate to the summary view with the note ID from the response
-      router.push(`/topics/${topicId}/summary/${data.noteId}`)
+      // Wait a moment for the tree to refresh before navigating
+      setTimeout(() => {
+        // Navigate to the summary view with the note ID from the response
+        const summaryPath = `/topics/${topicId}/summary/${data.noteId}`
+        console.log(`Navigating to: ${summaryPath}`)
+        router.push(summaryPath)
+      }, 100)
     } catch (error) {
       console.error("Failed to accept summary:", error)
       toast({
@@ -113,17 +130,6 @@ export default function SummaryPreviewModal({
     } finally {
       setIsProcessing(false)
     }
-  }
-
-  // Function to handle outside clicks - prevent closing
-  const handleOutsideClick = (event: React.MouseEvent) => {
-    event.preventDefault()
-    // Show a toast to inform the user they need to use the buttons
-    toast({
-      title: t("summary.cannotDismiss"),
-      description: t("summary.useButtonsToClose"),
-      variant: "destructive",
-    })
   }
 
   return (
