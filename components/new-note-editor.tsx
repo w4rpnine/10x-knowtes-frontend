@@ -14,7 +14,7 @@ import {
   BreadcrumbSeparator,
   BreadcrumbLink,
 } from "@/components/ui/breadcrumb"
-import { Save, RotateCcw } from "lucide-react"
+import { Save, X } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useTranslation } from "react-i18next"
 
@@ -42,7 +42,6 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
   const { toast } = useToast()
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
   const [topicInfo, setTopicInfo] = useState<TopicInfo | null>(null)
   const [isCreating, setIsCreating] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -87,28 +86,16 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
     fetchTopicInfo()
   }, [topicId, toast, t])
 
-  useEffect(() => {
-    // Warn before leaving with unsaved changes
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (hasUnsavedChanges) {
-        e.preventDefault()
-        e.returnValue = ""
-        return ""
-      }
-    }
-
-    window.addEventListener("beforeunload", handleBeforeUnload)
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload)
-  }, [hasUnsavedChanges])
-
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value)
-    setHasUnsavedChanges(true)
   }
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value)
-    setHasUnsavedChanges(true)
+  }
+
+  const handleCancel = () => {
+    router.push(`/topics/${topicId}`)
   }
 
   const handleSave = async () => {
@@ -125,8 +112,6 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
 
     try {
       // BACKEND INTEGRATION: Create a new note
-      // This should send a POST request to create a new note with the given title and content
-      // Example API call:
       // const response = await fetch(`http://localhost:3001/api/topics/${topicId}/notes`, {
       //   method: 'POST',
       //   headers: {
@@ -144,6 +129,18 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
       // }
       //
       // const newNote: NoteResponse = await response.json();
+      //
+      // // Show success notification
+      // toast({
+      //   title: t("note.noteCreated"),
+      //   description: t("note.noteCreatedDesc"),
+      // });
+      //
+      // // Navigate to the new note
+      // router.push(`/topics/${topicId}/notes/${newNote.id}`);
+
+      // Mock API call with a delay
+      await new Promise((resolve) => setTimeout(resolve, 800))
 
       // Mock response that matches the expected API response format
       const mockResponse: NoteResponse = {
@@ -156,9 +153,7 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
         updated_at: new Date().toISOString(),
       }
 
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 800))
-
+      // Show success notification
       toast({
         title: t("note.noteCreated"),
         description: t("note.noteCreatedDesc"),
@@ -174,16 +169,6 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
         variant: "destructive",
       })
       setIsCreating(false)
-    }
-  }
-
-  const handleNavigateToTopic = () => {
-    if (hasUnsavedChanges) {
-      if (confirm(t("note.unsavedChanges"))) {
-        router.push(`/topics/${topicId}`)
-      }
-    } else {
-      router.push(`/topics/${topicId}`)
     }
   }
 
@@ -213,7 +198,7 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
                 <BreadcrumbLink
                   asChild
                   className="text-neon-yellow glow-text hover:underline cursor-pointer"
-                  onClick={handleNavigateToTopic}
+                  onClick={handleCancel}
                 >
                   <span>{topicInfo.title}</span>
                 </BreadcrumbLink>
@@ -234,21 +219,13 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
             {isCreating ? t("navigation.creating") : t("note.save")}
           </Button>
           <Button
-            onClick={() => {
-              setTitle("")
-              setContent("")
-              setHasUnsavedChanges(false)
-              toast({
-                title: t("note.changesDiscarded"),
-                description: t("note.changesDiscardedDesc"),
-              })
-            }}
-            disabled={!hasUnsavedChanges || isCreating}
+            onClick={handleCancel}
+            disabled={isCreating}
             variant="outline"
-            className="border-amber-500 text-amber-500 hover:bg-amber-500/10"
+            className="border-muted-foreground text-muted-foreground hover:bg-muted/10"
           >
-            <RotateCcw className="mr-2 h-4 w-4" />
-            {t("note.discardChanges")}
+            <X className="mr-2 h-4 w-4" />
+            {t("navigation.cancel")}
           </Button>
         </div>
       </div>
