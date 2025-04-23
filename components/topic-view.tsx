@@ -119,34 +119,40 @@ export default function TopicView({ topicId }: TopicViewProps) {
     router.push(`/topics/${topicId}/notes/new`)
   }
 
-  const handleGenerateSummary = () => {
-    // BACKEND INTEGRATION: Generate summary for the topic
-    // This should send a POST request to generate a summary for all notes in the topic
-    // Example API call:
-    // async function generateSummary() {
-    //   try {
-    //     const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summary`, {
-    //       method: 'POST',
-    //     });
-    //
-    //     if (!response.ok) throw new Error('Failed to generate summary');
-    //     const summary = await response.json();
-    //
-    //     // Navigate to the new summary
-    //     router.push(`/topics/${topicId}/summary/${summary.id}`);
-    //   } catch (error) {
-    //     console.error('Failed to generate summary:', error);
-    //     toast({
-    //       title: t("topic.generateError"),
-    //       description: t("topic.generateErrorDesc"),
-    //       variant: "destructive",
-    //     });
-    //   }
-    // }
-    //
-    // generateSummary();
+  const handleGenerateSummary = async () => {
+    try {
+      // Make the POST request to generate a summary
+      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summary`, {
+        method: "POST",
+      })
 
-    alert(t("topic.generatingSummary"))
+      if (!response.ok) {
+        throw new Error("Failed to generate summary")
+      }
+
+      // Parse the response
+      const data = await response.json()
+
+      // Dispatch event to refresh the tree panel
+      const refreshTreeEvent = new Event("refreshTreePanel")
+      window.dispatchEvent(refreshTreeEvent)
+
+      // Show a success toast
+      toast({
+        title: t("topic.summaryGenerated"),
+        description: t("topic.summaryGeneratedDesc"),
+      })
+
+      // Navigate to the summary view with the note ID from the response
+      router.push(`/topics/${topicId}/summary/${data.note_id}`)
+    } catch (error) {
+      console.error("Failed to generate summary:", error)
+      toast({
+        title: t("topic.generateError"),
+        description: t("topic.generateErrorDesc"),
+        variant: "destructive",
+      })
+    }
   }
 
   const handleEditTitle = () => {
@@ -381,6 +387,7 @@ export default function TopicView({ topicId }: TopicViewProps) {
             onClick={handleGenerateSummary}
             variant="outline"
             className="border-neon-purple text-neon-purple hover:bg-neon-purple/10"
+            disabled={regularNotes.length === 0}
           >
             <FileDown className="mr-2 h-4 w-4" />
             {t("topic.generateSummary")}

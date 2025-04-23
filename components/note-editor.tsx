@@ -222,7 +222,7 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
   const handleDeleteNote = () => {
     showDeleteConfirmation({
       title: t("note.deleteNote"),
-      description: t("note.deleteNoteConfirm", { title }),
+      description: t("note.deleteNoteConfirm", { title: title }),
       onConfirm: async () => {
         try {
           // BACKEND INTEGRATION: Delete note
