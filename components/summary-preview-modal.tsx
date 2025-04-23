@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -42,15 +42,25 @@ export default function SummaryPreviewModal({
   const [content, setContent] = useState(initialContent)
   const [isProcessing, setIsProcessing] = useState(false)
 
+  // Log the summaryUuid for debugging
+  useEffect(() => {
+    console.log("SummaryPreviewModal - summaryUuid:", summaryUuid)
+  }, [summaryUuid])
+
   const handleAccept = async () => {
     setIsProcessing(true)
     try {
-      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries/${summaryUuid}/accept`, {
+      // Check if summaryUuid is defined
+      if (!summaryUuid) {
+        throw new Error("Summary ID is undefined")
+      }
+
+      const response = await fetch(`http://localhost:3001/api/summaries/${summaryUuid}/accept`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, content }),
+        body: JSON.stringify({ title, content, topicId }),
       })
 
       if (!response.ok) {
@@ -77,7 +87,7 @@ export default function SummaryPreviewModal({
       console.error("Failed to accept summary:", error)
       toast({
         title: t("summary.error"),
-        description: t("summary.acceptError"),
+        description: t("summary.acceptError") + (error instanceof Error ? `: ${error.message}` : ""),
         variant: "destructive",
       })
     } finally {
@@ -88,8 +98,17 @@ export default function SummaryPreviewModal({
   const handleReject = async () => {
     setIsProcessing(true)
     try {
-      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries/${summaryUuid}/reject`, {
+      // Check if summaryUuid is defined
+      if (!summaryUuid) {
+        throw new Error("Summary ID is undefined")
+      }
+
+      const response = await fetch(`http://localhost:3001/api/summaries/${summaryUuid}/reject`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ topicId }),
       })
 
       if (!response.ok) {
@@ -107,7 +126,7 @@ export default function SummaryPreviewModal({
       console.error("Failed to reject summary:", error)
       toast({
         title: t("summary.error"),
-        description: t("summary.rejectError"),
+        description: t("summary.rejectError") + (error instanceof Error ? `: ${error.message}` : ""),
         variant: "destructive",
       })
     } finally {
