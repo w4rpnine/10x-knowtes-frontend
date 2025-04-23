@@ -35,7 +35,7 @@ interface TopicViewProps {
 }
 
 interface SummaryResponse {
-  summary_uuid: string
+  summary_stat_id: string
   title: string
   content: string
 }
@@ -383,7 +383,7 @@ export default function TopicView({ topicId }: TopicViewProps) {
         <SummaryPreviewModal
           open={summaryPreviewOpen}
           onOpenChange={setSummaryPreviewOpen}
-          summaryUuid={summaryData.summary_uuid}
+          summaryUuid={summaryData.summary_stat_id}
           initialTitle={summaryData.title}
           initialContent={summaryData.content}
           topicId={topicId}

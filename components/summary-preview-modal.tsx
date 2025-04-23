@@ -21,7 +21,7 @@ import { useTranslation } from "react-i18next"
 interface SummaryPreviewModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  summaryUuid: string
+  summary_stat_id: string
   initialTitle: string
   initialContent: string
   topicId: string
@@ -30,7 +30,7 @@ interface SummaryPreviewModalProps {
 export default function SummaryPreviewModal({
   open,
   onOpenChange,
-  summaryUuid,
+  summary_stat_id,
   initialTitle,
   initialContent,
   topicId,
@@ -45,8 +45,8 @@ export default function SummaryPreviewModal({
   const handleAccept = async () => {
     setIsProcessing(true)
     try {
-      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries/${summaryUuid}/accept`, {
-        method: "POST",
+      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries/${summary_stat_id}/accept`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -88,8 +88,8 @@ export default function SummaryPreviewModal({
   const handleReject = async () => {
     setIsProcessing(true)
     try {
-      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries/${summaryUuid}/reject`, {
-        method: "POST",
+      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries/${summary_stat_id}/reject`, {
+        method: "PUT",
       })
 
       if (!response.ok) {
