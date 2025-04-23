@@ -45,7 +45,7 @@ export default function SummaryPreviewModal({
   const handleAccept = async () => {
     setIsProcessing(true)
     try {
-      const response = await fetch(`http://localhost:3001/api/summaries/${summaryUuid}/accept`, {
+      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries/${summaryUuid}/accept`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +88,7 @@ export default function SummaryPreviewModal({
   const handleReject = async () => {
     setIsProcessing(true)
     try {
-      const response = await fetch(`http://localhost:3001/api/summaries/${summaryUuid}/reject`, {
+      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries/${summaryUuid}/reject`, {
         method: "POST",
       })
 

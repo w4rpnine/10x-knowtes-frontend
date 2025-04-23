@@ -89,7 +89,7 @@ export default function TopicView({ topicId }: TopicViewProps) {
     setIsGeneratingSummary(true)
     try {
       // Make the POST request to generate a summary
-      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summary`, {
+      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries`, {
         method: "POST",
       })
 
