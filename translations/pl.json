@@ -168,9 +168,16 @@
     "error": "Błąd"
   },
   "summary": {
-    "save": "Zapisz",
+    "previewTitle": "Podgląd podsumowania",
+    "previewDescription": "Przejrzyj wygenerowane podsumowanie przed zaakceptowaniem lub odrzuceniem.",
+    "titleLabel": "Tytuł podsumowania",
+    "contentLabel": "Treść podsumowania",
+    "accept": "Akceptuj",
     "reject": "Odrzuć",
-    "copy": "Kopiuj",
+    "processing": "Przetwarzanie...",
+    "error": "Błąd",
+    "acceptError": "Nie udało się zaakceptować podsumowania. Spróbuj ponownie.",
+    "rejectError": "Nie udało się odrzucić podsumowania. Spróbuj ponownie.",
     "summaryAccepted": "Podsumowanie zaakceptowane",
     "summaryAcceptedDesc": "Podsumowanie zostało zapisane w twoich notatkach.",
     "summaryRejected": "Podsumowanie odrzucone",

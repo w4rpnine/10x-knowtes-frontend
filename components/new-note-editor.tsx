@@ -53,27 +53,12 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
   useEffect(() => {
     async function fetchTopicInfo() {
       try {
-        // BACKEND INTEGRATION: Load topic data for the breadcrumb
-        // This should fetch just the topic title for display in the breadcrumb
-        // Example API call:
-        // const response = await fetch(`http://localhost:3001/api/topics/${topicId}/info`);
-        // if (!response.ok) {
-        //   throw new Error('Failed to fetch topic info');
-        // }
-        // const data = await response.json();
-        // setTopicInfo(data);
-        // setIsLoading(false);
-
-        // Mock topic info
-        const mockTopicInfo: TopicInfo = {
-          id: topicId,
-          title: topicId === "topic-1" ? "Matematyka" : "Fizyka",
+        const response = await fetch(`http://localhost:3001/api/topics/${topicId}/info`)
+        if (!response.ok) {
+          throw new Error("Failed to fetch topic info")
         }
-
-        // Simulate API delay
-        await new Promise((resolve) => setTimeout(resolve, 300))
-
-        setTopicInfo(mockTopicInfo)
+        const data = await response.json()
+        setTopicInfo(data)
         setIsLoading(false)
       } catch (error) {
         console.error("Failed to fetch topic info:", error)
@@ -114,50 +99,23 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
     setIsCreating(true)
 
     try {
-      // BACKEND INTEGRATION: Create a new note
-      // const response = await fetch(`http://localhost:3001/api/topics/${topicId}/notes`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     title: title,
-      //     content: content
-      //   }),
-      // });
-      //
-      // if (!response.ok) {
-      //   const errorData = await response.json().catch(() => ({}));
-      //   throw new Error(errorData.message || 'Failed to create note');
-      // }
-      //
-      // const newNote: NoteResponse = await response.json();
-      //
-      // // Dispatch event to refresh the tree panel
-      // window.dispatchEvent(refreshTreeEvent);
-      //
-      // // Show success notification
-      // toast({
-      //   title: t("note.noteCreated"),
-      //   description: t("note.noteCreatedDesc"),
-      // });
-      //
-      // // Navigate to the new note
-      // router.push(`/topics/${topicId}/notes/${newNote.id}`);
+      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/notes`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: title,
+          content: content,
+        }),
+      })
 
-      // Mock API call with a delay
-      await new Promise((resolve) => setTimeout(resolve, 800))
-
-      // Mock response that matches the expected API response format
-      const mockResponse: NoteResponse = {
-        id: `note-${Date.now()}`,
-        topic_id: topicId,
-        title: title,
-        content: content,
-        is_summary: false,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.message || "Failed to create note")
       }
+
+      const newNote: NoteResponse = await response.json()
 
       // Dispatch event to refresh the tree panel
       window.dispatchEvent(refreshTreeEvent)
@@ -169,7 +127,7 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
       })
 
       // Navigate to the new note
-      router.push(`/topics/${topicId}/notes/${mockResponse.id}`)
+      router.push(`/topics/${topicId}/notes/${newNote.id}`)
     } catch (error) {
       console.error("Failed to create note:", error)
       toast({

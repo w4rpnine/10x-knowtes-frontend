@@ -168,9 +168,16 @@
     "error": "Error"
   },
   "summary": {
-    "save": "Save",
+    "previewTitle": "Summary Preview",
+    "previewDescription": "Review the generated summary before accepting or rejecting it.",
+    "titleLabel": "Summary Title",
+    "contentLabel": "Summary Content",
+    "accept": "Accept",
     "reject": "Reject",
-    "copy": "Copy",
+    "processing": "Processing...",
+    "error": "Error",
+    "acceptError": "Failed to accept summary. Please try again.",
+    "rejectError": "Failed to reject summary. Please try again.",
     "summaryAccepted": "Summary accepted",
     "summaryAcceptedDesc": "The summary has been saved to your notes.",
     "summaryRejected": "Summary rejected",

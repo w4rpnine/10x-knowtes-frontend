@@ -40,44 +40,38 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
   const { t } = useTranslation()
 
   useEffect(() => {
-    // BACKEND INTEGRATION: Load summary data
-    // This should fetch the summary details and the topic title
-    // Example API call:
-    // async function fetchSummary() {
-    //   try {
-    //     const response = await fetch(`/api/topics/${topicId}/summaries/${summaryId}`);
-    //     const data = await response.json();
-    //     setSummary(data);
-    //   } catch (error) {
-    //     console.error('Failed to fetch summary:', error);
-    //     toast({
-    //       title: "Błąd",
-    //       description: "Nie udało się załadować podsumowania",
-    //       variant: "destructive",
-    //     });
-    //   }
-    // }
-    //
-    // fetchSummary();
+    async function fetchSummary() {
+      try {
+        const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries/${summaryId}`)
+        if (!response.ok) {
+          throw new Error("Failed to fetch summary")
+        }
+        const data = await response.json()
+        setSummary(data)
+      } catch (error) {
+        console.error("Failed to fetch summary:", error)
+        toast({
+          title: "Błąd",
+          description: "Nie udało się załadować podsumowania",
+          variant: "destructive",
+        })
+      }
+    }
+
+    fetchSummary()
   }, [summaryId, topicId, toast])
 
   const handleAccept = async () => {
     try {
-      // BACKEND INTEGRATION: Accept summary
-      // This should send a PATCH request to update the summary status to 'accepted'
-      // Example API call:
-      // const response = await fetch(`/api/topics/${topicId}/summaries/${summaryId}`, {
-      //   method: 'PATCH',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ status: 'accepted' }),
-      // });
-      //
-      // if (!response.ok) throw new Error('Failed to accept summary');
+      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries/${summaryId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: "accepted" }),
+      })
 
-      // In a real app, save acceptance status here
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      if (!response.ok) throw new Error("Failed to accept summary")
 
       toast({
         title: t("summary.summaryAccepted"),
@@ -95,21 +89,15 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
 
   const handleReject = async () => {
     try {
-      // BACKEND INTEGRATION: Reject summary
-      // This should send a PATCH request to update the summary status to 'rejected'
-      // Example API call:
-      // const response = await fetch(`/api/topics/${topicId}/summaries/${summaryId}`, {
-      //   method: 'PATCH',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ status: 'rejected' }),
-      // });
-      //
-      // if (!response.ok) throw new Error('Failed to reject summary');
+      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries/${summaryId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: "rejected" }),
+      })
 
-      // In a real app, save rejection status here
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      if (!response.ok) throw new Error("Failed to reject summary")
 
       toast({
         title: t("summary.summaryRejected"),

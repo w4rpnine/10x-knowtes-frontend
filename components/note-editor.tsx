@@ -55,77 +55,43 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
   const originalTitle = useRef("")
   const originalContent = useRef("")
 
-  useEffect(() => {
-    async function fetchNote() {
-      setIsLoading(true)
-      try {
-        // BACKEND INTEGRATION: Load note data
-        // This should fetch the note details
-        // Example API call:
-        // const response = await fetch(`http://localhost:3001/api/notes/${noteId}`);
-        // if (!response.ok) {
-        //   throw new Error("Failed to fetch note");
-        // }
-        // const data = await response.json();
-        // setNote(data);
-        // setTitle(data.title);
-        // setContent(data.content);
-        //
-        // // Store original values for discard functionality
-        // originalTitle.current = data.title;
-        // originalContent.current = data.content;
-        //
-        // // Fetch topic info to get the topic title
-        // const topicResponse = await fetch(`http://localhost:3001/api/topics/${data.topic_id}/info`);
-        // if (!topicResponse.ok) {
-        //   throw new Error("Failed to fetch topic info");
-        // }
-        // const topicData = await topicResponse.json();
-        // setTopicInfo(topicData);
-        // setIsLoading(false);
-
-        // Mock data that matches the API response format
-        const mockNote: Note = {
-          id: noteId,
-          topic_id: topicId,
-          title: "Algebra liniowa",
-          content:
-            "# Algebra liniowa\n\nAlgebra liniowa to dział matematyki zajmujący się badaniem przestrzeni liniowych oraz przekształceń liniowych.\n\n## Macierze\n\nMacierz to prostokątna tablica liczb, symboli lub wyrażeń, uporządkowana w wiersze i kolumny.\n\n## Wektory\n\nWektor to obiekt matematyczny, który ma zarówno wielkość, jak i kierunek.",
-          is_summary: false,
-          created_at: "2023-05-10T10:00:00Z",
-          updated_at: "2023-05-10T10:00:00Z",
-        }
-
-        // Mock topic info
-        const mockTopicInfo: TopicInfo = {
-          id: topicId,
-          title: topicId === "topic-1" ? "Matematyka" : "Fizyka",
-        }
-
-        // Simulate API delay
-        await new Promise((resolve) => setTimeout(resolve, 500))
-
-        setNote(mockNote)
-        setTitle(mockNote.title)
-        setContent(mockNote.content)
-        setTopicInfo(mockTopicInfo)
-
-        // Store original values
-        originalTitle.current = mockNote.title
-        originalContent.current = mockNote.content
-
-        setIsLoading(false)
-      } catch (error) {
-        console.error("Failed to fetch note:", error)
-        toast({
-          title: t("note.fetchError"),
-          description: t("note.fetchErrorDesc"),
-          variant: "destructive",
-        })
-        setIsLoading(false)
+  // Replace the fetchNote function with real API call
+  async function fetchNote() {
+    setIsLoading(true)
+    try {
+      const response = await fetch(`http://localhost:3001/api/notes/${noteId}`)
+      if (!response.ok) {
+        throw new Error("Failed to fetch note")
       }
-    }
+      const data = await response.json()
+      setNote(data)
+      setTitle(data.title)
+      setContent(data.content)
 
+      // Store original values for discard functionality
+      originalTitle.current = data.title
+      originalContent.current = data.content
+
+      // Fetch topic info to get the topic title
+      const topicResponse = await fetch(`http://localhost:3001/api/topics/${data.topic_id}/info`)
+      if (!topicResponse.ok) {
+        throw new Error("Failed to fetch topic info")
+      }
+      const topicData = await topicResponse.json()
+      setTopicInfo(topicData)
+      setIsLoading(false)
+    } catch (error) {
+      console.error("Failed to fetch note:", error)
+      toast({
+        title: t("note.fetchError"),
+        description: t("note.fetchErrorDesc"),
+        variant: "destructive",
+      })
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
     fetchNote()
   }, [noteId, topicId, toast, t])
 
@@ -153,6 +119,7 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
     setHasUnsavedChanges(true)
   }
 
+  // Replace the handleSave function with real API call
   const handleSave = async () => {
     if (!title.trim()) {
       toast({
@@ -164,8 +131,6 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
     }
 
     try {
-      // BACKEND INTEGRATION: Save note changes
-      // This should send a PUT request to update the note title and content
       const response = await fetch(`http://localhost:3001/api/notes/${noteId}`, {
         method: "PUT",
         headers: {
@@ -219,53 +184,35 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
     })
   }
 
+  // Replace the handleDeleteNote function with real API call
   const handleDeleteNote = () => {
     showDeleteConfirmation({
       title: t("note.deleteNote"),
-      description: t("note.deleteNoteConfirm", { title: title }),
+      description: t("note.deleteNoteConfirm", { title }),
       onConfirm: async () => {
         try {
-          // BACKEND INTEGRATION: Delete note
-          // This should send a DELETE request to remove the note
-          // Example API call:
-          // const response = await fetch(`http://localhost:3001/api/notes/${noteId}`, {
-          //   method: 'DELETE',
-          // });
-          //
-          // if (!response.ok) throw new Error('Failed to delete note');
-          //
-          // // Check if we got the expected 204 response
-          // if (response.status === 204) {
-          //   // Dispatch event to refresh the tree panel
-          //   const refreshTreeEvent = new Event("refreshTreePanel");
-          //   window.dispatchEvent(refreshTreeEvent);
-          //
-          //   toast({
-          //     title: t("note.noteDeleted"),
-          //     description: t("note.noteDeletedDesc"),
-          //   });
-          //
-          //   // Navigate to the topic view
-          //   router.push(`/topics/${topicId}`);
-          // } else {
-          //   throw new Error(`Unexpected response status: ${response.status}`);
-          // }
-
-          // Mock implementation
-          // Simulate API delay
-          await new Promise((resolve) => setTimeout(resolve, 500))
-
-          // Dispatch event to refresh the tree panel
-          const refreshTreeEvent = new Event("refreshTreePanel")
-          window.dispatchEvent(refreshTreeEvent)
-
-          toast({
-            title: t("note.noteDeleted"),
-            description: t("note.noteDeletedDesc"),
+          const response = await fetch(`http://localhost:3001/api/notes/${noteId}`, {
+            method: "DELETE",
           })
 
-          // Navigate to the topic view
-          router.push(`/topics/${topicId}`)
+          if (!response.ok) throw new Error("Failed to delete note")
+
+          // Check if we got the expected 204 response
+          if (response.status === 204) {
+            // Dispatch event to refresh the tree panel
+            const refreshTreeEvent = new Event("refreshTreePanel")
+            window.dispatchEvent(refreshTreeEvent)
+
+            toast({
+              title: t("note.noteDeleted"),
+              description: t("note.noteDeletedDesc"),
+            })
+
+            // Navigate to the topic view
+            router.push(`/topics/${topicId}`)
+          } else {
+            throw new Error(`Unexpected response status: ${response.status}`)
+          }
         } catch (error) {
           console.error("Failed to delete note:", error)
           toast({
