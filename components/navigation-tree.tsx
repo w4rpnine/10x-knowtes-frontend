@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useTranslation } from "react-i18next"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -90,15 +90,26 @@ export default function NavigationTree() {
   const [topics, setTopics] = useState<ProcessedTopic[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isRefreshing, setIsRefreshing] = useState(false)
+  const [currentPath, setCurrentPath] = useState<string | null>(null)
+
+  // Update currentPath when pathname changes
+  useEffect(() => {
+    if (pathname) {
+      setCurrentPath(pathname)
+      console.log("Current path updated:", pathname)
+    }
+  }, [pathname])
 
   // Replace the fetchTopics function with real API call
-  const fetchTopics = async () => {
+  const fetchTopics = useCallback(async () => {
     try {
+      console.log("Fetching topics...")
       const response = await fetch("http://localhost:3001/api/topics")
       if (!response.ok) {
         throw new Error("Failed to fetch topics")
       }
       const data: TopicsResponse = await response.json()
+      console.log("Topics fetched:", data)
 
       const processedTopics: ProcessedTopic[] = data.data.map((topic) => {
         // Separate notes and summaries
@@ -133,6 +144,18 @@ export default function NavigationTree() {
         setExpandedTopics(expandedState)
       }
 
+      // Auto-expand topic based on current path
+      if (currentPath) {
+        const match = currentPath.match(/\/topics\/([^/]+)/)
+        if (match && match[1]) {
+          const topicId = match[1]
+          setExpandedTopics((prev) => ({
+            ...prev,
+            [topicId]: true,
+          }))
+        }
+      }
+
       return true
     } catch (error) {
       console.error("Failed to fetch topics:", error)
@@ -143,7 +166,7 @@ export default function NavigationTree() {
       })
       return false
     }
-  }
+  }, [expandedTopics, currentPath, toast, t])
 
   // Initial data loading
   useEffect(() => {
@@ -154,7 +177,7 @@ export default function NavigationTree() {
     }
 
     initialLoad()
-  }, [toast, t])
+  }, [fetchTopics])
 
   // Listen for refresh tree event
   useEffect(() => {
@@ -170,23 +193,7 @@ export default function NavigationTree() {
     return () => {
       window.removeEventListener("refreshTreePanel", handleRefreshTree)
     }
-  }, [])
-
-  // Auto-expand topics based on current path
-  useEffect(() => {
-    if (pathname && topics.length > 0) {
-      // Extract topicId from the pathname
-      const match = pathname.match(/\/topics\/([^/]+)/)
-      if (match && match[1]) {
-        const topicId = match[1]
-        // Ensure the topic is expanded
-        setExpandedTopics((prev) => ({
-          ...prev,
-          [topicId]: true,
-        }))
-      }
-    }
-  }, [pathname, topics])
+  }, [fetchTopics])
 
   // Handle manual refresh
   const handleRefresh = async () => {
@@ -216,17 +223,22 @@ export default function NavigationTree() {
 
   // Helper function to check if a topic is active based on the current pathname
   const isTopicActive = (topicId: string) => {
-    return pathname?.startsWith(`/topics/${topicId}`)
+    return currentPath?.startsWith(`/topics/${topicId}`)
   }
 
   // Helper function to check if a note is active based on the current pathname
   const isNoteActive = (topicId: string, noteId: string) => {
-    return pathname === `/topics/${topicId}/notes/${noteId}`
+    return currentPath === `/topics/${topicId}/notes/${noteId}`
   }
 
   // Helper function to check if a summary is active based on the current pathname
   const isSummaryActive = (topicId: string, summaryId: string) => {
-    return pathname === `/topics/${topicId}/summary/${summaryId}`
+    // Check if the current path matches the summary path
+    const isActive = currentPath === `/topics/${topicId}/summary/${summaryId}`
+    if (isActive) {
+      console.log(`Summary active: ${topicId}/summary/${summaryId}`)
+    }
+    return isActive
   }
 
   // Replace the handleCreateTopic function with real API call
