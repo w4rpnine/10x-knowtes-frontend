@@ -183,7 +183,13 @@
     "summaryRejected": "Zusammenfassung abgelehnt",
     "summaryRejectedDesc": "Die Zusammenfassung wurde abgelehnt.",
     "copied": "Kopiert",
-    "copiedDesc": "Der Inhalt der Zusammenfassung wurde in die Zwischenablage kopiert."
+    "copiedDesc": "Der Inhalt der Zusammenfassung wurde in die Zwischenablage kopiert.",
+    "deleteSummary": "Zusammenfassung löschen",
+    "deleteSummaryConfirm": "Sind Sie sicher, dass Sie diese Zusammenfassung löschen möchten?",
+    "summaryDeleted": "Zusammenfassung gelöscht",
+    "summaryDeletedDesc": "Die Zusammenfassung wurde erfolgreich gelöscht.",
+    "deleteError": "Fehler beim Löschen der Zusammenfassung",
+    "deleteErrorDesc": "Zusammenfassung konnte nicht gelöscht werden. Bitte versuchen Sie es erneut."
   },
   "account": {
     "title": "Benutzerkonto",

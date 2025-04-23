@@ -29,23 +29,29 @@ const languages = [
 ]
 
 export default function LanguageSwitcher() {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language || "en")
 
   // Load the saved language preference on component mount
   useEffect(() => {
     const savedLanguage = localStorage.getItem("language") || "en"
     setCurrentLanguage(savedLanguage)
-    i18n.changeLanguage(savedLanguage)
+
+    if (i18n.isInitialized) {
+      i18n.changeLanguage(savedLanguage)
+    }
   }, [i18n])
 
   const handleLanguageChange = (languageCode: string) => {
     setCurrentLanguage(languageCode)
     localStorage.setItem("language", languageCode)
-    i18n.changeLanguage(languageCode)
 
-    // Optionally reload the page to apply language changes
-    // window.location.reload();
+    if (i18n.isInitialized) {
+      i18n.changeLanguage(languageCode)
+    } else {
+      // Fallback: reload the page to apply language changes
+      window.location.reload()
+    }
   }
 
   // Find the current language object

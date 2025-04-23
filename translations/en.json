@@ -183,7 +183,13 @@
     "summaryRejected": "Summary rejected",
     "summaryRejectedDesc": "The summary has been rejected.",
     "copied": "Copied",
-    "copiedDesc": "The summary content has been copied to clipboard."
+    "copiedDesc": "The summary content has been copied to clipboard.",
+    "deleteSummary": "Delete summary",
+    "deleteSummaryConfirm": "Are you sure you want to delete this summary?",
+    "summaryDeleted": "Summary deleted",
+    "summaryDeletedDesc": "The summary has been successfully deleted.",
+    "deleteError": "Error deleting summary",
+    "deleteErrorDesc": "Failed to delete summary. Please try again."
   },
   "account": {
     "title": "User account",

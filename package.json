@@ -60,10 +60,10 @@
     "zod": "^3.24.1",
     "i18next": "latest",
     "react-i18next": "latest",
-    "i18next-browser-languagedetector": "latest",
     "fs": "latest",
     "path": "latest",
-    "url": "latest"
+    "url": "latest",
+    "i18next-browser-languagedetector": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",

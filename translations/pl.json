@@ -183,7 +183,13 @@
     "summaryRejected": "Podsumowanie odrzucone",
     "summaryRejectedDesc": "Podsumowanie zostało odrzucone.",
     "copied": "Skopiowano",
-    "copiedDesc": "Treść podsumowania została skopiowana do schowka."
+    "copiedDesc": "Treść podsumowania została skopiowana do schowka.",
+    "deleteSummary": "Usuń podsumowanie",
+    "deleteSummaryConfirm": "Czy na pewno chcesz usunąć to podsumowanie?",
+    "summaryDeleted": "Podsumowanie usunięte",
+    "summaryDeletedDesc": "Podsumowanie zostało pomyślnie usunięte.",
+    "deleteError": "Błąd usuwania podsumowania",
+    "deleteErrorDesc": "Nie udało się usunąć podsumowania. Spróbuj ponownie."
   },
   "account": {
     "title": "Konto użytkownika",

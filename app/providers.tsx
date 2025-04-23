@@ -3,14 +3,12 @@
 import type React from "react"
 import { useEffect } from "react"
 import { DeleteConfirmationProvider } from "@/hooks/use-delete-confirmation"
-import "@/lib/i18n" // Import i18n configuration
+import I18nProvider from "@/components/i18n-provider"
 import { clearAuthToken, getAuthToken } from "@/lib/auth-utils"
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  // Initialize i18n and check for valid tokens
+  // Check for valid tokens
   useEffect(() => {
-    // This effect ensures i18n is initialized on the client side
-
     // Check if there's a token that might be invalid or leftover from testing
     const token = getAuthToken()
     if (token && (token === "mock-jwt-token" || token === "test-token")) {
@@ -19,5 +17,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  return <DeleteConfirmationProvider>{children}</DeleteConfirmationProvider>
+  return (
+    <I18nProvider>
+      <DeleteConfirmationProvider>{children}</DeleteConfirmationProvider>
+    </I18nProvider>
+  )
 }

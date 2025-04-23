@@ -12,9 +12,10 @@ import {
   BreadcrumbSeparator,
   BreadcrumbLink,
 } from "@/components/ui/breadcrumb"
-import { Check, X, Copy } from "lucide-react"
+import { Copy, Trash2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useTranslation } from "react-i18next"
+import { useDeleteConfirmation } from "@/hooks/use-delete-confirmation"
 
 interface SummaryViewProps {
   topicId: string
@@ -121,6 +122,48 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
     })
   }
 
+  const { showDeleteConfirmation } = useDeleteConfirmation()
+
+  const handleDeleteSummary = () => {
+    showDeleteConfirmation({
+      title: t("summary.deleteSummary"),
+      description: t("summary.deleteSummaryConfirm"),
+      onConfirm: async () => {
+        try {
+          const response = await fetch(`http://localhost:3001/api/notes/${summaryId}`, {
+            method: "DELETE",
+          })
+
+          if (!response.ok) throw new Error("Failed to delete summary")
+
+          // Check if we got the expected 204 response
+          if (response.status === 204) {
+            // Dispatch event to refresh the tree panel
+            const refreshTreeEvent = new Event("refreshTreePanel")
+            window.dispatchEvent(refreshTreeEvent)
+
+            toast({
+              title: t("summary.summaryDeleted"),
+              description: t("summary.summaryDeletedDesc"),
+            })
+
+            // Navigate back to the topic view
+            router.push(`/topics/${topicId}`)
+          } else {
+            throw new Error(`Unexpected response status: ${response.status}`)
+          }
+        } catch (error) {
+          console.error("Failed to delete summary:", error)
+          toast({
+            title: t("summary.deleteError"),
+            description: t("summary.deleteErrorDesc"),
+            variant: "destructive",
+          })
+        }
+      },
+    })
+  }
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -148,15 +191,11 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
           </Button>
           <Button
             variant="outline"
-            onClick={handleReject}
+            onClick={handleDeleteSummary}
             className="border-destructive/50 text-destructive hover:bg-destructive/10"
           >
-            <X className="mr-2 h-4 w-4" />
-            {t("summary.reject")}
-          </Button>
-          <Button onClick={handleAccept} className="bg-gradient-to-r from-neon-green to-neon-cyan hover:opacity-90">
-            <Check className="mr-2 h-4 w-4" />
-            {t("summary.save")}
+            <Trash2 className="mr-2 h-4 w-4" />
+            {t("summary.deleteSummary")}
           </Button>
         </div>
       </div>
