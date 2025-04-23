@@ -237,6 +237,22 @@ export default function NavigationTree() {
     initialLoad()
   }, [toast, t])
 
+  // Listen for refresh tree event
+  useEffect(() => {
+    const handleRefreshTree = () => {
+      console.log("Refreshing tree panel due to event")
+      fetchTopics()
+    }
+
+    // Add event listener
+    window.addEventListener("refreshTreePanel", handleRefreshTree)
+
+    // Clean up
+    return () => {
+      window.removeEventListener("refreshTreePanel", handleRefreshTree)
+    }
+  }, [])
+
   // Handle manual refresh
   const handleRefresh = async () => {
     setIsRefreshing(true)

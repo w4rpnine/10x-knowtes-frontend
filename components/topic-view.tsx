@@ -38,6 +38,7 @@ export default function TopicView({ topicId }: TopicViewProps) {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [newTitle, setNewTitle] = useState("")
   const [isLoading, setIsLoading] = useState(true)
+  const [isSaving, setIsSaving] = useState(false)
   const router = useRouter()
   const { toast } = useToast()
   const { showDeleteConfirmation } = useDeleteConfirmation()
@@ -153,47 +154,90 @@ export default function TopicView({ topicId }: TopicViewProps) {
   }
 
   const handleSaveTitle = async () => {
-    // BACKEND INTEGRATION: Update topic title
-    // This should send a PATCH/PUT request to update the topic title
-    // Example API call:
-    // try {
-    //   const response = await fetch(`http://localhost:3001/api/topics/${topicId}`, {
-    //     method: 'PATCH',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({ title: newTitle }),
-    //   });
-    //
-    //   if (!response.ok) throw new Error('Failed to update topic');
-    //
-    //   // Update local state
-    //   setTopic(prev => prev ? { ...prev, title: newTitle } : null);
-    //
-    //   toast({
-    //     title: t("topic.nameChanged"),
-    //     description: t("topic.nameChangedDesc", { title: newTitle }),
-    //   });
-    // } catch (error) {
-    //   console.error('Failed to update topic:', error);
-    //   toast({
-    //     title: t("topic.updateError"),
-    //     description: t("topic.updateErrorDesc"),
-    //     variant: "destructive",
-    //   });
-    // }
+    if (!newTitle.trim()) {
+      toast({
+        title: t("topic.error"),
+        description: t("navigation.topicNameRequired"),
+        variant: "destructive",
+      })
+      return
+    }
 
-    // Implementation for saving the new title
-    if (topic) {
-      setTopic({ ...topic, title: newTitle })
+    setIsSaving(true)
+
+    try {
+      // BACKEND INTEGRATION: Update topic title
+      // This should send a PUT request to update the topic title
+      // Example API call:
+      // const response = await fetch(`http://localhost:3001/api/topics/${topicId}`, {
+      //   method: 'PUT',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({ title: newTitle }),
+      // });
+      //
+      // if (!response.ok) throw new Error('Failed to update topic');
+      //
+      // // Parse the response
+      // const updatedTopic = await response.json();
+      //
+      // // Update local state with the response data
+      // setTopic(prev => prev ? {
+      //   ...prev,
+      //   title: updatedTopic.title,
+      //   updated_at: updatedTopic.updated_at
+      // } : null);
+      //
+      // // Dispatch event to refresh the tree panel
+      // const refreshTreeEvent = new Event("refreshTreePanel");
+      // window.dispatchEvent(refreshTreeEvent);
+      //
+      // toast({
+      //   title: t("topic.nameChanged"),
+      //   description: t("topic.nameChangedDesc", { title: newTitle }),
+      // });
+
+      // Mock implementation
+      // Simulate API delay
+      await new Promise((resolve) => setTimeout(resolve, 500))
+
+      // Mock response
+      const mockResponse = {
+        id: topicId,
+        title: newTitle,
+        created_at: topic?.created_at || new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      }
+
+      // Update local state
+      if (topic) {
+        setTopic({
+          ...topic,
+          title: mockResponse.title,
+          updated_at: mockResponse.updated_at,
+        })
+      }
+
+      // Dispatch event to refresh the tree panel
+      const refreshTreeEvent = new Event("refreshTreePanel")
+      window.dispatchEvent(refreshTreeEvent)
 
       toast({
         title: t("topic.nameChanged"),
         description: t("topic.nameChangedDesc", { title: newTitle }),
       })
+    } catch (error) {
+      console.error("Failed to update topic:", error)
+      toast({
+        title: t("topic.updateError"),
+        description: t("topic.updateErrorDesc"),
+        variant: "destructive",
+      })
+    } finally {
+      setIsSaving(false)
+      setIsEditingTitle(false)
     }
-
-    setIsEditingTitle(false)
   }
 
   const handleDeleteTopic = () => {
@@ -203,37 +247,56 @@ export default function TopicView({ topicId }: TopicViewProps) {
       title: t("topic.deleteTopic"),
       description: t("topic.deleteTopicConfirm", { title: topic.title }),
       onConfirm: async () => {
-        // BACKEND INTEGRATION: Delete topic
-        // This should send a DELETE request to remove the topic and all its notes/summaries
-        // Example API call:
-        // try {
-        //   const response = await fetch(`http://localhost:3001/api/topics/${topicId}`, {
-        //     method: 'DELETE',
-        //   });
-        //
-        //   if (!response.ok) throw new Error('Failed to delete topic');
-        //
-        //   toast({
-        //     title: t("topic.topicDeleted"),
-        //     description: t("topic.topicDeletedDesc"),
-        //   });
-        //
-        //   router.push("/dashboard");
-        // } catch (error) {
-        //   console.error('Failed to delete topic:', error);
-        //   toast({
-        //     title: t("topic.deleteError"),
-        //     description: t("topic.deleteErrorDesc"),
-        //     variant: "destructive",
-        //   });
-        // }
+        try {
+          // BACKEND INTEGRATION: Delete topic
+          // This should send a DELETE request to remove the topic and all its notes/summaries
+          // Example API call:
+          // const response = await fetch(`http://localhost:3001/api/topics/${topicId}`, {
+          //   method: 'DELETE',
+          // });
+          //
+          // if (!response.ok) throw new Error('Failed to delete topic');
+          //
+          // // Check if we got the expected 204 response
+          // if (response.status === 204) {
+          //   // Dispatch event to refresh the tree panel
+          //   const refreshTreeEvent = new Event("refreshTreePanel");
+          //   window.dispatchEvent(refreshTreeEvent);
+          //
+          //   toast({
+          //     title: t("topic.topicDeleted"),
+          //     description: t("topic.topicDeletedDesc"),
+          //   });
+          //
+          //   // Navigate to the dashboard (welcome view)
+          //   router.push("/dashboard");
+          // } else {
+          //   throw new Error(`Unexpected response status: ${response.status}`);
+          // }
 
-        // Implementation for deleting a topic
-        toast({
-          title: t("topic.topicDeleted"),
-          description: t("topic.topicDeletedDesc"),
-        })
-        router.push("/dashboard")
+          // Mock implementation
+          // Simulate API delay
+          await new Promise((resolve) => setTimeout(resolve, 500))
+
+          // Dispatch event to refresh the tree panel
+          const refreshTreeEvent = new Event("refreshTreePanel")
+          window.dispatchEvent(refreshTreeEvent)
+
+          toast({
+            title: t("topic.topicDeleted"),
+            description: t("topic.topicDeletedDesc"),
+          })
+
+          // Navigate to the dashboard (welcome view)
+          router.push("/dashboard")
+        } catch (error) {
+          console.error("Failed to delete topic:", error)
+          toast({
+            title: t("topic.deleteError"),
+            description: t("topic.deleteErrorDesc"),
+            variant: "destructive",
+          })
+        }
       },
     })
   }
@@ -269,14 +332,20 @@ export default function TopicView({ topicId }: TopicViewProps) {
                 onChange={(e) => setNewTitle(e.target.value)}
                 className="max-w-md border-neon-yellow/30 bg-black/30 focus-visible:ring-neon-yellow/50"
                 autoFocus
+                disabled={isSaving}
               />
               <Button
                 onClick={handleSaveTitle}
                 size="icon"
                 className="h-8 w-8 bg-neon-green hover:bg-neon-green/90"
                 aria-label={t("topic.save")}
+                disabled={isSaving}
               >
-                <Check className="h-4 w-4" />
+                {isSaving ? (
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                ) : (
+                  <Check className="h-4 w-4" />
+                )}
               </Button>
               <Button
                 onClick={() => {
@@ -287,6 +356,7 @@ export default function TopicView({ topicId }: TopicViewProps) {
                 variant="outline"
                 className="h-8 w-8 border-destructive text-destructive hover:bg-destructive/10"
                 aria-label={t("navigation.cancel")}
+                disabled={isSaving}
               >
                 <X className="h-4 w-4" />
               </Button>

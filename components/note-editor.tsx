@@ -165,47 +165,40 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
 
     try {
       // BACKEND INTEGRATION: Save note changes
-      // This should send a PATCH/PUT request to update the note title and content
-      // Example API call:
-      // const response = await fetch(`http://localhost:3001/api/notes/${noteId}`, {
-      //   method: 'PATCH',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     title: title,
-      //     content: content
-      //   }),
-      // });
-      //
-      // if (!response.ok) throw new Error('Failed to save note');
-      // const updatedNote = await response.json();
-      // setNote(updatedNote);
+      // This should send a PUT request to update the note title and content
+      const response = await fetch(`http://localhost:3001/api/notes/${noteId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: title,
+          content: content,
+        }),
+      })
 
-      // In a real app, save note data here
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      if (!response.ok) throw new Error("Failed to save note")
+      const updatedNote = await response.json()
 
       // Update the note in state
-      if (note) {
-        setNote({
-          ...note,
-          title,
-          content,
-          updated_at: new Date().toISOString(),
-        })
-      }
-
-      setHasUnsavedChanges(false)
+      setNote(updatedNote)
 
       // Update original values after successful save
-      originalTitle.current = title
-      originalContent.current = content
+      originalTitle.current = updatedNote.title
+      originalContent.current = updatedNote.content
+
+      // Dispatch event to refresh the tree panel
+      const refreshTreeEvent = new Event("refreshTreePanel")
+      window.dispatchEvent(refreshTreeEvent)
+
+      setHasUnsavedChanges(false)
 
       toast({
         title: t("note.saved"),
         description: t("note.savedDesc"),
       })
     } catch (error) {
+      console.error("Failed to save note:", error)
       toast({
         title: t("note.saveError"),
         description: t("note.saveErrorDesc"),
@@ -231,37 +224,56 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
       title: t("note.deleteNote"),
       description: t("note.deleteNoteConfirm", { title }),
       onConfirm: async () => {
-        // BACKEND INTEGRATION: Delete note
-        // This should send a DELETE request to remove the note
-        // Example API call:
-        // try {
-        //   const response = await fetch(`http://localhost:3001/api/notes/${noteId}`, {
-        //     method: 'DELETE',
-        //   });
-        //
-        //   if (!response.ok) throw new Error('Failed to delete note');
-        //
-        //   toast({
-        //     title: t("note.noteDeleted"),
-        //     description: t("note.noteDeletedDesc"),
-        //   });
-        //
-        //   router.push(`/topics/${topicId}`);
-        // } catch (error) {
-        //   console.error('Failed to delete note:', error);
-        //   toast({
-        //     title: t("note.deleteError"),
-        //     description: t("note.deleteErrorDesc"),
-        //     variant: "destructive",
-        //   });
-        // }
+        try {
+          // BACKEND INTEGRATION: Delete note
+          // This should send a DELETE request to remove the note
+          // Example API call:
+          // const response = await fetch(`http://localhost:3001/api/notes/${noteId}`, {
+          //   method: 'DELETE',
+          // });
+          //
+          // if (!response.ok) throw new Error('Failed to delete note');
+          //
+          // // Check if we got the expected 204 response
+          // if (response.status === 204) {
+          //   // Dispatch event to refresh the tree panel
+          //   const refreshTreeEvent = new Event("refreshTreePanel");
+          //   window.dispatchEvent(refreshTreeEvent);
+          //
+          //   toast({
+          //     title: t("note.noteDeleted"),
+          //     description: t("note.noteDeletedDesc"),
+          //   });
+          //
+          //   // Navigate to the topic view
+          //   router.push(`/topics/${topicId}`);
+          // } else {
+          //   throw new Error(`Unexpected response status: ${response.status}`);
+          // }
 
-        // Implementation for deleting a note
-        toast({
-          title: t("note.noteDeleted"),
-          description: t("note.noteDeletedDesc"),
-        })
-        router.push(`/topics/${topicId}`)
+          // Mock implementation
+          // Simulate API delay
+          await new Promise((resolve) => setTimeout(resolve, 500))
+
+          // Dispatch event to refresh the tree panel
+          const refreshTreeEvent = new Event("refreshTreePanel")
+          window.dispatchEvent(refreshTreeEvent)
+
+          toast({
+            title: t("note.noteDeleted"),
+            description: t("note.noteDeletedDesc"),
+          })
+
+          // Navigate to the topic view
+          router.push(`/topics/${topicId}`)
+        } catch (error) {
+          console.error("Failed to delete note:", error)
+          toast({
+            title: t("note.deleteError"),
+            description: t("note.deleteErrorDesc"),
+            variant: "destructive",
+          })
+        }
       },
     })
   }

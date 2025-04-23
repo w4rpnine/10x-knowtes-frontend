@@ -37,6 +37,9 @@ interface NoteResponse {
   updated_at: string
 }
 
+// Create a custom event for refreshing the tree panel
+export const refreshTreeEvent = new Event("refreshTreePanel")
+
 export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
   const router = useRouter()
   const { toast } = useToast()
@@ -130,6 +133,9 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
       //
       // const newNote: NoteResponse = await response.json();
       //
+      // // Dispatch event to refresh the tree panel
+      // window.dispatchEvent(refreshTreeEvent);
+      //
       // // Show success notification
       // toast({
       //   title: t("note.noteCreated"),
@@ -152,6 +158,9 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       }
+
+      // Dispatch event to refresh the tree panel
+      window.dispatchEvent(refreshTreeEvent)
 
       // Show success notification
       toast({
