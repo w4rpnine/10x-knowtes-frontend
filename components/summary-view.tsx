@@ -114,14 +114,6 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
     }
   }
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(summary.content)
-    toast({
-      title: t("summary.copied"),
-      description: t("summary.copiedDesc"),
-    })
-  }
-
   const { showDeleteConfirmation } = useDeleteConfirmation()
 
   const handleDeleteSummary = () => {
@@ -180,15 +172,6 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
         </Breadcrumb>
 
         <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={handleCopy}
-            className="border-neon-cyan/30 text-neon-cyan hover:bg-neon-cyan/10"
-          >
-            <Copy className="h-4 w-4" />
-            <span className="sr-only">{t("summary.copy")}</span>
-          </Button>
           <Button
             variant="outline"
             onClick={handleDeleteSummary}
