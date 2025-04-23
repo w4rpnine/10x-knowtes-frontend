@@ -172,6 +172,22 @@ export default function NavigationTree() {
     }
   }, [])
 
+  // Auto-expand topics based on current path
+  useEffect(() => {
+    if (pathname && topics.length > 0) {
+      // Extract topicId from the pathname
+      const match = pathname.match(/\/topics\/([^/]+)/)
+      if (match && match[1]) {
+        const topicId = match[1]
+        // Ensure the topic is expanded
+        setExpandedTopics((prev) => ({
+          ...prev,
+          [topicId]: true,
+        }))
+      }
+    }
+  }, [pathname, topics])
+
   // Handle manual refresh
   const handleRefresh = async () => {
     setIsRefreshing(true)
@@ -196,6 +212,21 @@ export default function NavigationTree() {
 
   const navigateToTopic = (topicId: string) => {
     router.push(`/topics/${topicId}`)
+  }
+
+  // Helper function to check if a topic is active based on the current pathname
+  const isTopicActive = (topicId: string) => {
+    return pathname?.startsWith(`/topics/${topicId}`)
+  }
+
+  // Helper function to check if a note is active based on the current pathname
+  const isNoteActive = (topicId: string, noteId: string) => {
+    return pathname === `/topics/${topicId}/notes/${noteId}`
+  }
+
+  // Helper function to check if a summary is active based on the current pathname
+  const isSummaryActive = (topicId: string, summaryId: string) => {
+    return pathname === `/topics/${topicId}/summary/${summaryId}`
   }
 
   // Replace the handleCreateTopic function with real API call
@@ -364,7 +395,7 @@ export default function NavigationTree() {
                 <div
                   className={cn(
                     "flex items-center p-2 rounded-md hover:bg-black/30 cursor-pointer transition-all duration-200",
-                    pathname === `/topics/${topic.id}`
+                    isTopicActive(topic.id)
                       ? "bg-black/60 border-l-2 border-neon-yellow shadow-[0_0_10px_rgba(255,215,0,0.15)] pl-[6px]"
                       : "hover:bg-black/30",
                   )}
@@ -382,9 +413,7 @@ export default function NavigationTree() {
                     )}
                   </button>
                   <Folder className="mr-2 h-4 w-4 topic-icon" />
-                  <span
-                    className={cn("font-medium", pathname === `/topics/${topic.id}` && "text-neon-yellow glow-text")}
-                  >
+                  <span className={cn("font-medium", isTopicActive(topic.id) && "text-neon-yellow glow-text")}>
                     {topic.title}
                   </span>
                 </div>
@@ -395,12 +424,13 @@ export default function NavigationTree() {
                       <Link key={note.id} href={`/topics/${topic.id}/notes/${note.id}`}>
                         <div
                           className={cn(
-                            "flex items-center p-2 rounded-md hover:bg-black/30",
-                            pathname === `/topics/${topic.id}/notes/${note.id}` && "bg-black/40",
+                            "flex items-center p-2 rounded-md hover:bg-black/30 transition-colors",
+                            isNoteActive(topic.id, note.id) &&
+                              "bg-black/40 border-l-2 border-neon-blue shadow-[0_0_8px_rgba(0,128,255,0.15)] pl-[6px]",
                           )}
                         >
                           <FileText className="mr-2 h-4 w-4 note-icon" />
-                          <span>{note.title}</span>
+                          <span className={cn(isNoteActive(topic.id, note.id) && "text-neon-blue")}>{note.title}</span>
                         </div>
                       </Link>
                     ))}
@@ -409,12 +439,17 @@ export default function NavigationTree() {
                       <Link key={summary.id} href={`/topics/${topic.id}/summary/${summary.id}`}>
                         <div
                           className={cn(
-                            "flex items-center p-2 rounded-md hover:bg-black/30",
-                            pathname === `/topics/${topic.id}/summary/${summary.id}` && "bg-black/40",
+                            "flex items-center p-2 rounded-md hover:bg-black/30 transition-colors",
+                            isSummaryActive(topic.id, summary.id) &&
+                              "bg-black/40 border-l-2 border-neon-purple shadow-[0_0_8px_rgba(128,0,255,0.15)] pl-[6px]",
                           )}
                         >
                           <FileDown className="mr-2 h-4 w-4 summary-icon" />
-                          <span className="text-neon-purple glow-text">{summary.title}</span>
+                          <span
+                            className={cn("text-neon-purple", isSummaryActive(topic.id, summary.id) && "glow-text")}
+                          >
+                            {summary.title}
+                          </span>
                         </div>
                       </Link>
                     ))}
