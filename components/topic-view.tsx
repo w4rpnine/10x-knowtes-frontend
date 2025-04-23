@@ -184,7 +184,7 @@ export default function TopicView({ topicId }: TopicViewProps) {
 
     showDeleteConfirmation({
       title: t("topic.deleteTopic"),
-      description: t("topic.deleteTopicConfirm", { title: topic.title }),
+      description: t("topic.deleteTopicConfirm"),
       onConfirm: async () => {
         try {
           const response = await fetch(`http://localhost:3001/api/topics/${topicId}`, {

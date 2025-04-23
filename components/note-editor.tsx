@@ -188,7 +188,7 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
   const handleDeleteNote = () => {
     showDeleteConfirmation({
       title: t("note.deleteNote"),
-      description: t("note.deleteNoteConfirm", { title }),
+      description: t("note.deleteNoteConfirm"),
       onConfirm: async () => {
         try {
           const response = await fetch(`http://localhost:3001/api/notes/${noteId}`, {
