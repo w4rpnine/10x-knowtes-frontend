@@ -53,7 +53,7 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
   useEffect(() => {
     async function fetchTopicInfo() {
       try {
-        const response = await fetch(`http://localhost:3001/api/topics/${topicId}/info`)
+        const response = await fetch(`http://localhost:3001/api/topics/${topicId}`)
         if (!response.ok) {
           throw new Error("Failed to fetch topic info")
         }

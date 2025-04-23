@@ -73,7 +73,7 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
       originalContent.current = data.content
 
       // Fetch topic info to get the topic title
-      const topicResponse = await fetch(`http://localhost:3001/api/topics/${data.topic_id}/info`)
+      const topicResponse = await fetch(`http://localhost:3001/api/topics/${data.topic_id}`)
       if (!topicResponse.ok) {
         throw new Error("Failed to fetch topic info")
       }
