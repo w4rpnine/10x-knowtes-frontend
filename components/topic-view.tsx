@@ -34,7 +34,6 @@ interface TopicViewProps {
   topicId: string
 }
 
-// Update the interface to match the expected response structure
 interface SummaryResponse {
   summary_uuid: string
   title: string
@@ -86,12 +85,11 @@ export default function TopicView({ topicId }: TopicViewProps) {
     router.push(`/topics/${topicId}/notes/new`)
   }
 
-  // Update the handleGenerateSummary function to use the correct endpoint
   const handleGenerateSummary = async () => {
     setIsGeneratingSummary(true)
     try {
       // Make the POST request to generate a summary
-      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summary`, {
+      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries`, {
         method: "POST",
       })
 
@@ -101,9 +99,6 @@ export default function TopicView({ topicId }: TopicViewProps) {
 
       // Parse the response
       const data: SummaryResponse = await response.json()
-
-      // Log the response data for debugging
-      console.log("Summary generation response:", data)
 
       // Store the summary data
       setSummaryData(data)

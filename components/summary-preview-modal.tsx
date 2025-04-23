@@ -1,6 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import type React from "react"
+
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -40,44 +42,22 @@ export default function SummaryPreviewModal({
   const [content, setContent] = useState(initialContent)
   const [isProcessing, setIsProcessing] = useState(false)
 
-  // Log the props for debugging
-  useEffect(() => {
-    console.log("SummaryPreviewModal - Props:", {
-      summaryUuid,
-      initialTitle,
-      initialContent,
-      topicId,
-      open,
-    })
-  }, [summaryUuid, initialTitle, initialContent, topicId, open])
-
   const handleAccept = async () => {
     setIsProcessing(true)
     try {
-      // Check if summaryUuid is defined
-      if (!summaryUuid) {
-        console.error("summaryUuid is undefined in handleAccept")
-        throw new Error("Summary ID is undefined")
-      }
-
-      console.log(`Making API call to accept summary with UUID: ${summaryUuid}`)
-
-      const response = await fetch(`http://localhost:3001/api/summaries/${summaryUuid}/accept`, {
+      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries/${summaryUuid}/accept`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, content, topicId }),
+        body: JSON.stringify({ title, content }),
       })
 
       if (!response.ok) {
-        const errorText = await response.text()
-        console.error(`API error (${response.status}):`, errorText)
-        throw new Error(`Failed to accept summary: ${response.status} ${errorText}`)
+        throw new Error("Failed to accept summary")
       }
 
       const data = await response.json()
-      console.log("Accept summary response:", data)
 
       // Dispatch event to refresh the tree panel
       const refreshTreeEvent = new Event("refreshTreePanel")
@@ -97,7 +77,7 @@ export default function SummaryPreviewModal({
       console.error("Failed to accept summary:", error)
       toast({
         title: t("summary.error"),
-        description: t("summary.acceptError") + (error instanceof Error ? `: ${error.message}` : ""),
+        description: t("summary.acceptError"),
         variant: "destructive",
       })
     } finally {
@@ -108,26 +88,12 @@ export default function SummaryPreviewModal({
   const handleReject = async () => {
     setIsProcessing(true)
     try {
-      // Check if summaryUuid is defined
-      if (!summaryUuid) {
-        console.error("summaryUuid is undefined in handleReject")
-        throw new Error("Summary ID is undefined")
-      }
-
-      console.log(`Making API call to reject summary with UUID: ${summaryUuid}`)
-
-      const response = await fetch(`http://localhost:3001/api/summaries/${summaryUuid}/reject`, {
+      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries/${summaryUuid}/reject`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ topicId }),
       })
 
       if (!response.ok) {
-        const errorText = await response.text()
-        console.error(`API error (${response.status}):`, errorText)
-        throw new Error(`Failed to reject summary: ${response.status} ${errorText}`)
+        throw new Error("Failed to reject summary")
       }
 
       toast({
@@ -141,12 +107,23 @@ export default function SummaryPreviewModal({
       console.error("Failed to reject summary:", error)
       toast({
         title: t("summary.error"),
-        description: t("summary.rejectError") + (error instanceof Error ? `: ${error.message}` : ""),
+        description: t("summary.rejectError"),
         variant: "destructive",
       })
     } finally {
       setIsProcessing(false)
     }
+  }
+
+  // Function to handle outside clicks - prevent closing
+  const handleOutsideClick = (event: React.MouseEvent) => {
+    event.preventDefault()
+    // Show a toast to inform the user they need to use the buttons
+    toast({
+      title: t("summary.cannotDismiss"),
+      description: t("summary.useButtonsToClose"),
+      variant: "destructive",
+    })
   }
 
   return (
@@ -224,7 +201,7 @@ export default function SummaryPreviewModal({
           <Button
             onClick={handleAccept}
             className="bg-gradient-to-r from-neon-green to-neon-cyan hover:opacity-90"
-            disabled={isProcessing || !summaryUuid}
+            disabled={isProcessing}
           >
             {isProcessing ? t("summary.processing") : t("summary.accept")}
           </Button>
