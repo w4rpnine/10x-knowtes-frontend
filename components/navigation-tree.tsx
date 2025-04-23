@@ -363,8 +363,10 @@ export default function NavigationTree() {
               <div key={topic.id} className="mb-4">
                 <div
                   className={cn(
-                    "flex items-center p-2 rounded-md hover:bg-black/30 cursor-pointer",
-                    pathname === `/topics/${topic.id}` && "bg-black/40",
+                    "flex items-center p-2 rounded-md hover:bg-black/30 cursor-pointer transition-all duration-200",
+                    pathname === `/topics/${topic.id}`
+                      ? "bg-black/60 border-l-2 border-neon-yellow shadow-[0_0_10px_rgba(255,215,0,0.15)] pl-[6px]"
+                      : "hover:bg-black/30",
                   )}
                   onClick={() => navigateToTopic(topic.id)}
                 >
@@ -380,7 +382,11 @@ export default function NavigationTree() {
                     )}
                   </button>
                   <Folder className="mr-2 h-4 w-4 topic-icon" />
-                  <span className="font-medium">{topic.title}</span>
+                  <span
+                    className={cn("font-medium", pathname === `/topics/${topic.id}` && "text-neon-yellow glow-text")}
+                  >
+                    {topic.title}
+                  </span>
                 </div>
 
                 {expandedTopics[topic.id] && (
