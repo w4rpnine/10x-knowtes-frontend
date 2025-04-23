@@ -90,19 +90,9 @@ export default function NavigationTree() {
   const [topics, setTopics] = useState<ProcessedTopic[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isRefreshing, setIsRefreshing] = useState(false)
-  const [lastRefreshTime, setLastRefreshTime] = useState(0)
 
   // Replace the fetchTopics function with real API call
   const fetchTopics = async () => {
-    // Prevent excessive API calls by checking the last refresh time
-    const now = Date.now()
-    if (now - lastRefreshTime < 1000) {
-      console.log("Skipping fetch, too soon since last refresh")
-      return true
-    }
-
-    setLastRefreshTime(now)
-
     try {
       const response = await fetch("http://localhost:3001/api/topics")
       if (!response.ok) {
@@ -143,18 +133,6 @@ export default function NavigationTree() {
         setExpandedTopics(expandedState)
       }
 
-      // Auto-expand topic based on current path
-      if (pathname) {
-        const match = pathname.match(/\/topics\/([^/]+)/)
-        if (match && match[1]) {
-          const topicId = match[1]
-          setExpandedTopics((prev) => ({
-            ...prev,
-            [topicId]: true,
-          }))
-        }
-      }
-
       return true
     } catch (error) {
       console.error("Failed to fetch topics:", error)
@@ -176,8 +154,7 @@ export default function NavigationTree() {
     }
 
     initialLoad()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []) // Only run on mount
+  }, [toast, t])
 
   // Listen for refresh tree event
   useEffect(() => {
@@ -193,8 +170,7 @@ export default function NavigationTree() {
     return () => {
       window.removeEventListener("refreshTreePanel", handleRefreshTree)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []) // Only run on mount
+  }, [])
 
   // Auto-expand topics based on current path
   useEffect(() => {
