@@ -14,25 +14,26 @@ import { isAuthenticated } from "@/lib/auth-utils" // Fixed import path
 export default function LandingPage() {
   const router = useRouter()
   const [isSignUpOpen, setIsSignUpOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const { t } = useTranslation()
 
   useEffect(() => {
-    // Check if we're in the browser environment
     if (typeof window !== "undefined") {
-      // Add a small delay to ensure the component is fully mounted
-      const timer = setTimeout(() => {
-        if (isAuthenticated()) {
-          // If logged in, redirect to dashboard
-          console.log("User is authenticated, redirecting to dashboard")
-          router.push("/dashboard")
-        } else {
-          console.log("User is not authenticated, staying on landing page")
-        }
-      }, 100)
-
-      return () => clearTimeout(timer)
+      if (isAuthenticated()) {
+        router.push("/dashboard")
+      } else {
+        setIsLoading(false)
+      }
     }
   }, [router])
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-neon-purple animate-pulse">{t("app.loading")}</div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen pixel-bg scanlines flex flex-col">

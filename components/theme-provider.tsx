@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { useEffect } from "react"
 
 interface ThemeProviderProps {
   children: React.ReactNode
@@ -9,7 +10,10 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  // Since your app is locked to dark mode (disableSwitch=true),
-  // we can create a simplified provider that just renders children
+  useEffect(() => {
+    // Ensure dark mode is applied immediately
+    document.documentElement.classList.add('dark')
+  }, [])
+
   return <>{children}</>
 }
