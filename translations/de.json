@@ -191,7 +191,9 @@
     "deleteError": "Fehler beim Löschen der Zusammenfassung",
     "deleteErrorDesc": "Zusammenfassung konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.",
     "cannotDismiss": "Aktion erforderlich",
-    "useButtonsToClose": "Bitte verwenden Sie die Schaltflächen Akzeptieren oder Ablehnen, um mit der Zusammenfassung fortzufahren."
+    "useButtonsToClose": "Bitte verwenden Sie die Schaltflächen Akzeptieren oder Ablehnen, um mit der Zusammenfassung fortzufahren.",
+    "fetchError": "Zusammenfassung konnte nicht geladen werden. Bitte versuchen Sie es erneut.",
+    "notFound": "Zusammenfassung nicht gefunden."
   },
   "account": {
     "title": "Benutzerkonto",

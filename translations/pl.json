@@ -191,7 +191,9 @@
     "deleteError": "Błąd usuwania podsumowania",
     "deleteErrorDesc": "Nie udało się usunąć podsumowania. Spróbuj ponownie.",
     "cannotDismiss": "Wymagana akcja",
-    "useButtonsToClose": "Użyj przycisków Akceptuj lub Odrzuć, aby kontynuować."
+    "useButtonsToClose": "Użyj przycisków Akceptuj lub Odrzuć, aby kontynuować.",
+    "fetchError": "Nie udało się pobrać podsumowania. Spróbuj ponownie.",
+    "notFound": "Nie znaleziono podsumowania."
   },
   "account": {
     "title": "Konto użytkownika",

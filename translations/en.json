@@ -191,7 +191,9 @@
     "deleteError": "Error deleting summary",
     "deleteErrorDesc": "Failed to delete summary. Please try again.",
     "cannotDismiss": "Action required",
-    "useButtonsToClose": "Please use the Accept or Reject buttons to proceed with the summary."
+    "useButtonsToClose": "Please use the Accept or Reject buttons to proceed with the summary.",
+    "fetchError": "Failed to fetch summary. Please try again.",
+    "notFound": "Summary not found."
   },
   "account": {
     "title": "User account",

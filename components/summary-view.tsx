@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -22,25 +22,46 @@ interface SummaryViewProps {
   summaryId: string
 }
 
-// Mock data
-const mockSummary = {
-  id: "summary-1",
-  title: "Podsumowanie matematyki",
-  content:
-    "# Podsumowanie matematyki\n\n## Algebra liniowa\nAlgebra liniowa to dział matematyki zajmujący się badaniem przestrzeni liniowych oraz przekształceń liniowych. Kluczowe pojęcia to macierze i wektory.\n\n## Rachunek różniczkowy\nRachunek różniczkowy to dział analizy matematycznej zajmujący się badaniem zmian funkcji. Główne pojęcia to pochodna i całka.",
-  topicId: "topic-1",
-  topicTitle: "Matematyka",
-  createdAt: "2023-05-15T09:15:00Z",
-  status: "pending", // pending, accepted, rejected
+interface Summary {
+  id: string
+  title: string
+  content: string
+  topic_id: string
+  topic_title: string
+  created_at: string
 }
 
 export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
   const router = useRouter()
   const { toast } = useToast()
-  const [summary, setSummary] = useState(mockSummary)
+  const [summary, setSummary] = useState<Summary | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const { t } = useTranslation()
-
   const { showDeleteConfirmation } = useDeleteConfirmation()
+
+  useEffect(() => {
+    async function fetchSummary() {
+      try {
+        const response = await fetch(`http://localhost:3001/api/notes/${summaryId}`)
+        if (!response.ok) {
+          throw new Error("Failed to fetch summary")
+        }
+        const data = await response.json()
+        setSummary(data)
+      } catch (error) {
+        console.error("Failed to fetch summary:", error)
+        toast({
+          title: t("summary.error"),
+          description: t("summary.fetchError"),
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchSummary()
+  }, [summaryId, toast, t])
 
   const handleDeleteSummary = () => {
     showDeleteConfirmation({
@@ -82,6 +103,22 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
     })
   }
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-8">
+        <div className="text-neon-purple animate-pulse">{t("app.loading")}</div>
+      </div>
+    )
+  }
+
+  if (!summary) {
+    return (
+      <div className="text-center py-8 text-muted-foreground">
+        <p>{t("summary.notFound")}</p>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -89,7 +126,7 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild className="text-neon-yellow glow-text hover:underline cursor-pointer">
-                <Link href={`/topics/${topicId}`}>{summary.topicTitle}</Link>
+                <Link href={`/topics/${topicId}`}>{summary.topic_title}</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
