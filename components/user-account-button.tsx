@@ -21,9 +21,25 @@ export default function UserAccountButton() {
     router.push("/account")
   }
 
-  const handleLogout = () => {
-    clearAuthToken()
-    router.push("/")
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      })
+
+      if (!response.ok) {
+        throw new Error("Logout failed")
+      }
+
+      clearAuthToken()
+      router.push("/")
+    } catch (error) {
+      console.error("Logout failed:", error)
+      // Still clear token and redirect even if the API call fails
+      clearAuthToken()
+      router.push("/")
+    }
   }
 
   return (

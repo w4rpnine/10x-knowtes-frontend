@@ -9,7 +9,7 @@
     "logout": "Log out",
     "email": "Email",
     "password": "Password",
-    "confirmPassword": "Confirm password",
+    "password_confirmation": "Confirm password",
     "name": "Full name",
     "emailPlaceholder": "your@email.com",
     "loginButton": "Log in",

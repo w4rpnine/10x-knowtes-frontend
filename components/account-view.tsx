@@ -35,7 +35,7 @@ export default function AccountView() {
   const [user] = useState(mockUser)
   const [currentPassword, setCurrentPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
+  const [password_confirmation, setPasswordConfirmation] = useState("")
   const { t } = useTranslation()
 
   const handleLogout = () => {
@@ -47,7 +47,7 @@ export default function AccountView() {
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (newPassword !== confirmPassword) {
+    if (newPassword !== password_confirmation) {
       toast({
         title: "Błąd",
         description: t("account.passwordError"),
@@ -65,7 +65,7 @@ export default function AccountView() {
       })
       setCurrentPassword("")
       setNewPassword("")
-      setConfirmPassword("")
+      setPasswordConfirmation("")
     } catch (error) {
       toast({
         title: "Błąd",
@@ -155,8 +155,8 @@ export default function AccountView() {
               <Input
                 id="confirm-password"
                 type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={password_confirmation}
+                onChange={(e) => setPasswordConfirmation(e.target.value)}
                 required
               />
             </div>

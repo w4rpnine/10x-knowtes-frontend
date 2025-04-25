@@ -9,7 +9,7 @@
     "logout": "Abmelden",
     "email": "E-Mail",
     "password": "Passwort",
-    "confirmPassword": "Passwort bestätigen",
+    "password_confirmation": "Passwort bestätigen",
     "name": "Vollständiger Name",
     "emailPlaceholder": "deine@email.com",
     "loginButton": "Anmelden",

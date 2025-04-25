@@ -9,7 +9,7 @@
     "logout": "Wyloguj się",
     "email": "Email",
     "password": "Hasło",
-    "confirmPassword": "Potwierdź hasło",
+    "password_confirmation": "Potwierdź hasło",
     "name": "Imię i nazwisko",
     "emailPlaceholder": "twoj@email.com",
     "loginButton": "Zaloguj się",

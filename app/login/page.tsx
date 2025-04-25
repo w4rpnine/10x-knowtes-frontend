@@ -41,35 +41,21 @@ export default function LoginPage() {
     setIsLoading(true)
 
     try {
-      // BACKEND INTEGRATION: Login user
-      // This should send a POST request to authenticate the user
-      // Example API call:
-      // const response = await fetch('/api/auth/login', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ email, password }),
-      // });
-      //
-      // if (!response.ok) {
-      //   const data = await response.json();
-      //   throw new Error(data.message || 'Nieprawidłowy email lub hasło.');
-      // }
-      //
-      // const data = await response.json();
-      // localStorage.setItem("auth-token", data.token);
-
-      // Mock login - replace with actual authentication
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      // Store JWT token in localStorage or secure cookie
-      // Replace:
-      // localStorage.setItem("auth-token", "mock-jwt-token")
-      // With:
-      setAuthToken("mock-jwt-token")
-
-      // Redirect to dashboard page instead of root
+      const response = await fetch('http://localhost:3001/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || 'Nieprawidłowy email lub hasło.');
+      }
+      
+      const data = await response.json();
+      localStorage.setItem("auth-token", data.access_token);
       router.push("/dashboard")
     } catch (err) {
       if (err instanceof Error) {

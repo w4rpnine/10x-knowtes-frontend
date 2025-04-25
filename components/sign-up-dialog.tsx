@@ -33,7 +33,7 @@ export default function SignUpDialog({ open, onOpenChange }: SignUpDialogProps) 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
+  const [password_confirmation, setPasswordConfirmation] = useState("")
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
@@ -62,7 +62,7 @@ export default function SignUpDialog({ open, onOpenChange }: SignUpDialogProps) 
       return
     }
 
-    if (password !== confirmPassword) {
+    if (password !== password_confirmation) {
       setError(t("auth.passwordsNotMatch"))
       return
     }
@@ -70,35 +70,22 @@ export default function SignUpDialog({ open, onOpenChange }: SignUpDialogProps) 
     setIsLoading(true)
 
     try {
-      // BACKEND INTEGRATION: Register a new user
-      // This should send a POST request to create a new user account
-      // Example API call:
-      // const response = await fetch('/api/auth/register', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     name,
-      //     email,
-      //     password
-      //   }),
-      // });
-      //
-      // if (!response.ok) {
-      //   const data = await response.json();
-      //   throw new Error(data.message || 'Nie udało się utworzyć konta.');
-      // }
-      //
-      // const data = await response.json();
-      // localStorage.setItem("auth-token", data.token);
-
-      // Mock registration - replace with actual authentication
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      // Store JWT token in localStorage or secure cookie
-      // localStorage.setItem("auth-token", "mock-jwt-token")
-      setAuthToken("mock-jwt-token")
+      const response = await fetch('http://localhost:3001/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          password_confirmation
+        }),
+      });
+      
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || 'Nie udało się utworzyć konta.');
+      }
 
       toast({
         title: t("auth.accountCreated"),
@@ -107,7 +94,7 @@ export default function SignUpDialog({ open, onOpenChange }: SignUpDialogProps) 
 
       // Close dialog and redirect to dashboard
       onOpenChange(false)
-      router.push("/dashboard")
+      router.push("/login")
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message)
@@ -178,12 +165,12 @@ export default function SignUpDialog({ open, onOpenChange }: SignUpDialogProps) 
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirm-password">{t("auth.confirmPassword")}</Label>
+              <Label htmlFor="confirm-password">{t("auth.password_confirmation")}</Label>
               <Input
                 id="confirm-password"
                 type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={password_confirmation}
+                onChange={(e) => setPasswordConfirmation(e.target.value)}
                 className="border-neon-purple/30 bg-black/30 focus-visible:ring-neon-purple/50"
                 disabled={isLoading}
                 autoComplete="new-password"
