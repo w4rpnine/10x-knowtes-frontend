@@ -2,15 +2,18 @@ import { notFound } from "next/navigation"
 import NoteEditor from "@/components/note-editor"
 
 interface NotePageProps {
-  params: {
+  params: Promise<{
     topicId: string
     noteId: string
-  }
+  }>
 }
 
-export default function NotePage({ params }: NotePageProps) {
+export default async function NotePage({ params }: NotePageProps) {
   // In a real app, you would fetch the note data here
   // For this example, we'll use mock data
+
+  // Await params before accessing properties
+  const { topicId, noteId } = await params;
 
   // Mock check if note exists
   const noteExists = true
@@ -19,5 +22,5 @@ export default function NotePage({ params }: NotePageProps) {
     notFound()
   }
 
-  return <NoteEditor topicId={params.topicId} noteId={params.noteId} />
+  return <NoteEditor topicId={topicId} noteId={noteId} />
 }
