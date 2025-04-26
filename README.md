@@ -10,6 +10,16 @@
 This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
 Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
 
+## Environment Variables
+
+The project uses the following environment variables:
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| NEXT_PUBLIC_API_URL | Base URL for API calls | http://localhost:3001 |
+
+Create a `.env.local` file in the root directory with these variables for local development.
+
 ## Deployment
 
 Your project is live at:

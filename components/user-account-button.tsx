@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { User, Settings, LogOut } from "lucide-react"
 import { clearAuthToken } from "@/lib/auth-utils"
+import { API_BASE_URL } from "@/lib/config"
 
 export default function UserAccountButton() {
   const router = useRouter()
@@ -23,7 +24,7 @@ export default function UserAccountButton() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/auth/logout", {
+      const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
         method: "POST",
         credentials: "include",
       })

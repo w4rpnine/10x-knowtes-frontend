@@ -24,6 +24,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { API_BASE_URL } from "@/lib/config"
 
 // Define types based on the API response
 interface Note {
@@ -94,7 +95,7 @@ export default function NavigationTree() {
   // Replace the fetchTopics function with real API call
   const fetchTopics = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/topics")
+      const response = await fetch(`${API_BASE_URL}/api/topics`)
       if (!response.ok) {
         throw new Error("Failed to fetch topics")
       }
@@ -245,7 +246,7 @@ export default function NavigationTree() {
     setIsCreating(true)
 
     try {
-      const response = await fetch("http://localhost:3001/api/topics", {
+      const response = await fetch(`${API_BASE_URL}/api/topics`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

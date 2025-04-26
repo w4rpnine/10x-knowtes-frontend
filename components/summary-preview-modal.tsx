@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dialog"
 import { useToast } from "@/hooks/use-toast"
 import { useTranslation } from "react-i18next"
+import { API_BASE_URL } from "@/lib/config"
 
 interface SummaryPreviewModalProps {
   open: boolean
@@ -45,7 +46,7 @@ export default function SummaryPreviewModal({
   const handleAccept = async () => {
     setIsProcessing(true)
     try {
-      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries/${summary_stat_id}/accept`, {
+      const response = await fetch(`${API_BASE_URL}/api/topics/${topicId}/summaries/${summary_stat_id}/accept`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +89,7 @@ export default function SummaryPreviewModal({
   const handleReject = async () => {
     setIsProcessing(true)
     try {
-      const response = await fetch(`http://localhost:3001/api/topics/${topicId}/summaries/${summary_stat_id}/reject`, {
+      const response = await fetch(`${API_BASE_URL}/api/topics/${topicId}/summaries/${summary_stat_id}/reject`, {
         method: "PUT",
       })
 
