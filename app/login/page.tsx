@@ -29,7 +29,6 @@ export default function LoginPage() {
     // Check if we're in the browser environment
     if (typeof window !== "undefined") {
       if (isAuthenticated()) {
-        console.log("User is already authenticated, redirecting to dashboard")
         router.push("/dashboard")
       }
     }
