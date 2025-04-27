@@ -59,7 +59,12 @@ export default function TopicView({ topicId }: TopicViewProps) {
     async function fetchTopic() {
       setIsLoading(true)
       try {
-        const response = await fetch(`${API_BASE_URL}/api/topics/${topicId}`)
+        const response = await fetch(`${API_BASE_URL}/api/topics/${topicId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+          }
+        })
         if (!response.ok) {
           throw new Error("Failed to fetch topic")
         }
@@ -92,6 +97,13 @@ export default function TopicView({ topicId }: TopicViewProps) {
       // Make the POST request to generate a summary
       const response = await fetch(`${API_BASE_URL}/api/topics/${topicId}/summaries`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
+        },
+        body: JSON.stringify({
+          summary_type: "full",
+        }),
       })
 
       if (!response.ok) {
@@ -139,6 +151,7 @@ export default function TopicView({ topicId }: TopicViewProps) {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
         },
         body: JSON.stringify({ title: newTitle }),
       })
@@ -190,6 +203,10 @@ export default function TopicView({ topicId }: TopicViewProps) {
         try {
           const response = await fetch(`${API_BASE_URL}/api/topics/${topicId}`, {
             method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Requested-With": "XMLHttpRequest"
+            },
           })
 
           if (!response.ok) throw new Error("Failed to delete topic")

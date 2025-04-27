@@ -50,6 +50,7 @@ export default function SummaryPreviewModal({
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
         },
         body: JSON.stringify({ title, content }),
       })
@@ -91,6 +92,10 @@ export default function SummaryPreviewModal({
     try {
       const response = await fetch(`${API_BASE_URL}/api/topics/${topicId}/summaries/${summary_stat_id}/reject`, {
         method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
+        }
       })
 
       if (!response.ok) {

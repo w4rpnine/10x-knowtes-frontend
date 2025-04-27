@@ -54,7 +54,12 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
   useEffect(() => {
     async function fetchTopicInfo() {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/topics/${topicId}`)
+        const response = await fetch(`${API_BASE_URL}/api/topics/${topicId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+          }
+        })
         if (!response.ok) {
           throw new Error("Failed to fetch topic info")
         }
@@ -104,6 +109,7 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
         },
         body: JSON.stringify({
           title: title,

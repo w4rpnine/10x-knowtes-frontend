@@ -95,7 +95,12 @@ export default function NavigationTree() {
   // Replace the fetchTopics function with real API call
   const fetchTopics = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/topics`)
+      const response = await fetch(`${API_BASE_URL}/api/topics`, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      })
       if (!response.ok) {
         throw new Error("Failed to fetch topics")
       }
@@ -250,6 +255,7 @@ export default function NavigationTree() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
         },
         body: JSON.stringify({ title: newTopicName }),
       })

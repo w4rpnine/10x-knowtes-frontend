@@ -60,7 +60,12 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
   async function fetchNote() {
     setIsLoading(true)
     try {
-      const response = await fetch(`${API_BASE_URL}/api/notes/${noteId}`)
+      const response = await fetch(`${API_BASE_URL}/api/notes/${noteId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      })
       if (!response.ok) {
         throw new Error("Failed to fetch note")
       }
@@ -74,7 +79,12 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
       originalContent.current = data.content
 
       // Fetch topic info to get the topic title
-      const topicResponse = await fetch(`${API_BASE_URL}/api/topics/${data.topic_id}`)
+      const topicResponse = await fetch(`${API_BASE_URL}/api/topics/${data.topic_id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      })
       if (!topicResponse.ok) {
         throw new Error("Failed to fetch topic info")
       }
@@ -136,6 +146,7 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
         },
         body: JSON.stringify({
           title: title,
@@ -194,6 +205,10 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
         try {
           const response = await fetch(`${API_BASE_URL}/api/notes/${noteId}`, {
             method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Requested-With": "XMLHttpRequest"
+            },
           })
 
           if (!response.ok) throw new Error("Failed to delete note")

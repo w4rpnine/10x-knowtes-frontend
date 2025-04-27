@@ -43,7 +43,12 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
   useEffect(() => {
     async function fetchSummary() {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/notes/${summaryId}`)
+        const response = await fetch(`${API_BASE_URL}/api/notes/${summaryId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+          }
+        })
         if (!response.ok) {
           throw new Error("Failed to fetch summary")
         }
@@ -72,6 +77,10 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
         try {
           const response = await fetch(`${API_BASE_URL}/api/notes/${summaryId}`, {
             method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Requested-With": "XMLHttpRequest"
+            },
           })
 
           if (!response.ok) throw new Error("Failed to delete summary")
