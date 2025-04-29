@@ -41,6 +41,7 @@ export default function LoginPage() {
     setIsLoading(true)
 
     try {
+      console.log(`This is the API URL: ${API_BASE_URL}/api/auth/login`)
       const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: {

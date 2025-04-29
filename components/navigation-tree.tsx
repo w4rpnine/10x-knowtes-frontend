@@ -165,7 +165,6 @@ export default function NavigationTree() {
   // Listen for refresh tree event
   useEffect(() => {
     const handleRefreshTree = () => {
-      console.log("Refreshing tree panel due to event")
       fetchTopics()
     }
 
