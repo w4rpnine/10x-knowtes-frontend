@@ -29,7 +29,7 @@ RUN pnpm prune --prod
 FROM alpine:3.19 AS runner
 
 # Install Node.js and dependencies needed for runtime
-RUN apk add --no-cache nodejs npm
+RUN apk add --no-cache nodejs npm bash
 
 # Set working directory
 WORKDIR /app
@@ -48,8 +48,15 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
+# Copy entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Clean npm cache and any other temporary files
 RUN rm -rf /tmp/* /var/cache/apk/*
+
+# Make sure the entrypoint script can be executed by the nextjs user
+RUN chown nextjs:nodejs /entrypoint.sh
 
 # Switch to non-root user
 USER nextjs
@@ -60,6 +67,9 @@ EXPOSE ${PORT}
 # Health check
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
     CMD wget -q --spider http://localhost:${PORT}/ || exit 1
+
+# Use the entrypoint script
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Start the application
 CMD ["node", "server.js"] 
