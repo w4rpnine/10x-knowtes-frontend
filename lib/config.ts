@@ -19,10 +19,12 @@ const getRuntimeEnv = (key: string): string | undefined => {
   return undefined;
 };
 
-// API configuration - prioritize runtime environment variables
+// API configuration - use different URLs for client-side and server-side
 export const API_BASE_URL = 
   typeof window !== 'undefined'
+    // In the browser, use the public URL (localhost or domain)
     ? getRuntimeEnv('NEXT_PUBLIC_API_URL') || process.env.NEXT_PUBLIC_API_URL
-    : process.env.NEXT_PUBLIC_API_URL;
+    // On the server, prefer the internal Docker network URL if available
+    : process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL;
 
 // Other environment variables can be added here 
