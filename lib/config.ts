@@ -13,7 +13,7 @@ declare global {
 
 // Helper function to access runtime environment variables
 const getRuntimeEnv = (key: string): string | undefined => {
-  if (typeof window !== 'undefined' && window.ENV) {
+  if (typeof window !== 'undefined' && window.ENV && !window.ENV[key].startsWith('__')) {
     return window.ENV[key];
   }
   return undefined;
