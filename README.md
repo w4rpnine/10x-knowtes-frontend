@@ -1,40 +1,99 @@
-# 10x-knowtes
+# 10x Knowtes
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+A modern note-taking application designed for developers and technical users to organize, create, and generate AI-enhanced summaries of their knowledge.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/adamskoczynski-gmailcoms-projects/v0-10x-knowtes)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/Kmb98g1Mg36)
+## Features
 
-## Overview
+- **Topic Organization**: Create and manage hierarchical topics to organize your notes effectively.
+- **Rich Note Editor**: Capture your thoughts with a clean, distraction-free editor.
+- **AI-Powered Summaries**: Generate concise summaries of your notes to extract key insights.
+- **Responsive Design**: Fully responsive UI with a sleek neon-themed interface.
+- **Internationalization**: Support for multiple languages with easy language switching.
+- **Secure Authentication**: User account management with secure authentication.
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+## Tech Stack
 
-## Environment Variables
+- **Frontend**: Next.js 15, React 19, Tailwind CSS 4
+- **UI Components**: Shadcn/ui with Radix UI primitives
+- **Styling**: Tailwind CSS with custom neon-themed design system
+- **Internationalization**: i18next for multi-language support
+- **Containerization**: Docker for consistent deployment
 
-The project uses the following environment variables:
+## Project Structure
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| NEXT_PUBLIC_API_URL | Base URL for API calls | http://localhost:3001 |
+- `./app` - Next.js app directory containing pages and layouts
+- `./components` - React components
+- `./components/ui` - Shadcn/UI components
+- `./hooks` - Custom React hooks
+- `./lib` - Utility functions and configuration
+- `./middleware` - Next.js middleware
+- `./public` - Static assets
+- `./styles` - Global CSS styles
+- `./translations` - Internationalization files
 
-Create a `.env.local` file in the root directory with these variables for local development.
+## Getting Started
 
-## Deployment
+### Prerequisites
 
-Your project is live at:
+- Node.js 18+ 
+- npm or pnpm
 
-**[https://vercel.com/adamskoczynski-gmailcoms-projects/v0-10x-knowtes](https://vercel.com/adamskoczynski-gmailcoms-projects/v0-10x-knowtes)**
+### Installation
 
-## Build your app
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/10x-knowtes.git
+   cd 10x-knowtes
+   ```
 
-Continue building your app on:
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   pnpm install
+   ```
 
-**[https://v0.dev/chat/projects/Kmb98g1Mg36](https://v0.dev/chat/projects/Kmb98g1Mg36)**
+3. Add environment variables to the `.env.local` file:
 
-## How It Works
+    ```bash
+    NEXT_PUBLIC_API_URL=http://localhost:3001
+    ```
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+4. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   pnpm dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Development Guidelines
+
+### Coding Standards
+
+- Use TypeScript for type safety
+- Follow React best practices with functional components and hooks
+- Style using Tailwind CSS utility classes
+- Implement proper error handling and edge cases
+
+### Accessibility
+
+- Use ARIA landmarks for improved screen reader navigation
+- Ensure proper color contrast ratios for neon theme elements
+- Implement keyboard navigation support
+- Test with accessibility tools
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
