@@ -10,8 +10,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   title: "10x-knowtes",
-  description: "Organize and generate AI summaries of your notes",
-  generator: 'v0.dev'
+  description: "Organize and generate AI summaries of your notes"
 }
 
 export default function RootLayout({
