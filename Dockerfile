@@ -36,7 +36,6 @@ WORKDIR /app
 
 # Set environment variables
 ENV NODE_ENV=production
-ENV PORT=3000
 ENV NEXT_TELEMETRY_DISABLED=1
 
 # Create non-root user for security
@@ -62,11 +61,7 @@ RUN chown nextjs:nodejs /entrypoint.sh
 USER nextjs
 
 # Expose port
-EXPOSE ${PORT}
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-    CMD wget -q --spider http://localhost:${PORT}/ || exit 1
+EXPOSE 80
 
 # Use the entrypoint script
 ENTRYPOINT ["/entrypoint.sh"]
