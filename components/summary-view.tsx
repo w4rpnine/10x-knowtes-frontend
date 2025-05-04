@@ -16,7 +16,7 @@ import { Trash2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useTranslation } from "react-i18next"
 import { useDeleteConfirmation } from "@/hooks/use-delete-confirmation"
-import { API_BASE_URL } from "@/lib/config"
+import { getApiBaseUrl } from "@/lib/config"
 
 interface SummaryViewProps {
   topicId: string
@@ -43,7 +43,7 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
   useEffect(() => {
     async function fetchSummary() {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/notes/${summaryId}`, {
+        const response = await fetch(`${getApiBaseUrl()}/api/notes/${summaryId}`, {
           headers: {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest"
@@ -75,7 +75,7 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
       description: t("summary.deleteSummaryConfirm"),
       onConfirm: async () => {
         try {
-          const response = await fetch(`${API_BASE_URL}/api/notes/${summaryId}`, {
+          const response = await fetch(`${getApiBaseUrl()}/api/notes/${summaryId}`, {
             method: "DELETE",
             headers: {
               "Content-Type": "application/json",

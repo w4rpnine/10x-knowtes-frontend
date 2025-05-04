@@ -60,13 +60,14 @@ export default function SummaryPreviewModal({
       }
 
       const data = await response.json()
+      console.log(`Summary Accepted: ${JSON.stringify(data)}`)
 
       // Dispatch event to refresh the tree panel
       const refreshTreeEvent = new Event("refreshTreePanel")
       window.dispatchEvent(refreshTreeEvent)
 
       toast({
-        title: t("summary.summaryAccepted"),
+        title: `Accepted: ${t("summary.summaryAccepted")}, data: ${JSON.stringify(data)}`,
         description: t("summary.summaryAcceptedDesc"),
       })
 
@@ -74,7 +75,7 @@ export default function SummaryPreviewModal({
       onOpenChange(false)
 
       // Navigate to the summary view with the note ID from the response
-      router.push(`/topics/${topicId}/summary/${data.noteId}`)
+      router.push(`/topics/${topicId}/summary/${data.note_id}`)
     } catch (error) {
       console.error("Failed to accept summary:", error)
       toast({
