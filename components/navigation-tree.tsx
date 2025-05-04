@@ -250,15 +250,25 @@ export default function NavigationTree() {
     setIsCreating(true)
 
     try {
+      // Log all cookies before making the request
+      console.log("Current cookies:", document.cookie);
+      
+      // Try with an extra cookie in request headers
+      const headers = {
+        "Content-Type": "application/json",
+        "X-Requested-With": "XMLHttpRequest",
+        "Cookie": document.cookie // Explicitly add cookies
+      };
+      
       const response = await fetch(`${getApiBaseUrl()}/api/topics`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Requested-With": "XMLHttpRequest"
-        },
+        headers,
         body: JSON.stringify({ title: newTopicName }),
         credentials: 'include',
       })
+      
+      console.log("Response status:", response.status);
+      console.log("Response headers:", [...response.headers.entries()]);
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))

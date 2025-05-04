@@ -66,6 +66,13 @@ export default function LoginPage() {
       });
       document.cookie = `sb-auth=${encodeURIComponent(authData)}; path=/; max-age=${60*60*24*7}; SameSite=Lax`;
       
+      // Create a simple test cookie with various settings to test what works
+      document.cookie = "test-cookie=hello-world; path=/";
+      document.cookie = "test-cookie2=simple-value; path=/; SameSite=None; Secure";
+      document.cookie = "test-cookie3=another-value; path=/; SameSite=Lax";
+      
+      console.log("Cookies set:", document.cookie);
+      
       router.push("/dashboard")
     } catch (err) {
       if (err instanceof Error) {
