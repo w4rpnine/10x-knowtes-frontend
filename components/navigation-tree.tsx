@@ -271,7 +271,8 @@ export default function NavigationTree() {
       const response = await fetch(`${getApiBaseUrl()}/api/topics`, {
         method: "POST",
         headers,
-        body: JSON.stringify({ title: newTopicName, access_token: localStorage.getItem("access_token"), refresh_token: localStorage.getItem("refresh_token"), expires_at: localStorage.getItem("expires_at") }),
+        body: JSON.stringify({ title: newTopicName }),
+        credentials: 'include', // Still include cookies from the browser too
       })
       
       console.log("Response status:", response.status);
