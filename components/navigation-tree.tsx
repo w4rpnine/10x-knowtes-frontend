@@ -253,18 +253,26 @@ export default function NavigationTree() {
       // Log all cookies before making the request
       console.log("Current cookies:", document.cookie);
       
-      // Try with an extra cookie in request headers
-      const headers = {
+      // Get stored cookies from localStorage
+      const storedCookies = localStorage.getItem("auth-cookies");
+      
+      // Prepare headers with auth cookies
+      const headers: Record<string, string> = {
         "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest",
-        "Cookie": document.cookie // Explicitly add cookies
       };
+      
+      // Add the Cookie header if we have stored cookies
+      if (storedCookies) {
+        console.log("Using stored cookies:", storedCookies);
+        headers["Cookie"] = storedCookies;
+      }
       
       const response = await fetch(`${getApiBaseUrl()}/api/topics`, {
         method: "POST",
         headers,
         body: JSON.stringify({ title: newTopicName }),
-        credentials: 'include',
+        credentials: 'include', // Still include cookies from the browser too
       })
       
       console.log("Response status:", response.status);
