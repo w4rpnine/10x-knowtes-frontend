@@ -18,7 +18,7 @@ import { Save, Trash2, RotateCcw } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useDeleteConfirmation } from "@/hooks/use-delete-confirmation"
 import { useTranslation } from "react-i18next"
-import { API_BASE_URL } from "@/lib/config"
+import { getApiBaseUrl } from "@/lib/config"
 
 interface Note {
   id: string
@@ -60,7 +60,7 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
   async function fetchNote() {
     setIsLoading(true)
     try {
-      const response = await fetch(`${API_BASE_URL}/api/notes/${noteId}`, {
+      const response = await fetch(`${getApiBaseUrl()}/api/notes/${noteId}`, {
         headers: {
           "Content-Type": "application/json",
           "X-Requested-With": "XMLHttpRequest"
@@ -79,7 +79,7 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
       originalContent.current = data.content
 
       // Fetch topic info to get the topic title
-      const topicResponse = await fetch(`${API_BASE_URL}/api/topics/${data.topic_id}`, {
+      const topicResponse = await fetch(`${getApiBaseUrl()}/api/topics/${data.topic_id}`, {
         headers: {
           "Content-Type": "application/json",
           "X-Requested-With": "XMLHttpRequest"
@@ -142,7 +142,7 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/notes/${noteId}`, {
+      const response = await fetch(`${getApiBaseUrl()}/api/notes/${noteId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -203,7 +203,7 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
       description: t("note.deleteNoteConfirm"),
       onConfirm: async () => {
         try {
-          const response = await fetch(`${API_BASE_URL}/api/notes/${noteId}`, {
+          const response = await fetch(`${getApiBaseUrl()}/api/notes/${noteId}`, {
             method: "DELETE",
             headers: {
               "Content-Type": "application/json",

@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast"
 import { useDeleteConfirmation } from "@/hooks/use-delete-confirmation"
 import { useTranslation } from "react-i18next"
 import SummaryPreviewModal from "./summary-preview-modal"
-import { API_BASE_URL } from "@/lib/config"
+import { getApiBaseUrl } from "@/lib/config"
 
 interface Note {
   id: string
@@ -59,7 +59,7 @@ export default function TopicView({ topicId }: TopicViewProps) {
     async function fetchTopic() {
       setIsLoading(true)
       try {
-        const response = await fetch(`${API_BASE_URL}/api/topics/${topicId}`, {
+        const response = await fetch(`${getApiBaseUrl()}/api/topics/${topicId}`, {
           headers: {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest"
@@ -95,7 +95,7 @@ export default function TopicView({ topicId }: TopicViewProps) {
     setIsGeneratingSummary(true)
     try {
       // Make the POST request to generate a summary
-      const response = await fetch(`${API_BASE_URL}/api/topics/${topicId}/summaries`, {
+      const response = await fetch(`${getApiBaseUrl()}/api/topics/${topicId}/summaries`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -147,7 +147,7 @@ export default function TopicView({ topicId }: TopicViewProps) {
     setIsSaving(true)
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/topics/${topicId}`, {
+      const response = await fetch(`${getApiBaseUrl()}/api/topics/${topicId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -201,7 +201,7 @@ export default function TopicView({ topicId }: TopicViewProps) {
       description: t("topic.deleteTopicConfirm"),
       onConfirm: async () => {
         try {
-          const response = await fetch(`${API_BASE_URL}/api/topics/${topicId}`, {
+          const response = await fetch(`${getApiBaseUrl()}/api/topics/${topicId}`, {
             method: "DELETE",
             headers: {
               "Content-Type": "application/json",

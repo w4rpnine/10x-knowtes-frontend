@@ -14,7 +14,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import SignUpDialog from "@/components/sign-up-dialog"
 import LanguageSwitcher from "@/components/language-switcher"
 import { isAuthenticated, setAuthToken } from "@/lib/auth-utils"
-import { API_BASE_URL } from "@/lib/config"
+import { getApiBaseUrl } from "@/lib/config"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -42,8 +42,8 @@ export default function LoginPage() {
     setIsLoading(true)
 
     try {
-      console.log(`This is the API URL: ${API_BASE_URL}/api/auth/login`)
-      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+      console.log(`This is the API URL: ${getApiBaseUrl()}/api/auth/login`)
+      const response = await fetch(`${getApiBaseUrl()}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
