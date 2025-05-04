@@ -60,14 +60,13 @@ export default function SummaryPreviewModal({
       }
 
       const data = await response.json()
-      console.log(`Summary Accepted: ${JSON.stringify(data)}`)
 
       // Dispatch event to refresh the tree panel
       const refreshTreeEvent = new Event("refreshTreePanel")
       window.dispatchEvent(refreshTreeEvent)
 
       toast({
-        title: `Accepted: ${t("summary.summaryAccepted")}, data: ${JSON.stringify(data)}`,
+        title: t("summary.summaryAccepted"),
         description: t("summary.summaryAcceptedDesc"),
       })
 

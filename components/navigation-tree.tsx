@@ -257,6 +257,7 @@ export default function NavigationTree() {
           "X-Requested-With": "XMLHttpRequest"
         },
         body: JSON.stringify({ title: newTopicName }),
+        credentials: 'include',
       })
 
       if (!response.ok) {

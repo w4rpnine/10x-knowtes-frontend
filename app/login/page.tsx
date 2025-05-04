@@ -57,6 +57,15 @@ export default function LoginPage() {
       
       const data = await response.json();
       localStorage.setItem("auth-token", data.access_token);
+      
+      // Create cookie with all auth data
+      const authData = JSON.stringify({
+        access_token: data.access_token,
+        refresh_token: data.refresh_token,
+        expires_at: data.expires_at
+      });
+      document.cookie = `sb-auth=${encodeURIComponent(authData)}; path=/; max-age=${60*60*24*7}; SameSite=Lax`;
+      
       router.push("/dashboard")
     } catch (err) {
       if (err instanceof Error) {
