@@ -36,13 +36,11 @@ export default function LoginPage() {
   }, [router])
 
   const handleSubmit = async (e: React.FormEvent) => {
-    console.log("handleSubmit")
     e.preventDefault()
     setError("")
     setIsLoading(true)
 
     try {
-      console.log(`This is the API URL: ${getApiBaseUrl()}/api/auth/login`)
       const response = await fetch(`${getApiBaseUrl()}/api/auth/login`, {
         method: 'POST',
         headers: {

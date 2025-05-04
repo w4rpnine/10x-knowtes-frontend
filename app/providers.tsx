@@ -12,7 +12,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
     // Check if there's a token that might be invalid or leftover from testing
     const token = getAuthToken()
     if (token && (token === "mock-jwt-token" || token === "test-token")) {
-      console.log("Clearing potentially invalid token:", token)
       clearAuthToken()
     }
   }, [])
