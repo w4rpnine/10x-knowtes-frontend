@@ -13,6 +13,9 @@ declare global {
 
 // Helper function to access runtime environment variables
 const getRuntimeEnv = (key: string): string | undefined => {
+  console.log(`getRuntimeEnv ${typeof window} ${window.ENV} ${key} ${window !== undefined && window.ENV !== undefined ? !window.ENV[key].startsWith('__') : false}`)
+  console.log(`process.env.NEXT_PUBLIC_API_URL ${process.env.NEXT_PUBLIC_API_URL}`)
+  console.log(`process.env.INTERNAL_API_URL ${process.env.INTERNAL_API_URL}`)
   if (typeof window !== 'undefined' && window.ENV && !window.ENV[key].startsWith('__')) {
     return window.ENV[key];
   }
