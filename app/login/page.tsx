@@ -48,7 +48,6 @@ export default function LoginPage() {
           'X-Requested-With': 'XMLHttpRequest'
         },
         body: JSON.stringify({ email, password }),
-        credentials: 'include', // Important: allow cookies to be set
       });
       
       if (!response.ok) {
@@ -56,24 +55,10 @@ export default function LoginPage() {
         throw new Error(data.message || 'Nieprawidłowy email lub hasło.');
       }
       
-      // Get cookies from the response
-      const cookies = response.headers.get('set-cookie');
-      
-      // Store the received cookies for later use
-      if (cookies) {
-        localStorage.setItem("auth-cookies", cookies);
-        console.log("Cookies received from server:", cookies);
-      }
-      
       const data = await response.json();
-      localStorage.setItem("auth-token", data.access_token);
-      
-      // Create a simple test cookie with various settings to test what works
-      document.cookie = "test-cookie=hello-world; path=/";
-      document.cookie = "test-cookie2=simple-value; path=/; SameSite=None; Secure";
-      document.cookie = "test-cookie3=another-value; path=/; SameSite=Lax";
-      
-      console.log("Cookies set:", document.cookie);
+      localStorage.setItem("access_token", data.access_token);
+      localStorage.setItem("refresh_token", data.refresh_token);
+      localStorage.setItem("expires_at", data.expires_at);
       
       router.push("/dashboard")
     } catch (err) {
