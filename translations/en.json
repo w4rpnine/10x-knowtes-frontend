@@ -86,7 +86,7 @@
       "generateSummariesDesc": "Use AI to automatically generate summaries of entire topics.",
       "getStarted": "Get started",
       "getStartedDesc": "Select a topic from the left panel or create a new one to start working with notes.",
-      "rightClickTip": "Right-click on a topic to see available options, such as adding notes or generating summaries."
+      "rightClickTip": "Click on a topic to see available options, such as adding notes or generating summaries."
     }
   },
   "navigation": {

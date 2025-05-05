@@ -86,7 +86,7 @@
       "generateSummariesDesc": "Wykorzystaj AI do automatycznego generowania podsumowań całych tematów.",
       "getStarted": "Rozpocznij pracę",
       "getStartedDesc": "Wybierz temat z lewego panelu lub utwórz nowy, aby rozpocząć pracę z notatkami.",
-      "rightClickTip": "Kliknij prawym przyciskiem myszy na temacie, aby zobaczyć dostępne opcje, takie jak dodawanie notatek czy generowanie podsumowań."
+      "rightClickTip": "Kliknij na temacie, aby zobaczyć dostępne opcje, takie jak dodawanie notatek czy generowanie podsumowań."
     }
   },
   "navigation": {
