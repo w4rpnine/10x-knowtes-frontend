@@ -99,7 +99,8 @@ export default function NavigationTree() {
         headers: {
           "Content-Type": "application/json",
           "X-Requested-With": "XMLHttpRequest"
-        }
+        },
+        credentials: 'include',
       })
       if (!response.ok) {
         throw new Error("Failed to fetch topics")
@@ -272,7 +273,7 @@ export default function NavigationTree() {
         method: "POST",
         headers,
         body: JSON.stringify({ title: newTopicName }),
-        credentials: 'include', // Still include cookies from the browser too
+        credentials: 'include',
       })
       
       console.log("Response status:", response.status);
