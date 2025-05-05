@@ -62,18 +62,10 @@ export default function LoginPage() {
       // Store the received cookies for later use
       if (cookies) {
         localStorage.setItem("auth-cookies", cookies);
-        console.log("Cookies received from server:", cookies);
       }
       
       const data = await response.json();
       localStorage.setItem("auth-token", data.access_token);
-      
-      // Create a simple test cookie with various settings to test what works
-      document.cookie = "test-cookie=hello-world; path=/";
-      document.cookie = "test-cookie2=simple-value; path=/; SameSite=None; Secure";
-      document.cookie = "test-cookie3=another-value; path=/; SameSite=Lax";
-      
-      console.log("Cookies set:", document.cookie);
       
       router.push("/dashboard")
     } catch (err) {

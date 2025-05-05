@@ -251,9 +251,6 @@ export default function NavigationTree() {
     setIsCreating(true)
 
     try {
-      // Log all cookies before making the request
-      console.log("Current cookies:", document.cookie);
-      
       // Get stored cookies from localStorage
       const storedCookies = localStorage.getItem("auth-cookies");
       
@@ -265,7 +262,6 @@ export default function NavigationTree() {
       
       // Add the Cookie header if we have stored cookies
       if (storedCookies) {
-        console.log("Using stored cookies:", storedCookies);
         headers["Cookie"] = storedCookies;
       }
       
@@ -275,9 +271,6 @@ export default function NavigationTree() {
         body: JSON.stringify({ title: newTopicName }),
         credentials: 'include',
       })
-      
-      console.log("Response status:", response.status);
-      console.log("Response headers:", [...response.headers.entries()]);
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
