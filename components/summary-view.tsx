@@ -47,7 +47,8 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
           headers: {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest"
-          }
+          },
+          credentials: 'include',
         })
         if (!response.ok) {
           throw new Error("Failed to fetch summary")
@@ -81,6 +82,7 @@ export default function SummaryView({ topicId, summaryId }: SummaryViewProps) {
               "Content-Type": "application/json",
               "X-Requested-With": "XMLHttpRequest"
             },
+            credentials: 'include',
           })
 
           if (!response.ok) throw new Error("Failed to delete summary")

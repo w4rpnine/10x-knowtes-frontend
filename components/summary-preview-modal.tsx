@@ -52,6 +52,7 @@ export default function SummaryPreviewModal({
           "Content-Type": "application/json",
           "X-Requested-With": "XMLHttpRequest"
         },
+        credentials: 'include',
         body: JSON.stringify({ title, content }),
       })
 
@@ -95,7 +96,8 @@ export default function SummaryPreviewModal({
         headers: {
           "Content-Type": "application/json",
           "X-Requested-With": "XMLHttpRequest"
-        }
+        },
+        credentials: 'include',
       })
 
       if (!response.ok) {

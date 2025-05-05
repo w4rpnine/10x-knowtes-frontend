@@ -58,7 +58,8 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
           headers: {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest"
-          }
+          },
+          credentials: 'include',
         })
         if (!response.ok) {
           throw new Error("Failed to fetch topic info")
@@ -111,6 +112,7 @@ export default function NewNoteEditor({ topicId }: NewNoteEditorProps) {
           "Content-Type": "application/json",
           "X-Requested-With": "XMLHttpRequest"
         },
+        credentials: 'include',
         body: JSON.stringify({
           title: title,
           content: content,

@@ -64,7 +64,8 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
         headers: {
           "Content-Type": "application/json",
           "X-Requested-With": "XMLHttpRequest"
-        }
+        },
+        credentials: 'include',
       })
       if (!response.ok) {
         throw new Error("Failed to fetch note")
@@ -83,7 +84,8 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
         headers: {
           "Content-Type": "application/json",
           "X-Requested-With": "XMLHttpRequest"
-        }
+        },
+        credentials: 'include',
       })
       if (!topicResponse.ok) {
         throw new Error("Failed to fetch topic info")
@@ -148,6 +150,7 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
           "Content-Type": "application/json",
           "X-Requested-With": "XMLHttpRequest"
         },
+        credentials: 'include',
         body: JSON.stringify({
           title: title,
           content: content,
@@ -209,6 +212,7 @@ export default function NoteEditor({ topicId, noteId }: NoteEditorProps) {
               "Content-Type": "application/json",
               "X-Requested-With": "XMLHttpRequest"
             },
+            credentials: 'include',
           })
 
           if (!response.ok) throw new Error("Failed to delete note")

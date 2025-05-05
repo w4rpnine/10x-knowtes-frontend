@@ -63,7 +63,8 @@ export default function TopicView({ topicId }: TopicViewProps) {
           headers: {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest"
-          }
+          },
+          credentials: 'include',
         })
         if (!response.ok) {
           throw new Error("Failed to fetch topic")
@@ -101,6 +102,7 @@ export default function TopicView({ topicId }: TopicViewProps) {
           "Content-Type": "application/json",
           "X-Requested-With": "XMLHttpRequest"
         },
+        credentials: 'include',
         body: JSON.stringify({
           summary_type: "full",
         }),
@@ -153,6 +155,7 @@ export default function TopicView({ topicId }: TopicViewProps) {
           "Content-Type": "application/json",
           "X-Requested-With": "XMLHttpRequest"
         },
+        credentials: 'include',
         body: JSON.stringify({ title: newTitle }),
       })
 
@@ -207,6 +210,7 @@ export default function TopicView({ topicId }: TopicViewProps) {
               "Content-Type": "application/json",
               "X-Requested-With": "XMLHttpRequest"
             },
+            credentials: 'include',
           })
 
           if (!response.ok) throw new Error("Failed to delete topic")

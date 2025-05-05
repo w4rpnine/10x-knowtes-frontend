@@ -48,7 +48,7 @@ export default function LoginPage() {
           'X-Requested-With': 'XMLHttpRequest'
         },
         body: JSON.stringify({ email, password }),
-        credentials: 'include', // Important: allow cookies to be set
+        credentials: 'include',
       });
       
       if (!response.ok) {
