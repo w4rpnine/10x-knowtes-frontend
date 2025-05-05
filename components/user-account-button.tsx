@@ -56,10 +56,6 @@ export default function UserAccountButton() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={handleNavigateToAccount}>
-          <Settings className="mr-2 h-4 w-4" />
-          <span>{t("topic.account")}</span>
-        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4" />
