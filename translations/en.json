@@ -25,6 +25,7 @@
     "emailRequired": "Email is required.",
     "passwordRequired": "Password is required.",
     "passwordLength": "Password must be at least 8 characters long.",
+    "passwordComplexity": "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.",
     "passwordsNotMatch": "Passwords do not match.",
     "createAccount": "Create account",
     "createAccountDesc": "Fill out the form to create a new account in the 10x-knowtes application."

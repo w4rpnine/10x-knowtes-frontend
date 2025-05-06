@@ -38,6 +38,15 @@ export default function SignUpDialog({ open, onOpenChange }: SignUpDialogProps) 
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
+  const validatePasswordComplexity = (password: string): boolean => {
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+    
+    return hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
@@ -60,6 +69,11 @@ export default function SignUpDialog({ open, onOpenChange }: SignUpDialogProps) 
 
     if (password.length < 8) {
       setError(t("auth.passwordLength"))
+      return
+    }
+
+    if (!validatePasswordComplexity(password)) {
+      setError(t("auth.passwordComplexity"))
       return
     }
 

@@ -25,6 +25,7 @@
     "emailRequired": "Email jest wymagany.",
     "passwordRequired": "Hasło jest wymagane.",
     "passwordLength": "Hasło musi mieć co najmniej 8 znaków.",
+    "passwordComplexity": "Hasło musi zawierać co najmniej jedną wielką literę, jedną małą literę, jedną cyfrę i jeden znak specjalny.",
     "passwordsNotMatch": "Hasła nie są identyczne.",
     "createAccount": "Utwórz konto",
     "createAccountDesc": "Wypełnij formularz, aby utworzyć nowe konto w aplikacji 10x-knowtes."
