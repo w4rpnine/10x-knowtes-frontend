@@ -18,7 +18,7 @@
     "creatingAccount": "Konto wird erstellt...",
     "noAccount": "Noch kein Konto?",
     "accountCreated": "Konto erstellt",
-    "accountCreatedDesc": "Dein Konto wurde erfolgreich erstellt.",
+    "accountCreatedDesc": "Bitte prüfe deine E-Mail, um die Registrierung zu bestätigen, bevor du dich anmeldest.",
     "loginError": "Ungültige E-Mail oder Passwort. Bitte versuche es erneut.",
     "signupError": "Bei der Registrierung ist ein unbekannter Fehler aufgetreten.",
     "nameRequired": "Vollständiger Name ist erforderlich.",

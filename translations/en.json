@@ -18,7 +18,7 @@
     "creatingAccount": "Creating account...",
     "noAccount": "Don't have an account?",
     "accountCreated": "Account created",
-    "accountCreatedDesc": "Your account has been successfully created.",
+    "accountCreatedDesc": "Please check your email to confirm registration before logging in.",
     "loginError": "Invalid email or password. Please try again.",
     "signupError": "An unknown error occurred during registration.",
     "nameRequired": "Full name is required.",

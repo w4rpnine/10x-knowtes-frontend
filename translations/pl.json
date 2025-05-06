@@ -18,7 +18,7 @@
     "creatingAccount": "Tworzenie konta...",
     "noAccount": "Nie masz konta?",
     "accountCreated": "Konto utworzone",
-    "accountCreatedDesc": "Twoje konto zostało pomyślnie utworzone.",
+    "accountCreatedDesc": "Sprawdź swoją skrzynkę email, aby potwierdzić rejestrację przed zalogowaniem.",
     "loginError": "Nieprawidłowy email lub hasło. Spróbuj ponownie.",
     "signupError": "Wystąpił nieznany błąd podczas rejestracji.",
     "nameRequired": "Imię i nazwisko jest wymagane.",
